@@ -12,6 +12,10 @@ import GenericCardLight from "./generic-card-light";
 import GenericCardClean from "./generic-card-clean";
 import GenericCardEditor from "./generic-card-editor";
 import GenericCardVintage from "./generic-card-vintage-v3";
+import VehicleCardMobile from "./VehicleCardMobile";
+import VehicleCardLight from "./VehicleCardLight";
+import VehicleCardPreview from "./VehicleCardPreview";
+import VehicleCardDesktop from "./VehicleCardDesktop";
 
 const TABS = [
   { label: "Admin UI", component: <PersonalyzAdmin /> },
@@ -26,7 +30,11 @@ const TABS = [
   { label: "Generic Card Dark", component: <GenericCardDark /> },
   { label: "Generic Card Light", component: <GenericCardLight /> },
   { label: "Generic Card Clean", component: <GenericCardClean /> },
-  { label: "Generic Card Vintage", component: <GenericCardVintage /> }
+  { label: "Generic Card Vintage", component: <GenericCardVintage /> },
+  { label: "Vehicle Card Mobile", component: <VehicleCardMobile /> },
+  { label: "Vehicle Card Light", component: <VehicleCardLight /> },
+  { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
+  { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> }
 ];
 
 function App() {
