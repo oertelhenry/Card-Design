@@ -93,7 +93,7 @@ function Sec({ title, icon, children, open: init = true, noPad, flush }) {
           background: P.accentSoft, display: "flex", alignItems: "center", justifyContent: "center",
         }}>{icon}</div>
         <span style={{
-          fontSize: 13.5, fontWeight: 600, color: P.navy, flex: 1, textAlign: "left",
+          fontSize: 13.5, color: P.navy, flex: 1, textAlign: "left",
           fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.01em",
           fontWeight: 700,
         }}>{title}</span>

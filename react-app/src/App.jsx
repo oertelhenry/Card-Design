@@ -16,6 +16,8 @@ import VehicleCardMobile from "./VehicleCardMobile";
 import VehicleCardLight from "./VehicleCardLight";
 import VehicleCardPreview from "./VehicleCardPreview";
 import VehicleCardDesktop from "./VehicleCardDesktop";
+import BuildQuotePlatform from "./BuildQuotePlatform";
+// import PersonalyzAdmin from "./admin-ui";
 
 const TABS = [
   { label: "Admin UI", component: <PersonalyzAdmin /> },
@@ -34,7 +36,8 @@ const TABS = [
   { label: "Vehicle Card Mobile", component: <VehicleCardMobile /> },
   { label: "Vehicle Card Light", component: <VehicleCardLight /> },
   { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
-  { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> }
+  { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> },
+  { label: "Build Quote Platform", component: <BuildQuotePlatform /> }
 ];
 
 function App() {
