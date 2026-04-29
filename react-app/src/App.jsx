@@ -17,6 +17,8 @@ import VehicleCardLight from "./VehicleCardLight";
 import VehicleCardPreview from "./VehicleCardPreview";
 import VehicleCardDesktop from "./VehicleCardDesktop";
 import BuildQuotePlatform from "./BuildQuotePlatform";
+import ArcoLanding from "./ArcoLandingClean";
+import QubrixLanding from "./QubrixLanding";
 // import PersonalyzAdmin from "./admin-ui";
 
 const TABS = [
@@ -37,7 +39,9 @@ const TABS = [
   { label: "Vehicle Card Light", component: <VehicleCardLight /> },
   { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
   { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> },
-  { label: "Build Quote Platform", component: <BuildQuotePlatform /> }
+  { label: "Build Quote Platform", component: <BuildQuotePlatform /> },
+  { label: "Arco Landing Clean", component: <ArcoLanding /> },
+  { label: "Qubrix Landing", component: <QubrixLanding /> }
 ];
 
 function App() {
