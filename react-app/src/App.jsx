@@ -19,7 +19,15 @@ import VehicleCardDesktop from "./VehicleCardDesktop";
 import BuildQuotePlatform from "./BuildQuotePlatform";
 import ArcoLanding from "./ArcoLandingClean";
 import QubrixLanding from "./QubrixLanding";
-// import PersonalyzAdmin from "./admin-ui";
+import BankSubmitWizard from "./BankSubmitWizard";
+import BankerDashboard from "./BankerDashboard";
+import TestDriveForm from "./TestDriveForm";
+import TestDriveLight from "./TestDriveLight";
+import TestDriveFormBlue from "./TestDriveFormBlue";
+import ActivityTimeline from "./ActivityTimeline";
+import ProjectMessages from "./ProjectMessages";
+import LegalScreens from "./LegalScreens";
+
 
 const TABS = [
   { label: "Admin UI", component: <PersonalyzAdmin /> },
@@ -41,7 +49,15 @@ const TABS = [
   { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> },
   { label: "Build Quote Platform", component: <BuildQuotePlatform /> },
   { label: "Arco Landing Clean", component: <ArcoLanding /> },
-  { label: "Qubrix Landing", component: <QubrixLanding /> }
+  { label: "Qubrix Landing", component: <QubrixLanding /> },
+  { label: "Bank Submit Wizard", component: <BankSubmitWizard /> },
+  { label: "Banker Dashboard", component: <BankerDashboard /> },
+  { label: "Test Drive Dark", component: <TestDriveForm /> },
+  { label: "Test Drive Light", component: <TestDriveLight /> },
+  { label: "Test Drive Blue", component: <TestDriveFormBlue /> },
+  { label: "Activity Timeline", component: <ActivityTimeline /> },
+  { label: "Project Messages", component: <ProjectMessages /> },
+  { label: "Legal Screens", component: <LegalScreens /> },
 ];
 
 function App() {
