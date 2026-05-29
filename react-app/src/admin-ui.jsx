@@ -769,71 +769,506 @@ function MicrositesView({ onNav }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ANALYTICS VIEW
+// ANALYTICS VIEW — Redesigned with tabs + full Card Access Explorer
 // ═══════════════════════════════════════════════════════════════
 
-function AnalyticsView() {
-  const barData = [
-    { label: "Mon", h: 65 }, { label: "Tue", h: 85 }, { label: "Wed", h: 72 },
-    { label: "Thu", h: 90 }, { label: "Fri", h: 55 }, { label: "Sat", h: 40 }, { label: "Sun", h: 30 },
-  ];
-  return (
-    <div>
-      <TopBar title="Analytics" subtitle="Card performance across all companies" actions={
-        <div style={{ display: "flex", gap: 2, background: T.faint, borderRadius: 6, padding: 2 }}>
-          {["7d", "30d", "90d", "1y"].map((p, i) => (
-            <button key={p} style={{ padding: "5px 12px", fontSize: 11, fontWeight: 600, fontFamily: font.ui, border: "none", borderRadius: 4, cursor: "pointer", background: i === 1 ? T.surface : "transparent", color: i === 1 ? T.ink : T.muted, boxShadow: i === 1 ? "0 1px 2px rgba(0,0,0,0.06)" : "none" }}>{p}</button>
-          ))}
-        </div>
-      } />
-      <div style={{ padding: "24px 28px", maxWidth: 1200 }}>
-        <div style={{ display: "flex", gap: 16, marginBottom: 24 }}>
-          <StatCard label="Total Views" value="14,082" change="23%" changeType="up" icon="eye" />
-          <StatCard label="Unique Visitors" value="8,431" change="18%" changeType="up" icon="users" />
-          <StatCard label="Shares" value="969" change="8%" changeType="up" icon="share" />
-          <StatCard label="Avg. Time on Card" value="1:42" change="5s" changeType="up" icon="clock" />
-        </div>
+const accessLogs = [
+  { time: "5:45:11 AM", card: "AldoOppel", company: "sertl", orgUnit: "SertlSolutions", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:22:42 PM", card: "jetour003", company: "jetourbw", orgUnit: "—", device: "mobile", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "7:49:13 PM", card: "jetour003", company: "jetourbw", orgUnit: "—", device: "mobile", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "6:22:38 PM", card: "Chery", company: "sertlinternationaluae", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "6:22:32 PM", card: "Chery", company: "sertlinternationaluae", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:43:30 PM", card: "001", company: "sertl", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:42:59 PM", card: "001", company: "sertl", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:42:55 PM", card: "001", company: "sertl", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:36:03 PM", card: "brittam-kenya", company: "personalyz", orgUnit: "—", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:36:03 PM", card: "mazveh", company: "mazda", orgUnit: "Rivonia", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:35:53 PM", card: "brittam-kenya", company: "personalyz", orgUnit: "—", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:35:53 PM", card: "mazveh", company: "mazda", orgUnit: "Rivonia", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.1 },
+  { time: "5:35:35 PM", card: "brittam-kenya", company: "personalyz", orgUnit: "—", device: "desktop", browser: "Chrome", lat: -26.2, lng: 28.0 },
+  { time: "5:35:35 PM", card: "mazveh", company: "mazda", orgUnit: "Rivonia", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:35:30 PM", card: "brittam-kenya", company: "personalyz", orgUnit: "—", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:35:30 PM", card: "mazveh", company: "mazda", orgUnit: "Rivonia", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.0 },
+  { time: "5:35:25 PM", card: "brittam-kenya", company: "personalyz", orgUnit: "—", device: "desktop", browser: "Chrome", lat: null, lng: null },
+  { time: "5:35:22 PM", card: "mazveh", company: "mazda", orgUnit: "Rivonia", device: "desktop", browser: "Chrome", lat: -26.1, lng: 28.1 },
+];
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          {/* Bar Chart */}
-          <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: font.display, marginBottom: 16 }}>Views This Week</div>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 140 }}>
-              {barData.map((d) => (
-                <div key={d.label} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                  <div style={{ width: "100%", height: `${d.h}%`, borderRadius: "4px 4px 0 0", background: `linear-gradient(180deg, ${T.accent}, #4A90D9)`, minHeight: 4, transition: "height 0.3s" }} />
-                  <span style={{ fontSize: 10, color: T.muted, fontFamily: font.mono }}>{d.label}</span>
+const cardHits = [
+  { name: "JetourMauritius", hits: 70 },
+  { name: "GarethHiepner", hits: 29 },
+  { name: "jetour003", hits: 29 },
+  { name: "CustomWalksHugenote", hits: 25 },
+  { name: "CustomWalksPAARLGIM", hits: 12 },
+  { name: "AashiqHemraz", hits: 11 },
+  { name: "britam-kenya1", hits: 11 },
+  { name: "nz0075", hits: 11 },
+  { name: "AldoOppel", hits: 9 },
+  { name: "CFAO Mobility Keny.", hits: 9 },
+];
+
+const companyHits = [
+  { name: "sertl", hits: 132 },
+  { name: "jetour", hits: 110 },
+  { name: "jetourbw", hits: 54 },
+  { name: "personalyz", hits: 20 },
+  { name: "toyotamauritius", hits: 14 },
+  { name: "cfao-mobility-kenya", hits: 10 },
+  { name: "mazda", hits: 7 },
+  { name: "cfaomauritius", hits: 4 },
+  { name: "naledi", hits: 2 },
+  { name: "sertlinternationaluae", hits: 2 },
+  { name: "Sertli", hits: 1 },
+];
+
+const timeSeriesData = [
+  3, 8, 5, 12, 7, 15, 41, 22, 18, 9, 14, 27, 33, 19, 11, 8, 24, 41, 29, 16, 12, 8, 19, 32, 22, 15, 8, 5, 12, 20, 28, 18, 10, 6, 14, 25, 33, 28, 14, 8
+];
+
+// SVG World Map dots — major locations simplified
+const mapDots = [
+  { id: "jhb1", x: 52.8, y: 65.2, label: "-26.1, 28.0", count: 14 },
+  { id: "jhb2", x: 52.9, y: 65.4, label: "-26.2, 28.1", count: 3 },
+  { id: "nbi", x: 54.1, y: 59.5, label: "Nairobi", count: 2 },
+  { id: "aus", x: 80.2, y: 68.1, label: "Australia", count: 1 },
+];
+
+function WorldMapSVG({ highlightDot, onDotHover }) {
+  // Simplified world map outline paths
+  return (
+    <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+      <rect width="100" height="60" fill="#EBF2FF" rx="4" />
+      {/* Rough continent blobs */}
+      {/* North America */}
+      <path d="M8,8 L22,6 L26,10 L28,18 L24,24 L20,28 L14,30 L10,26 L6,20 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* South America */}
+      <path d="M16,32 L22,30 L26,34 L28,42 L24,50 L18,52 L14,48 L12,40 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Europe */}
+      <path d="M40,8 L50,6 L54,10 L52,16 L46,18 L42,14 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Africa */}
+      <path d="M42,20 L52,18 L56,24 L56,36 L52,44 L46,46 L40,42 L38,32 L40,24 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Asia */}
+      <path d="M54,6 L80,4 L84,10 L82,20 L76,24 L68,22 L60,18 L56,14 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Middle East */}
+      <path d="M54,16 L62,14 L64,20 L60,24 L54,22 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Southeast Asia */}
+      <path d="M72,24 L80,20 L84,26 L80,30 L74,30 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* Australia */}
+      <path d="M76,40 L86,38 L90,44 L88,50 L80,52 L74,48 L72,44 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+      {/* India */}
+      <path d="M62,20 L68,18 L70,26 L66,32 L62,28 Z" fill="#C8D8EE" stroke="#B0C4DE" strokeWidth="0.3" />
+
+      {/* Data dots */}
+      {mapDots.map((dot) => (
+        <g key={dot.id} style={{ cursor: "pointer" }} onMouseEnter={() => onDotHover && onDotHover(dot)} onMouseLeave={() => onDotHover && onDotHover(null)}>
+          <circle cx={dot.x} cy={dot.y} r={dot.count > 10 ? 2.2 : dot.count > 3 ? 1.6 : 1.2}
+            fill={highlightDot === dot.id ? "#FF6B35" : "#0066FF"}
+            stroke="#fff" strokeWidth="0.5" opacity="0.9" />
+          {dot.count > 5 && (
+            <circle cx={dot.x} cy={dot.y} r={3.5} fill="#0066FF" opacity="0.15" />
+          )}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function AnalyticsView() {
+  const [tab, setTab] = useState("overview");
+  const [range, setRange] = useState("7d");
+  const [cardSearch, setCardSearch] = useState("");
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [mapExpanded, setMapExpanded] = useState(false);
+  const [hoveredDot, setHoveredDot] = useState(null);
+  const [deviceTab, setDeviceTab] = useState("Total Hits");
+
+  const filteredLogs = accessLogs.filter(log =>
+    !cardSearch || log.card.toLowerCase().includes(cardSearch.toLowerCase()) ||
+    log.company.toLowerCase().includes(cardSearch.toLowerCase())
+  );
+
+  const cardSidebarItems = [...new Map(accessLogs.map(l => [l.card, { card: l.card, hits: accessLogs.filter(x => x.card === l.card).length }])).values()]
+    .sort((a, b) => b.hits - a.hits)
+    .filter(item => !cardSearch || item.card.toLowerCase().includes(cardSearch.toLowerCase()));
+
+  const maxHit = Math.max(...cardHits.map(c => c.hits));
+  const maxCompany = Math.max(...companyHits.map(c => c.hits));
+  const maxSeries = Math.max(...timeSeriesData);
+
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "explorer", label: "Card Access Explorer" },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      {/* ── Top bar ── */}
+      <div style={{
+        padding: "0 28px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between",
+        borderBottom: `1px solid ${T.border}`, background: T.surface, flexShrink: 0,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: T.ink, fontFamily: font.display }}>Analytics</div>
+            <div style={{ fontSize: 11, color: T.muted, fontFamily: font.ui }}>Card performance across all companies</div>
+          </div>
+          {/* Tab pills */}
+          <div style={{ display: "flex", gap: 2, background: T.faint, borderRadius: 7, padding: 3 }}>
+            {tabs.map(t => (
+              <button key={t.id} onClick={() => setTab(t.id)} style={{
+                padding: "5px 14px", fontSize: 12, fontWeight: 600, fontFamily: font.ui, border: "none", borderRadius: 5,
+                cursor: "pointer", background: tab === t.id ? T.surface : "transparent",
+                color: tab === t.id ? T.ink : T.muted,
+                boxShadow: tab === t.id ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                transition: "all 0.15s",
+              }}>{t.label}</button>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ display: "flex", gap: 2, background: T.faint, borderRadius: 6, padding: 2 }}>
+            {["7d", "30d", "90d", "1y"].map((p) => (
+              <button key={p} onClick={() => setRange(p)} style={{
+                padding: "5px 10px", fontSize: 11, fontWeight: 600, fontFamily: font.ui, border: "none", borderRadius: 4,
+                cursor: "pointer", background: range === p ? T.surface : "transparent",
+                color: range === p ? T.ink : T.muted,
+                boxShadow: range === p ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+              }}>{p}</button>
+            ))}
+          </div>
+          <Btn variant="ghost" size="sm" icon={<Icon name="share" size={13} color={T.sub} />}>Export</Btn>
+        </div>
+      </div>
+
+      {/* ── OVERVIEW TAB ── */}
+      {tab === "overview" && (
+        <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
+          {/* KPI row */}
+          <div style={{ display: "flex", gap: 14, marginBottom: 24 }}>
+            {[
+              { label: "Total Hits", value: "341", sub: "+23% vs last period", up: true, icon: "eye" },
+              { label: "Unique Sessions", value: "146", sub: "+18% vs last period", up: true, icon: "clock" },
+              { label: "Unique Users", value: "15", sub: "+3 new this period", up: true, icon: "users" },
+            ].map((k, i) => (
+              <div key={i} style={{ flex: 1, background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: "18px 20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", marginBottom: 8 }}>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: T.sub, fontFamily: font.ui, textTransform: "uppercase", letterSpacing: "0.05em" }}>{k.label}</span>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: T.accentSoft, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon name={k.icon} size={14} color={T.accent} />
+                  </div>
+                </div>
+                <div style={{ fontSize: 32, fontWeight: 800, color: T.ink, fontFamily: font.display, letterSpacing: "-0.03em", lineHeight: 1 }}>{k.value}</div>
+                <div style={{ fontSize: 11, color: k.up ? T.success : T.danger, marginTop: 6, fontFamily: font.ui, fontWeight: 500 }}>{k.up ? "↑" : "↓"} {k.sub}</div>
+              </div>
+            ))}
+            {/* Device split */}
+            <div style={{ width: 200, background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: "18px 20px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <span style={{ fontSize: 11, fontWeight: 500, color: T.sub, fontFamily: font.ui, textTransform: "uppercase", letterSpacing: "0.05em" }}>Device Split</span>
+              </div>
+              <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 10 }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: T.ink, fontFamily: font.display }}>62%</div>
+                  <div style={{ fontSize: 10, color: T.sub }}>Mobile</div>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: T.ink, fontFamily: font.display }}>38%</div>
+                  <div style={{ fontSize: 10, color: T.sub }}>Desktop</div>
+                </div>
+              </div>
+              <div style={{ height: 6, borderRadius: 3, background: T.faint, overflow: "hidden" }}>
+                <div style={{ height: "100%", width: "62%", background: `linear-gradient(90deg, ${T.accent}, #4A90D9)`, borderRadius: 3 }} />
+              </div>
+            </div>
+          </div>
+
+          {/* Top filters */}
+          <div style={{ display: "flex", gap: 8, marginBottom: 20, alignItems: "center" }}>
+            {["Total Hits", "Sessions", "Users"].map(d => (
+              <button key={d} onClick={() => setDeviceTab(d)} style={{
+                padding: "6px 14px", fontSize: 12, fontWeight: 600, fontFamily: font.ui, border: `1px solid ${deviceTab === d ? T.accent : T.border}`,
+                borderRadius: 6, cursor: "pointer", background: deviceTab === d ? T.accentSoft : T.surface,
+                color: deviceTab === d ? T.accent : T.sub, transition: "all 0.12s",
+              }}>{d}</button>
+            ))}
+          </div>
+
+          {/* Time series chart */}
+          <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20, marginBottom: 20 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: font.display }}>Total Hits Over Time</div>
+              <Btn variant="ghost" size="sm" icon={<Icon name="share" size={12} color={T.sub} />}>CSV</Btn>
+            </div>
+            <div style={{ position: "relative", height: 140 }}>
+              {/* Y gridlines */}
+              {[0, 0.25, 0.5, 0.75, 1].map(frac => (
+                <div key={frac} style={{ position: "absolute", left: 0, right: 0, top: `${(1 - frac) * 100}%`, borderTop: `1px dashed ${T.borderLight}`, zIndex: 0 }} />
+              ))}
+              {/* Bars */}
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: "100%", position: "relative", zIndex: 1 }}>
+                {timeSeriesData.map((v, i) => (
+                  <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", height: "100%", justifyContent: "flex-end" }}>
+                    <div style={{
+                      width: "100%", borderRadius: "3px 3px 0 0",
+                      height: `${(v / maxSeries) * 100}%`,
+                      background: v === maxSeries ? T.accent : `rgba(0,102,255,${0.3 + (v / maxSeries) * 0.5})`,
+                      minHeight: 2, transition: "height 0.3s",
+                    }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 10, color: T.muted, fontFamily: font.mono }}>
+              <span>3AM</span><span>6AM</span><span>9AM</span><span>12PM</span><span>3PM</span><span>6PM</span><span>9PM</span>
+            </div>
+          </div>
+
+          {/* 3-col breakdown */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+            {/* Breakdown by card */}
+            <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20, gridColumn: "1 / 2" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: font.display }}>Breakdown by Card</div>
+                <Btn variant="ghost" size="sm">CSV</Btn>
+              </div>
+              {cardHits.map((c, i) => (
+                <div key={i} style={{ marginBottom: 8 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3, alignItems: "center" }}>
+                    <span style={{ fontSize: 12, fontWeight: 500, color: T.ink, fontFamily: font.ui, maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+                    <span style={{ fontSize: 11, color: T.sub, fontFamily: font.mono }}>{c.hits}</span>
+                  </div>
+                  <div style={{ height: 4, borderRadius: 2, background: T.faint }}>
+                    <div style={{ height: 4, borderRadius: 2, background: T.accent, width: `${(c.hits / maxHit) * 100}%`, opacity: 0.7 + (i === 0 ? 0.3 : 0) }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Browser */}
+            <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: font.display, marginBottom: 14 }}>Browser</div>
+              {[{ name: "Chrome", pct: 71, color: T.accent }, { name: "Safari", pct: 29, color: T.purple }].map((b, i) => (
+                <div key={i} style={{ marginBottom: 16 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <div style={{ width: 10, height: 10, borderRadius: 2, background: b.color }} />
+                      <span style={{ fontSize: 13, color: T.ink, fontFamily: font.ui }}>{b.name}</span>
+                    </div>
+                    <span style={{ fontSize: 12, color: T.sub, fontFamily: font.mono }}>{b.pct}%</span>
+                  </div>
+                  <div style={{ height: 6, borderRadius: 3, background: T.faint }}>
+                    <div style={{ height: 6, borderRadius: 3, background: b.color, width: `${b.pct}%` }} />
+                  </div>
+                </div>
+              ))}
+              <div style={{ marginTop: 20, fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: font.display, marginBottom: 14 }}>Top Performing Cards</div>
+              {[
+                { name: "JetourMauritius", views: 70, pct: 100 },
+                { name: "GarethHiepner", views: 29, pct: 41 },
+                { name: "jetour003", views: 29, pct: 41 },
+                { name: "CustomWalksHugenote", views: 25, pct: 36 },
+                { name: "CustomWalksPAARLGIM", views: 12, pct: 17 },
+              ].map((c, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span style={{ fontSize: 12, color: T.sub, fontFamily: font.mono, width: 14, textAlign: "right" }}>{i + 1}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                      <span style={{ fontSize: 12, fontWeight: 500, color: T.ink, maxWidth: 110, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+                      <span style={{ fontSize: 11, color: T.sub, fontFamily: font.mono }}>{c.views}</span>
+                    </div>
+                    <div style={{ height: 3, borderRadius: 2, background: T.faint }}>
+                      <div style={{ height: 3, borderRadius: 2, background: T.accent, width: `${c.pct}%`, opacity: 0.6 + i * -0.1 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* By Company */}
+            <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.ink, fontFamily: font.display, marginBottom: 14 }}>By Company</div>
+              {companyHits.map((c, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: i < companyHits.length - 1 ? `1px solid ${T.borderLight}` : "none" }}>
+                  <span style={{ fontSize: 12, color: T.ink, fontFamily: font.ui }}>{c.name}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ width: 60, height: 3, borderRadius: 2, background: T.faint }}>
+                      <div style={{ height: 3, borderRadius: 2, background: T.accent, width: `${(c.hits / maxCompany) * 100}%` }} />
+                    </div>
+                    <span style={{ fontSize: 11, color: T.sub, fontFamily: font.mono, width: 28, textAlign: "right" }}>{c.hits}</span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Top Cards */}
-          <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, padding: 20 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: font.display, marginBottom: 16 }}>Top Performing Cards</div>
-            {[
-              { name: "Parkinglot", type: "Microsite", views: 8412, pct: 100 },
-              { name: "WinterMenu", type: "Generic", views: 3891, pct: 46 },
-              { name: "batman", type: "Business", views: 1247, pct: 15 },
-              { name: "BenzGLC300", type: "Vehicle", views: 912, pct: 11 },
-              { name: "DashingDelux", type: "Vehicle", views: 532, pct: 6 },
-            ].map((c, i) => (
-              <div key={i} style={{ marginBottom: 12 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: T.ink, fontFamily: font.ui }}>{c.name}</span>
-                    <Badge label={c.type} variant={c.type.toLowerCase()} />
-                  </div>
-                  <span style={{ fontSize: 12, fontFamily: font.mono, color: T.sub }}>{c.views.toLocaleString()}</span>
-                </div>
-                <div style={{ height: 5, borderRadius: 3, background: T.faint }}>
-                  <div style={{ height: 5, borderRadius: 3, background: T.accent, width: `${c.pct}%`, opacity: 1 - i * 0.15 }} />
+      {/* ── CARD ACCESS EXPLORER TAB ── */}
+      {tab === "explorer" && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          {/* Explorer header */}
+          <div style={{ padding: "14px 20px", borderBottom: `1px solid ${T.border}`, background: T.surface, display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <Icon name="search" size={15} color={T.muted} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: T.ink, fontFamily: font.ui }}>Card Access Explorer</span>
+              <span style={{ fontSize: 11, color: T.muted, fontFamily: font.mono }}>{filteredLogs.length} events</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <Btn variant={mapExpanded ? "primary" : "secondary"} size="sm" onClick={() => setMapExpanded(!mapExpanded)}>
+                {mapExpanded ? "Compact Map" : "Expand Map"}
+              </Btn>
+              <Btn variant="ghost" size="sm" icon={<Icon name="share" size={12} color={T.sub} />}>Export</Btn>
+            </div>
+          </div>
+
+          <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+            {/* Left sidebar — card list */}
+            <div style={{ width: 200, borderRight: `1px solid ${T.border}`, display: "flex", flexDirection: "column", background: T.surfaceAlt, flexShrink: 0 }}>
+              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${T.border}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, background: T.surface, border: `1px solid ${T.border}`, borderRadius: T.radiusSm, padding: "6px 10px" }}>
+                  <Icon name="search" size={13} color={T.muted} />
+                  <input
+                    type="text"
+                    placeholder="Search cards..."
+                    value={cardSearch}
+                    onChange={e => setCardSearch(e.target.value)}
+                    style={{ border: "none", outline: "none", background: "transparent", fontSize: 12, fontFamily: font.ui, color: T.ink, width: "100%" }}
+                  />
                 </div>
               </div>
-            ))}
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {cardSidebarItems.map((item, i) => (
+                  <button key={i} onClick={() => setSelectedCard(selectedCard === item.card ? null : item.card)}
+                    style={{
+                      width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
+                      padding: "9px 14px", border: "none", borderBottom: `1px solid ${T.borderLight}`,
+                      background: selectedCard === item.card ? T.accentSoft : "transparent",
+                      cursor: "pointer", textAlign: "left", transition: "background 0.1s",
+                    }}>
+                    <span style={{ fontSize: 12, fontWeight: selectedCard === item.card ? 700 : 500, color: selectedCard === item.card ? T.accent : T.ink, fontFamily: font.ui, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 120 }}>{item.card}</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: T.muted, fontFamily: font.mono, background: T.faint, padding: "2px 5px", borderRadius: 4 }}>{item.hits}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Center — log table */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
+              {/* Table header */}
+              <div style={{
+                display: "grid", gridTemplateColumns: "100px 130px 130px 1fr 90px 80px 110px",
+                padding: "8px 16px", background: T.surfaceAlt, borderBottom: `1px solid ${T.border}`,
+                fontSize: 10, fontWeight: 700, color: T.muted, fontFamily: font.mono, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0,
+              }}>
+                <span>Time</span><span>Card</span><span>Company</span><span>Org Unit</span><span>Device</span><span>Browser</span><span>Location</span>
+              </div>
+              {/* Rows */}
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {filteredLogs
+                  .filter(log => !selectedCard || log.card === selectedCard)
+                  .map((log, i) => (
+                    <div key={i} style={{
+                      display: "grid", gridTemplateColumns: "100px 130px 130px 1fr 90px 80px 110px",
+                      padding: "10px 16px", borderBottom: `1px solid ${T.borderLight}`,
+                      fontSize: 12, fontFamily: font.ui, alignItems: "center",
+                      background: i % 2 === 0 ? T.surface : T.surfaceAlt,
+                      transition: "background 0.1s",
+                    }}>
+                      <span style={{ fontFamily: font.mono, fontSize: 11, color: T.sub }}>{log.time}</span>
+                      <span style={{ fontWeight: 600, color: T.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{log.card}</span>
+                      <span style={{ color: T.sub, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{log.company}</span>
+                      <span style={{ color: T.muted, fontSize: 11 }}>{log.orgUnit}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 600, padding: "2px 7px", borderRadius: 4,
+                          background: log.device === "mobile" ? T.purpleSoft : T.accentSoft,
+                          color: log.device === "mobile" ? T.purple : T.accent,
+                        }}>{log.device}</span>
+                      </div>
+                      <span style={{ color: T.sub, fontSize: 11 }}>{log.browser}</span>
+                      <div>
+                        {log.lat ? (
+                          <span style={{ fontSize: 10, fontWeight: 600, color: T.success, background: T.successSoft, padding: "2px 6px", borderRadius: 4, fontFamily: font.mono }}>
+                            {log.lat}, {log.lng}
+                          </span>
+                        ) : (
+                          <span style={{ fontSize: 11, color: T.muted }}>No location</span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Right — Map panel */}
+            <div style={{
+              width: mapExpanded ? 520 : 280,
+              borderLeft: `1px solid ${T.border}`,
+              display: "flex", flexDirection: "column",
+              background: T.surface, flexShrink: 0,
+              transition: "width 0.3s cubic-bezier(0.4,0,0.2,1)",
+            }}>
+              <div style={{ padding: "12px 14px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: T.accent }} />
+                  <span style={{ fontSize: 12, fontWeight: 700, color: T.ink, fontFamily: font.ui }}>Location</span>
+                </div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <span style={{ fontSize: 10, color: T.muted, fontFamily: font.mono }}>{accessLogs.filter(l => l.lat).length} located</span>
+                  <button onClick={() => setMapExpanded(!mapExpanded)} style={{
+                    width: 22, height: 22, borderRadius: 5, border: `1px solid ${T.border}`,
+                    background: T.faint, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      {mapExpanded
+                        ? <path d="M7 3L3 7M3 3l4 4" stroke={T.sub} strokeWidth="1.5" strokeLinecap="round" />
+                        : <path d="M1 5h8M5 1v8" stroke={T.sub} strokeWidth="1.5" strokeLinecap="round" />
+                      }
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Map itself */}
+              <div style={{ flex: 1, padding: 12, display: "flex", flexDirection: "column", gap: 10, overflow: "hidden" }}>
+                <div style={{ flex: 1, borderRadius: T.radius, overflow: "hidden", border: `1px solid ${T.border}`, position: "relative" }}>
+                  <WorldMapSVG
+                    highlightDot={hoveredDot}
+                    onDotHover={dot => setHoveredDot(dot ? dot.id : null)}
+                  />
+                  {/* Zoom hints */}
+                  <div style={{ position: "absolute", top: 8, right: 8, display: "flex", flexDirection: "column", gap: 2 }}>
+                    {["+", "−"].map((sym) => (
+                      <button key={sym} style={{ width: 22, height: 22, borderRadius: 4, border: `1px solid ${T.border}`, background: T.surface, cursor: "pointer", fontSize: 14, fontWeight: 700, color: T.sub, display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>{sym}</button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Location legend */}
+                <div style={{ flexShrink: 0 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: T.muted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6, fontFamily: font.mono }}>Active Locations</div>
+                  {mapDots.map(dot => (
+                    <div key={dot.id}
+                      onMouseEnter={() => setHoveredDot(dot.id)}
+                      onMouseLeave={() => setHoveredDot(null)}
+                      style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "center",
+                        padding: "5px 8px", borderRadius: T.radiusSm, marginBottom: 2, cursor: "default",
+                        background: hoveredDot === dot.id ? T.accentSoft : "transparent",
+                        transition: "background 0.12s",
+                      }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{ width: 6, height: 6, borderRadius: "50%", background: hoveredDot === dot.id ? "#FF6B35" : T.accent }} />
+                        <span style={{ fontSize: 11, fontFamily: font.mono, color: T.ink }}>{dot.label}</span>
+                      </div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: T.muted, fontFamily: font.mono }}>{dot.count} hits</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -1042,7 +1477,7 @@ export default function PersonalyzAdmin() {
   return (
     <div style={{ display: "flex", height: "100vh", background: T.bg, overflow: "hidden" }}>
       <Sidebar active={view} onNav={setView} collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div style={{ flex: 1, overflow: "auto" }}>
+      <div style={{ flex: 1, overflow: view === "analytics" ? "hidden" : "auto", display: "flex", flexDirection: "column" }}>
         {views[view]}
       </div>
     </div>

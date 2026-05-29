@@ -1950,15 +1950,31 @@ function AnalyticsView() {
     }}>{label}</button>
   );
 
+  const [activeTab, setActiveTab] = useState("overview");
+  const [mapExpanded, setMapExpanded] = useState(false);
+
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <TopBar title="Analytics" subtitle="Card performance across all companies" actions={
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 2, background: T.faint, borderRadius: T.radiusSm, padding: 3, marginRight: 4 }}>
+            {[{ id: "overview", label: "Overview" }, { id: "explorer", label: "Card Access Explorer" }].map(t => (
+              <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+                padding: "5px 14px", fontSize: 12, fontWeight: 600, fontFamily: font.ui, border: "none", borderRadius: 4,
+                cursor: "pointer", background: activeTab === t.id ? T.surface : "transparent",
+                color: activeTab === t.id ? T.ink : T.muted,
+                boxShadow: activeTab === t.id ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                transition: "all 0.15s",
+              }}>{t.label}</button>
+            ))}
+          </div>
           <Btn variant="secondary" size="sm" icon={<Icon name="download" size={14} color={T.sub} />}>Export CSV</Btn>
           <Btn variant="secondary" size="sm" icon={<Icon name="refresh" size={14} color={T.sub} />}>Refresh</Btn>
         </div>
       } />
-      <div style={{ overflowY: "auto", height: "calc(100vh - 56px)" }}>
+
+      {activeTab === "overview" && (
+      <div style={{ overflowY: "auto", flex: 1 }}>
         <div style={{ padding: "20px 28px", maxWidth: 1400 }}>
 
           {/* ═══ FILTER BAR ═══ */}
@@ -2183,296 +2199,394 @@ function AnalyticsView() {
             </div>
           </div>
 
-          {/* ═══ ROW 4: CARD ACCESS EXPLORER ═══ */}
+          {/* ═══ ROW 4: CARD ACCESS EXPLORER (overview preview) ═══ */}
           <div style={{ background: T.surface, borderRadius: T.radius, border: `1px solid ${T.border}`, marginBottom: 20, overflow: "hidden" }}>
             <div style={{ padding: "16px 20px", borderBottom: `1px solid ${T.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <Icon name="search" size={16} color={T.accent} />
                 <span style={{ fontSize: 15, fontWeight: 700, color: T.ink, fontFamily: font.display }}>Card Access Explorer</span>
+                <span style={{ fontSize: 11, color: T.muted, fontFamily: font.ui }}>— recent hits preview</span>
               </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                {explorerCard && (
-                  <button onClick={() => { setExplorerCard(null); setSelectedHitIdx(null); }} style={{
-                    display: "flex", alignItems: "center", gap: 4, padding: "5px 10px",
-                    borderRadius: T.radiusSm, border: `1px solid ${T.border}`, background: T.accentSoft,
-                    cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: font.ui, color: T.accent,
-                  }}>
-                    {explorerCard}
-                    <Icon name="x" size={12} color={T.accent} />
-                  </button>
-                )}
-                <Btn variant="ghost" size="sm" icon={<Icon name="download" size={13} color={T.muted} />}>Export</Btn>
-              </div>
+              <Btn variant="secondary" size="sm" onClick={() => setActiveTab("explorer")}>Open Full Explorer →</Btn>
             </div>
-
-            <div style={{ display: "flex", minHeight: 520 }}>
-              {/* Left: Card selector + Map */}
-              <div style={{ width: 300, borderRight: `1px solid ${T.border}`, display: "flex", flexDirection: "column" }}>
-                {/* Search input */}
-                <div style={{ padding: "10px 14px", borderBottom: `1px solid ${T.borderLight}` }}>
-                  <div style={{ position: "relative" }}>
-                    <div style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)" }}>
-                      <Icon name="search" size={14} color={T.muted} />
-                    </div>
-                    <input
-                      value={explorerSearch}
-                      onChange={(e) => setExplorerSearch(e.target.value)}
-                      placeholder="Search cards…"
-                      style={{
-                        width: "100%", padding: "7px 10px 7px 30px", fontSize: 13, fontFamily: font.ui,
-                        border: `1px solid ${T.border}`, borderRadius: T.radiusSm, background: T.surfaceAlt,
-                        color: T.ink, outline: "none", boxSizing: "border-box",
-                      }}
-                    />
-                  </div>
-                </div>
-                {/* Card list */}
-                <div style={{ flex: 1, overflowY: "auto", maxHeight: 220 }}>
-                  {filteredExplorerCards.map((c) => {
-                    const isActive = explorerCard === c.name;
-                    return (
-                      <button
-                        key={c.name}
-                        onClick={() => { setExplorerCard(isActive ? null : c.name); setSelectedHitIdx(null); }}
-                        style={{
-                          display: "flex", alignItems: "center", justifyContent: "space-between",
-                          width: "100%", padding: "10px 14px", border: "none", cursor: "pointer",
-                          background: isActive ? T.accentSoft : "transparent",
-                          borderLeft: `3px solid ${isActive ? T.accent : "transparent"}`,
-                          borderBottom: `1px solid ${T.borderLight}`,
-                          transition: "all 0.1s", fontFamily: font.ui, textAlign: "left",
-                        }}
-                      >
-                        <div>
-                          <div style={{ fontSize: 13, fontWeight: 600, color: isActive ? T.accent : T.ink }}>{c.name}</div>
-                          <div style={{ fontSize: 11, color: T.muted }}>{c.company}{c.orgUnit !== "—" ? ` · ${c.orgUnit}` : ""}</div>
-                        </div>
-                        <span style={{
-                          fontSize: 11, fontWeight: 700, fontFamily: font.mono,
-                          color: isActive ? T.accent : T.sub,
-                          background: isActive ? "rgba(0,102,255,0.1)" : T.faint,
-                          padding: "2px 8px", borderRadius: 10,
-                        }}>{c.hits}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* ── Location Map Panel ── */}
-                <div style={{ borderTop: `1px solid ${T.border}`, flex: 1, display: "flex", flexDirection: "column", minHeight: 260 }}>
-                  <div style={{ padding: "10px 14px", borderBottom: `1px solid ${T.borderLight}`, display: "flex", alignItems: "center", gap: 6 }}>
-                    <Icon name="mapPin" size={14} color={T.accent} />
-                    <span style={{ fontSize: 12, fontWeight: 600, color: T.ink, fontFamily: font.ui }}>Location</span>
-                    {selectedHitIdx !== null && filteredHitLog[selectedHitIdx] && (
-                      <span style={{ fontSize: 11, color: T.muted, fontFamily: font.ui, marginLeft: "auto" }}>
-                        {filteredHitLog[selectedHitIdx].location}
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ flex: 1, position: "relative", overflow: "hidden", background: "#E8ECF0" }}>
-                    {/* SVG Map visualization */}
-                    {(selectedHitIdx !== null && filteredHitLog[selectedHitIdx]) ? (() => {
-                      const hit = filteredHitLog[selectedHitIdx];
-                      // Gather all pins for context (from filtered hits with unique locations)
-                      const uniqueLocations = [];
-                      const seen = new Set();
-                      filteredHitLog.forEach(h => {
-                        const key = `${h.lat},${h.lng}`;
-                        if (!seen.has(key)) { seen.add(key); uniqueLocations.push(h); }
-                      });
-                      // Map projection: simple mercator-ish fit to data bounds
-                      const lats = uniqueLocations.map(l => l.lat);
-                      const lngs = uniqueLocations.map(l => l.lng);
-                      const minLat = Math.min(...lats) - 2;
-                      const maxLat = Math.max(...lats) + 2;
-                      const minLng = Math.min(...lngs) - 2;
-                      const maxLng = Math.max(...lngs) + 2;
-                      const project = (lat, lng) => ({
-                        x: ((lng - minLng) / (maxLng - minLng)) * 100,
-                        y: ((maxLat - lat) / (maxLat - minLat)) * 100,
-                      });
-
-                      return (
-                        <div style={{ width: "100%", height: "100%", position: "relative" }}>
-                          {/* Grid lines for map feel */}
-                          <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
-                            {[20, 40, 60, 80].map(p => (
-                              <g key={p}>
-                                <line x1={`${p}%`} y1="0" x2={`${p}%`} y2="100%" stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
-                                <line x1="0" y1={`${p}%`} x2="100%" y2={`${p}%`} stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
-                              </g>
-                            ))}
-                          </svg>
-                          {/* All location pins (faded) */}
-                          {uniqueLocations.map((loc, i) => {
-                            const pos = project(loc.lat, loc.lng);
-                            const isSelected = loc.lat === hit.lat && loc.lng === hit.lng;
-                            return (
-                              <div key={i} style={{
-                                position: "absolute",
-                                left: `${pos.x}%`, top: `${pos.y}%`,
-                                transform: "translate(-50%, -100%)",
-                                zIndex: isSelected ? 10 : 1,
-                                transition: "all 0.3s ease",
-                              }}>
-                                {/* Pin stem */}
-                                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                  <div style={{
-                                    width: isSelected ? 28 : 16, height: isSelected ? 28 : 16,
-                                    borderRadius: "50% 50% 50% 0",
-                                    background: isSelected ? T.accent : T.muted,
-                                    transform: "rotate(-45deg)",
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    boxShadow: isSelected ? `0 2px 8px ${T.accent}60` : "0 1px 3px rgba(0,0,0,0.15)",
-                                    transition: "all 0.3s ease",
-                                  }}>
-                                    <div style={{
-                                      width: isSelected ? 10 : 6, height: isSelected ? 10 : 6,
-                                      borderRadius: "50%", background: "#fff",
-                                      transform: "rotate(45deg)",
-                                    }} />
-                                  </div>
-                                  {/* Shadow dot */}
-                                  <div style={{
-                                    width: isSelected ? 12 : 6, height: 3,
-                                    borderRadius: "50%",
-                                    background: "rgba(0,0,0,0.15)",
-                                    marginTop: 2,
-                                    transition: "all 0.3s ease",
-                                  }} />
-                                </div>
-                                {/* Label on selected pin */}
-                                {isSelected && (
-                                  <div style={{
-                                    position: "absolute", bottom: "calc(100% + 4px)", left: "50%",
-                                    transform: "translateX(-50%)",
-                                    background: T.ink, color: "#fff",
-                                    padding: "3px 8px", borderRadius: 4,
-                                    fontSize: 10, fontWeight: 600, fontFamily: font.ui,
-                                    whiteSpace: "nowrap",
-                                    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                                  }}>
-                                    {loc.location}
-                                    {/* Tooltip arrow */}
-                                    <div style={{
-                                      position: "absolute", top: "100%", left: "50%",
-                                      transform: "translateX(-50%)",
-                                      width: 0, height: 0,
-                                      borderLeft: "4px solid transparent",
-                                      borderRight: "4px solid transparent",
-                                      borderTop: `4px solid ${T.ink}`,
-                                    }} />
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      );
-                    })() : (
-                      /* Empty state */
-                      <div style={{
-                        width: "100%", height: "100%",
-                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                        gap: 8, padding: 20,
-                      }}>
-                        {/* Subtle map grid background */}
-                        <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.4 }}>
-                          {[20, 40, 60, 80].map(p => (
-                            <g key={p}>
-                              <line x1={`${p}%`} y1="0" x2={`${p}%`} y2="100%" stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
-                              <line x1="0" y1={`${p}%`} x2="100%" y2={`${p}%`} stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
-                            </g>
-                          ))}
-                        </svg>
-                        <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
-                          <div style={{
-                            width: 44, height: 44, borderRadius: 12, margin: "0 auto 8px",
-                            background: T.faint, display: "flex", alignItems: "center", justifyContent: "center",
-                          }}>
-                            <Icon name="mapPin" size={22} color={T.muted} />
-                          </div>
-                          <div style={{ fontSize: 12, color: T.sub, fontFamily: font.ui, fontWeight: 500 }}>
-                            Select a row to view location
-                          </div>
-                          <div style={{ fontSize: 11, color: T.muted, fontFamily: font.ui, marginTop: 2, fontStyle: "italic" }}>
-                            Location is approximate
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+            <div style={{ overflowX: "auto" }}>
+              <div style={{
+                display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 74px 74px 120px",
+                gap: 6, padding: "10px 16px", borderBottom: `1px solid ${T.border}`,
+                fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", color: T.muted,
+                fontFamily: font.mono, textTransform: "uppercase", background: T.surfaceAlt,
+              }}>
+                <span>Time</span><span>Card</span><span>Company</span><span>Org Unit</span><span>Device</span><span>Browser</span><span>Location</span>
               </div>
-
-              {/* Right: Hit log table */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                {/* Table header */}
-                <div style={{
-                  display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 74px 74px 100px",
-                  gap: 6, padding: "10px 16px", borderBottom: `1px solid ${T.border}`,
-                  fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", color: T.muted,
-                  fontFamily: font.mono, textTransform: "uppercase", background: T.surfaceAlt,
+              {hitLogData.slice(0, 6).map((h, i) => (
+                <div key={i} style={{
+                  display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 74px 74px 120px",
+                  gap: 6, padding: "9px 16px", alignItems: "center",
+                  borderBottom: `1px solid ${T.borderLight}`,
+                  fontSize: 12, fontFamily: font.ui, color: T.ink2,
+                  background: i % 2 === 0 ? "transparent" : T.surfaceAlt,
                 }}>
-                  <span>Time</span><span>Card</span><span>Company</span><span>Org Unit</span><span>Device</span><span>Browser</span><span>Location</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, color: T.sub }}>{h.time}</span>
+                  <span style={{ fontWeight: 600 }}>{h.card}</span>
+                  <span style={{ color: T.sub }}>{h.company}</span>
+                  <span style={{ color: T.muted }}>{h.orgUnit}</span>
+                  <span>
+                    <span style={{
+                      display: "inline-flex", alignItems: "center", gap: 3,
+                      padding: "1px 6px", borderRadius: 3, fontSize: 11,
+                      background: h.device === "desktop" ? T.purpleSoft : T.accentSoft,
+                      color: h.device === "desktop" ? T.purple : T.accent,
+                    }}>
+                      <Icon name={h.device === "desktop" ? "monitor" : "smartphone"} size={11} color={h.device === "desktop" ? T.purple : T.accent} />
+                      {h.device}
+                    </span>
+                  </span>
+                  <span style={{ fontSize: 11, color: T.sub }}>{h.browser}</span>
+                  <span style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, color: T.muted }}>
+                    <Icon name="mapPin" size={11} color={T.muted} />
+                    {h.location}
+                  </span>
                 </div>
-                {/* Table rows */}
-                <div style={{ flex: 1, overflowY: "auto" }}>
-                  {filteredHitLog.length === 0 ? (
-                    <div style={{ padding: 40, textAlign: "center" }}>
-                      <Icon name="cursor" size={24} color={T.faint} />
-                      <div style={{ fontSize: 13, color: T.muted, marginTop: 8, fontFamily: font.ui }}>
-                        {explorerCard ? "No hits recorded for this card" : "Select a card to filter, or view all hits"}
-                      </div>
-                    </div>
-                  ) : (
-                    filteredHitLog.map((h, i) => {
-                      const isRowSelected = selectedHitIdx === i;
-                      return (
-                        <div
-                          key={i}
-                          onClick={() => setSelectedHitIdx(isRowSelected ? null : i)}
-                          style={{
-                            display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 74px 74px 100px",
-                            gap: 6, padding: "9px 16px", alignItems: "center",
-                            borderBottom: `1px solid ${T.borderLight}`,
-                            fontSize: 12, fontFamily: font.ui, color: T.ink2,
-                            background: isRowSelected ? T.accentSoft : i % 2 === 0 ? "transparent" : T.surfaceAlt,
-                            borderLeft: `3px solid ${isRowSelected ? T.accent : "transparent"}`,
-                            cursor: "pointer", transition: "all 0.1s",
-                          }}
-                        >
-                          <span style={{ fontFamily: font.mono, fontSize: 11, color: T.sub }}>{h.time}</span>
-                          <span style={{ fontWeight: 600, color: isRowSelected ? T.accent : T.ink }}>{h.card}</span>
-                          <span style={{ color: T.sub }}>{h.company}</span>
-                          <span style={{ color: T.muted }}>{h.orgUnit}</span>
-                          <span>
-                            <span style={{
-                              display: "inline-flex", alignItems: "center", gap: 3,
-                              padding: "1px 6px", borderRadius: 3, fontSize: 11,
-                              background: h.device === "desktop" ? T.purpleSoft : T.accentSoft,
-                              color: h.device === "desktop" ? T.purple : T.accent,
-                            }}>
-                              <Icon name={h.device === "desktop" ? "monitor" : "smartphone"} size={11} color={h.device === "desktop" ? T.purple : T.accent} />
-                              {h.device}
-                            </span>
-                          </span>
-                          <span style={{ fontSize: 11, color: T.sub }}>{h.browser}</span>
-                          <span style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, color: isRowSelected ? T.accent : T.muted }}>
-                            <Icon name="mapPin" size={11} color={isRowSelected ? T.accent : T.muted} />
-                            {h.location}
-                          </span>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
         </div>
       </div>
+      )} {/* end overview tab */}
+
+      {/* ── CARD ACCESS EXPLORER TAB ── */}
+      {activeTab === "explorer" && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          {/* Explorer sub-header */}
+          <div style={{ padding: "10px 20px", borderBottom: `1px solid ${T.border}`, background: T.surface, display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <Icon name="search" size={15} color={T.accent} />
+              <span style={{ fontSize: 13, fontWeight: 700, color: T.ink, fontFamily: font.ui }}>Card Access Explorer</span>
+              {explorerCard && (
+                <button onClick={() => { setExplorerCard(null); setSelectedHitIdx(null); }} style={{
+                  display: "flex", alignItems: "center", gap: 4, padding: "3px 10px",
+                  borderRadius: 20, border: `1px solid ${T.border}`, background: T.accentSoft,
+                  cursor: "pointer", fontSize: 12, fontWeight: 600, fontFamily: font.ui, color: T.accent,
+                }}>
+                  {explorerCard} <Icon name="x" size={11} color={T.accent} />
+                </button>
+              )}
+              <span style={{ fontSize: 11, color: T.muted, fontFamily: font.mono }}>{filteredHitLog.length} events</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <button onClick={() => setMapExpanded(!mapExpanded)} style={{
+                display: "flex", alignItems: "center", gap: 6, padding: "6px 12px",
+                border: `1px solid ${mapExpanded ? T.accent : T.border}`, borderRadius: T.radiusSm,
+                background: mapExpanded ? T.accentSoft : T.surface, cursor: "pointer",
+                fontSize: 12, fontWeight: 600, fontFamily: font.ui,
+                color: mapExpanded ? T.accent : T.sub, transition: "all 0.15s",
+              }}>
+                <Icon name="mapPin" size={13} color={mapExpanded ? T.accent : T.muted} />
+                {mapExpanded ? "Compact Map" : "Expand Map"}
+              </button>
+              <Btn variant="ghost" size="sm" icon={<Icon name="download" size={13} color={T.muted} />}>Export</Btn>
+            </div>
+          </div>
+
+          {/* 3-column layout: card list | log table | map */}
+          <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+
+            {/* ── Col 1: Card selector list ── */}
+            <div style={{ width: 220, borderRight: `1px solid ${T.border}`, display: "flex", flexDirection: "column", background: T.surfaceAlt, flexShrink: 0 }}>
+              <div style={{ padding: "10px 12px", borderBottom: `1px solid ${T.border}` }}>
+                <div style={{ position: "relative" }}>
+                  <div style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)" }}>
+                    <Icon name="search" size={14} color={T.muted} />
+                  </div>
+                  <input
+                    value={explorerSearch}
+                    onChange={(e) => setExplorerSearch(e.target.value)}
+                    placeholder="Search cards…"
+                    style={{
+                      width: "100%", padding: "7px 10px 7px 30px", fontSize: 12, fontFamily: font.ui,
+                      border: `1px solid ${T.border}`, borderRadius: T.radiusSm, background: T.surface,
+                      color: T.ink, outline: "none", boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+              </div>
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {filteredExplorerCards.map((c) => {
+                  const isActive = explorerCard === c.name;
+                  return (
+                    <button
+                      key={c.name}
+                      onClick={() => { setExplorerCard(isActive ? null : c.name); setSelectedHitIdx(null); }}
+                      style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        width: "100%", padding: "10px 14px", border: "none", cursor: "pointer",
+                        background: isActive ? T.accentSoft : "transparent",
+                        borderLeft: `3px solid ${isActive ? T.accent : "transparent"}`,
+                        borderBottom: `1px solid ${T.borderLight}`,
+                        transition: "all 0.1s", fontFamily: font.ui, textAlign: "left",
+                      }}
+                    >
+                      <div style={{ overflow: "hidden" }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: isActive ? T.accent : T.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</div>
+                        <div style={{ fontSize: 11, color: T.muted, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.company}{c.orgUnit !== "—" ? ` · ${c.orgUnit}` : ""}</div>
+                      </div>
+                      <span style={{
+                        fontSize: 11, fontWeight: 700, fontFamily: font.mono, flexShrink: 0, marginLeft: 8,
+                        color: isActive ? T.accent : T.sub,
+                        background: isActive ? "rgba(0,102,255,0.1)" : T.faint,
+                        padding: "2px 8px", borderRadius: 10,
+                      }}>{c.hits}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── Col 2: Hit log table ── */}
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", minWidth: 0 }}>
+              <div style={{
+                display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 80px 74px 120px",
+                gap: 6, padding: "10px 16px", borderBottom: `1px solid ${T.border}`,
+                fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", color: T.muted,
+                fontFamily: font.mono, textTransform: "uppercase", background: T.surfaceAlt, flexShrink: 0,
+              }}>
+                <span>Time</span><span>Card</span><span>Company</span><span>Org Unit</span><span>Device</span><span>Browser</span><span>Location</span>
+              </div>
+              <div style={{ flex: 1, overflowY: "auto" }}>
+                {filteredHitLog.length === 0 ? (
+                  <div style={{ padding: 40, textAlign: "center" }}>
+                    <Icon name="cursor" size={24} color={T.faint} />
+                    <div style={{ fontSize: 13, color: T.muted, marginTop: 8, fontFamily: font.ui }}>
+                      {explorerCard ? "No hits recorded for this card" : "Select a card to filter, or view all hits"}
+                    </div>
+                  </div>
+                ) : (
+                  filteredHitLog.map((h, i) => {
+                    const isRowSelected = selectedHitIdx === i;
+                    return (
+                      <div
+                        key={i}
+                        onClick={() => setSelectedHitIdx(isRowSelected ? null : i)}
+                        style={{
+                          display: "grid", gridTemplateColumns: "100px 1fr 1fr 1fr 80px 74px 120px",
+                          gap: 6, padding: "9px 16px", alignItems: "center",
+                          borderBottom: `1px solid ${T.borderLight}`,
+                          fontSize: 12, fontFamily: font.ui, color: T.ink2,
+                          background: isRowSelected ? T.accentSoft : i % 2 === 0 ? "transparent" : T.surfaceAlt,
+                          borderLeft: `3px solid ${isRowSelected ? T.accent : "transparent"}`,
+                          cursor: "pointer", transition: "all 0.1s",
+                        }}
+                      >
+                        <span style={{ fontFamily: font.mono, fontSize: 11, color: T.sub }}>{h.time}</span>
+                        <span style={{ fontWeight: 600, color: isRowSelected ? T.accent : T.ink, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.card}</span>
+                        <span style={{ color: T.sub, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.company}</span>
+                        <span style={{ color: T.muted, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.orgUnit}</span>
+                        <span>
+                          <span style={{
+                            display: "inline-flex", alignItems: "center", gap: 3,
+                            padding: "1px 6px", borderRadius: 3, fontSize: 11,
+                            background: h.device === "desktop" ? T.purpleSoft : T.accentSoft,
+                            color: h.device === "desktop" ? T.purple : T.accent,
+                          }}>
+                            <Icon name={h.device === "desktop" ? "monitor" : "smartphone"} size={11} color={h.device === "desktop" ? T.purple : T.accent} />
+                            {h.device}
+                          </span>
+                        </span>
+                        <span style={{ fontSize: 11, color: T.sub }}>{h.browser}</span>
+                        <span style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 11, color: isRowSelected ? T.accent : T.muted }}>
+                          <Icon name="mapPin" size={11} color={isRowSelected ? T.accent : T.muted} />
+                          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.location}</span>
+                        </span>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            {/* ── Col 3: Map panel ── */}
+            <div style={{
+              width: mapExpanded ? 480 : 300,
+              borderLeft: `1px solid ${T.border}`,
+              display: "flex", flexDirection: "column",
+              background: T.surface, flexShrink: 0,
+              transition: "width 0.3s cubic-bezier(0.4,0,0.2,1)",
+            }}>
+              {/* Map header */}
+              <div style={{ padding: "10px 14px", borderBottom: `1px solid ${T.borderLight}`, display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                <Icon name="mapPin" size={14} color={T.accent} />
+                <span style={{ fontSize: 12, fontWeight: 600, color: T.ink, fontFamily: font.ui }}>Location</span>
+                {selectedHitIdx !== null && filteredHitLog[selectedHitIdx] && (
+                  <span style={{ fontSize: 11, color: T.muted, fontFamily: font.ui, marginLeft: "auto" }}>
+                    {filteredHitLog[selectedHitIdx].location}
+                  </span>
+                )}
+                <button onClick={() => setMapExpanded(!mapExpanded)} style={{
+                  marginLeft: selectedHitIdx !== null ? 8 : "auto", width: 22, height: 22, borderRadius: 5,
+                  border: `1px solid ${T.border}`, background: T.faint, cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    {mapExpanded
+                      ? <path d="M7 3L3 7M3 3l4 4" stroke={T.sub} strokeWidth="1.5" strokeLinecap="round" />
+                      : <path d="M1 5h8M5 1v8" stroke={T.sub} strokeWidth="1.5" strokeLinecap="round" />
+                    }
+                  </svg>
+                </button>
+              </div>
+
+              {/* Map body */}
+              <div style={{ flex: 1, position: "relative", overflow: "hidden", background: "#E8ECF0" }}>
+                {(selectedHitIdx !== null && filteredHitLog[selectedHitIdx]) ? (() => {
+                  const hit = filteredHitLog[selectedHitIdx];
+                  const uniqueLocations = [];
+                  const seen = new Set();
+                  filteredHitLog.forEach(h => {
+                    const key = `${h.lat},${h.lng}`;
+                    if (!seen.has(key)) { seen.add(key); uniqueLocations.push(h); }
+                  });
+                  const lats = uniqueLocations.map(l => l.lat);
+                  const lngs = uniqueLocations.map(l => l.lng);
+                  const minLat = Math.min(...lats) - 2;
+                  const maxLat = Math.max(...lats) + 2;
+                  const minLng = Math.min(...lngs) - 2;
+                  const maxLng = Math.max(...lngs) + 2;
+                  const project = (lat, lng) => ({
+                    x: ((lng - minLng) / (maxLng - minLng)) * 100,
+                    y: ((maxLat - lat) / (maxLat - minLat)) * 100,
+                  });
+
+                  return (
+                    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+                      <svg width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+                        {[20, 40, 60, 80].map(p => (
+                          <g key={p}>
+                            <line x1={`${p}%`} y1="0" x2={`${p}%`} y2="100%" stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
+                            <line x1="0" y1={`${p}%`} x2="100%" y2={`${p}%`} stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
+                          </g>
+                        ))}
+                      </svg>
+                      {uniqueLocations.map((loc, i) => {
+                        const pos = project(loc.lat, loc.lng);
+                        const isSelected = loc.lat === hit.lat && loc.lng === hit.lng;
+                        return (
+                          <div key={i} style={{
+                            position: "absolute",
+                            left: `${pos.x}%`, top: `${pos.y}%`,
+                            transform: "translate(-50%, -100%)",
+                            zIndex: isSelected ? 10 : 1,
+                            transition: "all 0.3s ease",
+                          }}>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                              <div style={{
+                                width: isSelected ? 28 : 16, height: isSelected ? 28 : 16,
+                                borderRadius: "50% 50% 50% 0",
+                                background: isSelected ? T.accent : T.muted,
+                                transform: "rotate(-45deg)",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                boxShadow: isSelected ? `0 2px 8px ${T.accent}60` : "0 1px 3px rgba(0,0,0,0.15)",
+                                transition: "all 0.3s ease",
+                              }}>
+                                <div style={{
+                                  width: isSelected ? 10 : 6, height: isSelected ? 10 : 6,
+                                  borderRadius: "50%", background: "#fff",
+                                  transform: "rotate(45deg)",
+                                }} />
+                              </div>
+                              <div style={{
+                                width: isSelected ? 12 : 6, height: 3,
+                                borderRadius: "50%",
+                                background: "rgba(0,0,0,0.15)",
+                                marginTop: 2,
+                                transition: "all 0.3s ease",
+                              }} />
+                            </div>
+                            {isSelected && (
+                              <div style={{
+                                position: "absolute", bottom: "calc(100% + 4px)", left: "50%",
+                                transform: "translateX(-50%)",
+                                background: T.ink, color: "#fff",
+                                padding: "3px 8px", borderRadius: 4,
+                                fontSize: 10, fontWeight: 600, fontFamily: font.ui,
+                                whiteSpace: "nowrap",
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                              }}>
+                                {loc.location}
+                                <div style={{
+                                  position: "absolute", top: "100%", left: "50%",
+                                  transform: "translateX(-50%)",
+                                  width: 0, height: 0,
+                                  borderLeft: "4px solid transparent",
+                                  borderRight: "4px solid transparent",
+                                  borderTop: `4px solid ${T.ink}`,
+                                }} />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })() : (
+                  <div style={{
+                    width: "100%", height: "100%",
+                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                    gap: 8, padding: 20, position: "relative",
+                  }}>
+                    <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.4 }}>
+                      {[20, 40, 60, 80].map(p => (
+                        <g key={p}>
+                          <line x1={`${p}%`} y1="0" x2={`${p}%`} y2="100%" stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
+                          <line x1="0" y1={`${p}%`} x2="100%" y2={`${p}%`} stroke={T.border} strokeWidth="0.5" strokeDasharray="4 4" />
+                        </g>
+                      ))}
+                    </svg>
+                    <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+                      <div style={{
+                        width: 44, height: 44, borderRadius: 12, margin: "0 auto 8px",
+                        background: T.faint, display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>
+                        <Icon name="mapPin" size={22} color={T.muted} />
+                      </div>
+                      <div style={{ fontSize: 12, color: T.sub, fontFamily: font.ui, fontWeight: 500 }}>
+                        Select a row to view location
+                      </div>
+                      <div style={{ fontSize: 11, color: T.muted, fontFamily: font.ui, marginTop: 2, fontStyle: "italic" }}>
+                        Location is approximate
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Location legend at bottom */}
+              {mapExpanded && (
+                <div style={{ borderTop: `1px solid ${T.border}`, padding: "10px 14px", flexShrink: 0 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: T.muted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6, fontFamily: font.mono }}>
+                    Locations in view ({[...new Set(filteredHitLog.map(h => h.location))].length})
+                  </div>
+                  <div style={{ maxHeight: 100, overflowY: "auto" }}>
+                    {[...new Map(filteredHitLog.map(h => [h.location, h])).values()].map((h, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0", borderBottom: `1px solid ${T.borderLight}` }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          <div style={{ width: 6, height: 6, borderRadius: "50%", background: T.accent, flexShrink: 0 }} />
+                          <span style={{ fontSize: 11, color: T.ink, fontFamily: font.ui }}>{h.location}</span>
+                        </div>
+                        <span style={{ fontSize: 10, fontFamily: font.mono, color: T.muted }}>
+                          {filteredHitLog.filter(x => x.location === h.location).length} hits
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      )} {/* end explorer tab */}
+
     </div>
   );
 }
@@ -4635,7 +4749,7 @@ export default function PersonalyzAdmin() {
   return (
     <div style={{ display: "flex", height: "100vh", background: T.bg, overflow: "hidden" }}>
       <Sidebar active={view} onNav={handleNav} collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div style={{ flex: 1, overflow: "auto" }}>
+      <div style={{ flex: 1, overflow: view === "analytics" ? "hidden" : "auto", display: "flex", flexDirection: "column" }}>
         {views[view]}
       </div>
     </div>

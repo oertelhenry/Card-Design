@@ -463,259 +463,6 @@ const GLOBAL_STYLES = `
   .match-bar { height:4px; background:var(--border-sub); border-radius:2px; overflow:hidden; flex:1; }
   .match-fill { height:100%; background:linear-gradient(90deg,var(--brand-primary),var(--brand-accent)); border-radius:2px; }
 
-  /* ── Quote Builder v2 ── */
-  .qb-shell {
-    display:flex; flex-direction:column; height:calc(100vh - var(--topbar-h));
-    overflow:hidden; background:var(--bg-base);
-  }
-  .qb-breadcrumb {
-    display:flex; align-items:center; gap:8px;
-    padding:8px 28px; border-bottom:1px solid var(--border-sub);
-    background:rgba(246,244,240,0.95); flex-shrink:0;
-    font-size:12.5px; color:var(--txt-2);
-  }
-  .qb-breadcrumb a { cursor:pointer; color:var(--txt-2); }
-  .qb-breadcrumb a:hover { color:var(--txt-1); }
-  .qb-breadcrumb-sep { color:var(--txt-3); }
-  .qb-meta { margin-left:auto; display:flex; align-items:center; gap:10px; font-size:12px; color:var(--txt-3); font-family:var(--font-m); }
-
-  .qb-tabs-bar {
-    display:flex; align-items:center; gap:2px;
-    padding:10px 28px 0; border-bottom:1px solid var(--border-sub);
-    background:rgba(246,244,240,0.95); flex-shrink:0;
-  }
-  .qb-tab {
-    padding:7px 18px; font-size:13px; font-weight:500;
-    border-radius:var(--r-md) var(--r-md) 0 0;
-    border:1px solid transparent; border-bottom:none;
-    cursor:pointer; transition:all var(--dur-fast);
-    background:transparent; color:var(--txt-2);
-  }
-  .qb-tab:hover { background:rgba(0,0,0,0.04); color:var(--txt-1); }
-  .qb-tab.active {
-    background:var(--brand-accent); color:white;
-    border-color:var(--brand-accent);
-  }
-
-  .qb-content { flex:1; overflow:hidden; display:flex; flex-direction:column; }
-
-  /* Project tab */
-  .qb-project-layout {
-    flex:1; overflow-y:auto; padding:24px 28px;
-    display:grid; grid-template-columns:1fr 360px; gap:20px;
-    align-content:start;
-  }
-  .qb-section-label {
-    font-size:10px; font-weight:700; letter-spacing:1px;
-    text-transform:uppercase; color:var(--txt-3); margin-bottom:12px;
-  }
-  .qb-locked-field {
-    background:rgba(0,0,0,0.025); border:1.5px solid var(--border-med);
-    border-radius:var(--r-md); padding:9px 13px;
-    font-size:13.5px; color:var(--txt-1); margin-bottom:14px;
-    display:flex; align-items:center; gap:8px;
-  }
-  .qb-lock-badge {
-    font-size:9px; font-weight:700; letter-spacing:0.5px;
-    padding:2px 7px; border-radius:var(--r-full);
-    background:rgba(28,53,87,0.10); color:var(--brand-primary);
-    text-transform:uppercase; flex-shrink:0;
-  }
-  .qb-field-label {
-    font-size:12.5px; font-weight:500; color:var(--txt-1); margin-bottom:6px;
-    display:flex; align-items:center; gap:8px;
-  }
-  .qb-summary-card {
-    background:white; border-radius:var(--r-lg);
-    border:1px solid var(--border-sub); box-shadow:var(--shadow-sm);
-    padding:20px; position:sticky; top:0;
-  }
-  .qb-summary-row {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:7px 0; font-size:13px;
-  }
-  .qb-summary-total {
-    font-size:18px; font-weight:700; font-family:var(--font-m);
-    color:var(--txt-1);
-  }
-  .qb-hint-btn {
-    font-size:11px; color:var(--brand-primary); cursor:pointer;
-    background:rgba(28,53,87,0.08); padding:3px 10px;
-    border-radius:var(--r-full); border:none; white-space:nowrap;
-    transition:background var(--dur-fast);
-  }
-  .qb-hint-btn:hover { background:rgba(28,53,87,0.14); }
-
-  /* Items tab */
-  .qb-items-layout { flex:1; overflow:hidden; display:flex; }
-  .qb-boq-panel {
-    width:320px; flex-shrink:0; border-right:1px solid var(--border-sub);
-    display:flex; flex-direction:column; background:white; overflow:hidden;
-  }
-  .qb-boq-header {
-    padding:14px 16px; border-bottom:1px solid var(--border-sub);
-    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
-  }
-  .qb-boq-search {
-    padding:10px 16px; border-bottom:1px solid var(--border-sub); flex-shrink:0;
-  }
-  .qb-boq-tree { flex:1; overflow-y:auto; padding:8px 0; }
-  .qb-tree-section {
-    font-size:12px; font-weight:600; color:var(--txt-1);
-    padding:6px 16px; cursor:pointer; display:flex; align-items:center; gap:6px;
-    transition:background var(--dur-fast);
-  }
-  .qb-tree-section:hover { background:rgba(0,0,0,0.03); }
-  .qb-tree-section .caret { font-size:9px; color:var(--txt-3); flex-shrink:0; }
-  .qb-tree-child {
-    font-size:11.5px; color:var(--txt-2); padding:4px 16px 4px 32px;
-    cursor:pointer; transition:background var(--dur-fast);
-    display:flex; align-items:center; gap:6px;
-  }
-  .qb-tree-child:hover { background:rgba(28,53,87,0.05); color:var(--txt-1); }
-  .qb-tree-child .caret { font-size:8px; color:var(--txt-3); }
-  .qb-tree-grandchild {
-    font-size:11px; color:var(--txt-3); padding:3px 16px 3px 48px;
-    cursor:pointer; transition:background var(--dur-fast);
-  }
-  .qb-tree-grandchild:hover { background:rgba(28,53,87,0.04); color:var(--txt-2); }
-  .qb-tree-custom { padding:8px 16px; border-top:1px solid var(--border-sub); }
-  .qb-tree-custom-label { font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--txt-3); margin-bottom:8px; }
-
-  .qb-line-items-panel { flex:1; display:flex; flex-direction:column; overflow:hidden; }
-  .qb-li-header {
-    padding:14px 20px; border-bottom:1px solid var(--border-sub);
-    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
-    background:white;
-  }
-  .qb-li-table-wrap { flex:1; overflow-y:auto; }
-  .qb-li-tbl { width:100%; border-collapse:collapse; }
-  .qb-li-tbl th {
-    background:rgba(0,0,0,0.025); padding:9px 12px;
-    font-size:10px; font-weight:700; color:var(--txt-2); text-transform:uppercase;
-    letter-spacing:0.5px; text-align:left; position:sticky; top:0; z-index:1;
-    border-bottom:1px solid var(--border-med);
-  }
-  .qb-li-tbl th.r { text-align:right; }
-  .qb-li-group-row td {
-    background:rgba(0,0,0,0.02); padding:7px 12px;
-    font-size:11px; font-weight:700; color:var(--txt-2); text-transform:uppercase;
-    letter-spacing:0.5px; border-bottom:1px solid var(--border-sub);
-  }
-  .qb-li-group-total { font-size:11px; font-weight:700; color:var(--txt-1); text-align:right; font-family:var(--font-m); }
-  .qb-li-subgroup-row td {
-    background:rgba(0,0,0,0.012); padding:5px 12px 5px 20px;
-    font-size:11px; font-weight:600; color:var(--txt-2);
-    border-bottom:1px solid var(--border-sub);
-  }
-  .qb-li-hint-row td {
-    padding:3px 12px 3px 32px;
-    font-size:10.5px; color:var(--txt-3); border-bottom:1px solid var(--border-sub);
-    font-style:italic;
-  }
-  .qb-li-item-row td {
-    padding:9px 12px; font-size:12.5px;
-    border-bottom:1px solid var(--border-sub);
-  }
-  .qb-li-item-row:hover td { background:rgba(28,53,87,0.03); }
-  .qb-rate-inp {
-    width:90px; padding:6px 8px; font-size:12.5px;
-    border:1.5px solid var(--border-med); border-radius:var(--r-sm);
-    font-family:var(--font-m); text-align:right; background:white;
-    transition:border-color var(--dur-fast); outline:none;
-  }
-  .qb-rate-inp:focus { border-color:var(--brand-primary); box-shadow:0 0 0 2px rgba(28,53,87,0.10); }
-  .qb-li-subtotal-bar {
-    padding:10px 20px; border-top:1px solid var(--border-sub);
-    display:flex; align-items:center; justify-content:flex-end; gap:24px;
-    background:rgba(246,244,240,0.9); flex-shrink:0; font-size:12.5px;
-  }
-  .qb-li-total-bar {
-    background:var(--brand-primary); padding:14px 20px;
-    display:flex; align-items:center; justify-content:space-between;
-    flex-shrink:0;
-  }
-  .qb-footer-bar {
-    padding:12px 28px; border-top:1px solid var(--border-sub);
-    background:rgba(246,244,240,0.97); display:flex; align-items:center; justify-content:space-between;
-    flex-shrink:0;
-  }
-
-  /* ── Milestones tab ── */
-  .qb-ms-layout {
-    flex:1; overflow-y:auto; padding:24px 28px;
-    display:grid; grid-template-columns:1fr 320px; gap:20px;
-    align-content:start;
-  }
-  .qb-ms-card { background:white; border-radius:var(--r-lg); border:1px solid var(--border-sub); box-shadow:var(--shadow-sm); }
-  .qb-ms-card-head {
-    padding:14px 20px; border-bottom:1px solid var(--border-sub);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .qb-ms-item {
-    border-bottom:1px solid var(--border-sub); padding:16px 20px;
-    transition:background var(--dur-fast); position:relative;
-  }
-  .qb-ms-item:last-child { border-bottom:none; }
-  .qb-ms-item:hover { background:rgba(0,0,0,0.012); }
-  .qb-ms-num {
-    width:26px; height:26px; border-radius:50%; background:var(--brand-primary);
-    color:white; font-size:11px; font-weight:700;
-    display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .qb-ms-num.complete { background:var(--success); }
-  .qb-ms-num.warning  { background:var(--warning); }
-  .qb-ms-connector {
-    position:absolute; left:33px; top:42px; bottom:-16px;
-    width:2px; background:var(--border-sub); z-index:0;
-  }
-  .qb-ms-item:last-child .qb-ms-connector { display:none; }
-  .qb-ms-amount-inp {
-    width:130px; padding:7px 10px; font-size:13px;
-    border:1.5px solid var(--border-med); border-radius:var(--r-md);
-    font-family:var(--font-m); text-align:right; background:white;
-    transition:border-color var(--dur-fast); outline:none;
-  }
-  .qb-ms-amount-inp:focus { border-color:var(--brand-primary); box-shadow:0 0 0 2px rgba(28,53,87,0.10); }
-  .qb-ms-pct-pill {
-    font-size:10.5px; font-weight:700; padding:2px 8px;
-    border-radius:var(--r-full); background:rgba(28,53,87,0.08);
-    color:var(--brand-primary); font-family:var(--font-m); min-width:44px; text-align:center;
-  }
-  .qb-ms-pct-pill.over { background:var(--error-bg); color:var(--error); }
-  .qb-ms-pct-pill.done { background:var(--success-bg); color:var(--success); }
-  .qb-ms-allocation-bar {
-    height:10px; border-radius:5px; background:var(--border-sub);
-    overflow:hidden; position:relative; margin:4px 0;
-  }
-  .qb-ms-allocation-fill {
-    height:100%; border-radius:5px;
-    transition:width 0.4s var(--ease-out);
-  }
-  .qb-ms-summary-stat {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:8px 0; border-bottom:1px solid var(--border-sub); font-size:13px;
-  }
-  .qb-ms-summary-stat:last-child { border-bottom:none; }
-  .qb-ms-diff-badge {
-    display:inline-flex; align-items:center; gap:5px;
-    padding:4px 12px; border-radius:var(--r-full);
-    font-size:12px; font-weight:700; font-family:var(--font-m);
-  }
-  .qb-ms-diff-badge.balanced { background:var(--success-bg); color:var(--success); }
-  .qb-ms-diff-badge.over     { background:var(--error-bg);   color:var(--error); }
-  .qb-ms-diff-badge.under    { background:var(--warning-bg); color:var(--warning); }
-  .qb-ms-status-sel {
-    padding:4px 10px; border-radius:var(--r-full); font-size:11px; font-weight:600;
-    border:1.5px solid var(--border-med); background:white; cursor:pointer; outline:none;
-    transition:all var(--dur-fast);
-  }
-  .qb-ms-bank-note {
-    background:rgba(28,53,87,0.05); border-radius:var(--r-md);
-    border:1px solid rgba(28,53,87,0.12); padding:12px 16px;
-    font-size:12px; color:var(--txt-2); line-height:1.6;
-  }
-
   /* ── Welcome screen ── */
   .welcome-wrap { min-height:100vh; display:flex; background:var(--bg-base); overflow:hidden; }
   .welcome-left {
@@ -1736,646 +1483,158 @@ const BuilderDashboard = ({ setScreen }) => (
 // ─────────────────────────────────────────────────────────────────────────────
 // SCREEN 5 — QUOTE BUILDER
 // ─────────────────────────────────────────────────────────────────────────────
-// BOQ tree data for the browser panel
-const BOQ_TREE = [
-  { id:1,  label:"1: PRELIMINARIES", children:[] },
-  { id:2,  label:"2: ALTERATIONS", children:[] },
-  { id:3,  label:"3: EARTHWORKS (PROVISIONAL)", open:true, children:[
-    { label:"DEMOLITIONS ETC", children:[
-      { label:"Breaking up and removing" }
-    ]},
-    { label:"SITE CLEARANCE ETC", children:[] },
-    { label:"REMOVAL OF TREES ETC", children:[] },
-    { label:"BULK EXCAVATION, FILLING, ETC", children:[] },
-    { label:"EXCAVATION, FILLING, ETC", children:[] },
-    { label:"STONE PITCHING", children:[
-      { label:"Stone pitching of approximately 225mm diameter riverstones tightly packed…" }
-    ]},
-    { label:"GRASSING", children:[] },
-    { label:"GABIONS", children:[] },
-    { label:"INTERLOCKING BLOCK RETAINING STRUCTURES", children:[] },
-    { label:"RESOURCE RATES", children:[] },
-  ]},
-  { id:4,  label:"4: CONCRETE, FORMWORK AND REINFORCEMENT", children:[] },
-  { id:5,  label:"5: PRECAST CONCRETE", children:[] },
-  { id:6,  label:"6: MASONRY", children:[] },
-  { id:7,  label:"7: WATERPROOFING", children:[] },
-  { id:8,  label:"8: ROOF COVERINGS", children:[] },
-  { id:9,  label:"9: CARPENTRY AND JOINERY", children:[] },
-  { id:10, label:"10: CEILINGS, PARTITIONS AND ACCESS FLOORING", children:[] },
-  { id:11, label:"11: FLOOR COVERINGS, WALL LININGS, ETC", children:[] },
-  { id:12, label:"12: IRONMONGERY", children:[] },
-  { id:13, label:"13: STRUCTURAL STEELWORK", children:[] },
-  { id:14, label:"14: METALWORK", children:[] },
-  { id:15, label:"15: PLASTERING", children:[] },
-  { id:16, label:"16: TILING", children:[] },
-  { id:17, label:"17: PLUMBING AND DRAINAGE (PROVISIONAL)", children:[] },
-  { id:18, label:"18: ELECTRICAL WORK", children:[] },
-  { id:19, label:"19: GLAZING", children:[] },
-  { id:20, label:"20: PAINTWORK", children:[] },
-  { id:21, label:"21: PAPERHANGING", children:[] },
-  { id:22, label:"22: EXTERNAL WORK", children:[] },
-];
-
-// Quote line items for the Items tab (matching screenshot)
-const QB_LINE_ITEMS = [
-  {
-    group:"EARTHWORKS (PROVISIONAL)", groupTotal:570,
-    subgroups:[
-      {
-        label:"DEMOLITIONS ETC", hint:"Breaking up and removing", items:[
-          { n:1, desc:"115 x 170mm Brick kerbs with mortar joints", qty:1, unit:"m",  rate:348, total:348 },
-        ]
-      },
-      {
-        label:"STONE PITCHING", hint:"Stone pitching of approximately 225mm diameter riverstones tightly packed including preparation of groundsurface under", items:[
-          { n:2, desc:"225mm Thick against sloping banks bedded and jointed in 1:8 cement mortar and pointed with hollow recessed joints", qty:1, unit:"m2", rate:238, total:238 },
-        ]
-      },
-    ]
-  },
-  {
-    group:"MASONRY", groupTotal:51580,
-    subgroups:[
-      {
-        label:"FACE BLOCKWORK", hint:"Face blocks in class II mortar pointed with flush horizontal and vertical joints", items:[
-          { n:1, desc:"90mm Internal Block Walls (Rock/Fairface Finish both Sides)", qty:11, unit:"m2", rate:4560, total:50160 },
-          { n:2, desc:"90mm Internal Block Walls (Rock/Fairface Finish both Sides)", qty:1,  unit:"m2", rate:670,  total:670  },
-          { n:3, desc:"90mm Internal Block Walls (Rock/Fairface Finish both Sides)", qty:1,  unit:"m2", rate:670,  total:670  },
-        ]
-      },
-    ]
-  },
-  {
-    group:"CARPENTRY AND JOINERY", groupTotal:153048,
-    subgroups:[
-      {
-        label:"FLOORS ETC", hint:"Wrought softwood", items:[
-          { n:1, desc:"S.A. Pine T&G Floor Boards", qty:31, unit:"Item", rate:4338, total:134238 },
-        ]
-      },
-      {
-        label:"WINDOWS", hint:"Wrought timber windows", items:[
-          { n:2, desc:"Swartland Cape Culture Cape Dutch (Small Pane) Mock Sash Window SMS1 CD w:794 h:1200", qty:2, unit:"No", rate:6639, total:13278 },
-          { n:3, desc:"Swartland Cape Culture Cape Dutch (Small Pane) Mock Sash Window SMS1.5 CD w:794 h:900", qty:1, unit:"No", rate:5548, total:5548  },
-        ]
-      },
-    ]
-  },
-];
-
 const QuoteBuilderScreen = ({ setScreen }) => {
-  const [activeTab, setActiveTab]         = useState("project");
-  const [quoteValidity, setQuoteValidity] = useState("30 days");
-  const [paymentTerms, setPaymentTerms]   = useState("");
-  const [exclusions, setExclusions]       = useState("");
-  const [assumptions, setAssumptions]     = useState("");
-  const [boqSearch, setBoqSearch]         = useState("");
-  const [openSections, setOpenSections]   = useState({ 3: true });
-  const [lineItems, setLineItems]         = useState(QB_LINE_ITEMS);
-  const [milestones, setMilestones]       = useState([
-    { id:1, label:"Deposit / Mobilisation",      description:"Site establishment, temporary structures, and initial materials procurement.", amount:23588, dueDate:"2026-07-01", status:"pending", invoiced:false },
-    { id:2, label:"Foundations Complete",         description:"All foundation work completed and signed off by structural engineer.", amount:47177, dueDate:"2026-08-15", status:"pending", invoiced:false },
-    { id:3, label:"Wallplate Level (50% build)",  description:"Brickwork to wallplate height, all door frames in, first-fix plumbing rough-in.", amount:70765, dueDate:"2026-10-01", status:"pending", invoiced:false },
-    { id:4, label:"Roof Structure & Covering",    description:"Roof structure, covering, gutters, and fascias complete and weathertight.", amount:47177, dueDate:"2026-11-15", status:"pending", invoiced:false },
-    { id:5, label:"Practical Completion",         description:"All work completed including final electrical, plumbing, tiling, and painting. Occupation certificate obtained.", amount:47177, dueDate:"2027-01-31", status:"pending", invoiced:false },
-  ]);
-  const [msNotes, setMsNotes]             = useState("");
-
-  const fmt = n => `R ${Number(n).toLocaleString("en-ZA")}`;
-  const fmtDec = n => {
-    const s = Number(n).toLocaleString("en-ZA", { minimumFractionDigits:2, maximumFractionDigits:2 });
-    return `R ${s}`;
-  };
-
-  // Compute totals from line items
-  const subtotal = lineItems.reduce((acc, grp) =>
-    acc + grp.subgroups.reduce((a2, sg) =>
-      a2 + sg.items.reduce((a3, it) => a3 + it.total, 0), 0), 0);
-  const vat   = Math.round(subtotal * 0.15);
-  const total = subtotal + vat;
-
-  const toggleSection = (id) => setOpenSections(s => ({ ...s, [id]: !s[id] }));
-
-  const handleRateChange = (gIdx, sgIdx, iIdx, val) => {
-    setLineItems(prev => {
-      const next = prev.map((g, gi) => gi !== gIdx ? g : {
-        ...g,
-        subgroups: g.subgroups.map((sg, si) => si !== sgIdx ? sg : {
-          ...sg,
-          items: sg.items.map((it, ii) => {
-            if (ii !== iIdx) return it;
-            const r = parseFloat(val) || 0;
-            return { ...it, rate: r, total: Math.round(r * it.qty) };
-          })
-        })
-      });
-      return next;
-    });
-  };
-
-  const removeItem = (gIdx, sgIdx, iIdx) => {
-    setLineItems(prev => prev.map((g, gi) => gi !== gIdx ? g : {
-      ...g,
-      subgroups: g.subgroups.map((sg, si) => si !== sgIdx ? sg : {
-        ...sg,
-        items: sg.items.filter((_, ii) => ii !== iIdx)
-      })
-    }));
-  };
+  const subtotal = QUOTE_ITEMS.reduce((a, i) => a + i.total, 0);
+  const vat      = Math.round(subtotal * 0.15);
+  const total    = subtotal + vat;
+  const fmt      = n => `R ${n.toLocaleString("en-ZA")}`;
 
   return (
-    <div className="qb-shell">
-      {/* Breadcrumb */}
-      <div className="qb-breadcrumb">
-        <a onClick={() => setScreen("builder-dashboard")}>← Project</a>
-        <span className="qb-breadcrumb-sep">|</span>
-        <span style={{color:"var(--txt-1)",fontWeight:500}}>Quote Builder</span>
-        <div className="qb-meta">
+    <div className="page-wrap">
+      <div className="flex items-c gap-3 mb-4">
+        <button className="btn btn-ghost btn-sm" onClick={() => setScreen("builder-dashboard")}>← Dashboard</button>
+        <span className="c-3 caption">/ Quote Builder</span>
+        <div className="ml-auto flex gap-2 items-c">
           <span className="badge b-draft">Draft</span>
-          <span>QUO-2026-0030</span>
+          <span className="caption c-3 fs-m">QUO-2025-047</span>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="qb-tabs-bar">
-        <button className={`qb-tab ${activeTab === "project"    ? "active" : ""}`} onClick={() => setActiveTab("project")}>Project</button>
-        <button className={`qb-tab ${activeTab === "items"      ? "active" : ""}`} onClick={() => setActiveTab("items")}>Items</button>
-        <button className={`qb-tab ${activeTab === "milestones" ? "active" : ""}`} onClick={() => setActiveTab("milestones")}>Milestones</button>
+      <div className="grid-2 gap-6 mb-5" style={{ gridTemplateColumns:"1fr 1fr" }}>
+        <div className="card p-5">
+          <div className="caption fw-6 mb-3 c-3 uppercase" style={{letterSpacing:"0.6px",fontSize:"10.5px"}}>Project</div>
+          <div className="h-3 mb-1">Pretoria New Build 3-Bed Cluster</div>
+          <div className="caption c-2 mb-1">📍 Waterkloof, Pretoria — BQ-2024-003</div>
+          <div className="caption c-2">Client: Andre van Wyk</div>
+          <div className="flex gap-2 mt-3 flex-wrap">
+            <Tag>New Build</Tag><Tag>Residential</Tag><Tag>3 Bed</Tag>
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="caption fw-6 mb-3 c-3 uppercase" style={{letterSpacing:"0.6px",fontSize:"10.5px"}}>Quote Summary</div>
+          <div className="flex items-c j-between mb-2">
+            <span className="caption c-2">Subtotal (excl. VAT)</span>
+            <span className="caption fw-6 fs-m">{fmt(subtotal)}</span>
+          </div>
+          <div className="flex items-c j-between mb-2">
+            <span className="caption c-2">VAT (15%)</span>
+            <span className="caption fw-6 fs-m">{fmt(vat)}</span>
+          </div>
+          <div className="divider" style={{margin:"10px 0"}} />
+          <div className="flex items-c j-between">
+            <span className="h-4">Total (incl. VAT)</span>
+            <span className="h-3 c-brand fs-m">{fmt(total)}</span>
+          </div>
+          <div className="caption c-3 mt-2">
+            ⚠️ Variance check: <span className="c-success fw-5">Within expected range (±8%)</span>
+          </div>
+        </div>
       </div>
 
-      {/* Tab Content */}
-      <div className="qb-content">
-
-        {/* ── PROJECT TAB ── */}
-        {activeTab === "project" && (
-          <div className="qb-project-layout">
-            {/* Left column */}
-            <div>
-              {/* Project Details card */}
-              <div className="card mb-4">
-                <div className="card-body">
-                  <div className="qb-section-label">Project Details</div>
-
-                  <div className="f-group mb-3">
-                    <div className="qb-field-label">
-                      Client Name <span className="qb-lock-badge">LOCKED</span>
-                    </div>
-                    <div className="qb-locked-field">Brendan Smith</div>
-                  </div>
-
-                  <div className="f-group mb-3">
-                    <div className="qb-field-label">
-                      Project Description <span className="qb-lock-badge">LOCKED</span>
-                    </div>
-                    <div className="qb-locked-field">Residential Single Storey Rear Extension</div>
-                  </div>
-
-                  <div className="f-group mb-0">
-                    <div className="qb-field-label">
-                      Site Address <span className="qb-lock-badge">LOCKED</span>
-                    </div>
-                    <div className="qb-locked-field">Rabie Street, Randpark Ridge, Randburg, Gauteng</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quote Terms & Conditions */}
-              <div className="card">
-                <div className="card-body">
-                  <div className="qb-section-label" style={{marginBottom:16}}>Quote Terms &amp; Conditions</div>
-
-                  <div className="f-group">
-                    <label className="f-label">Quote Validity</label>
-                    <select className="inp" value={quoteValidity} onChange={e => setQuoteValidity(e.target.value)}>
-                      <option>14 days</option>
-                      <option>30 days</option>
-                      <option>60 days</option>
-                    </select>
-                  </div>
-
-                  <div className="f-group">
-                    <div className="flex items-c j-between mb-2">
-                      <label className="f-label" style={{marginBottom:0}}>Payment Terms</label>
-                      <button className="qb-hint-btn" onClick={() => setPaymentTerms("10/80/10 — Deposit / Progress / Completion")}>Load sample payment terms</button>
-                    </div>
-                    <textarea className="inp" style={{minHeight:100}} value={paymentTerms} onChange={e => setPaymentTerms(e.target.value)} placeholder="e.g. 10/80/10 — Deposit / Progress / Completion" />
-                  </div>
-
-                  <div className="f-group">
-                    <div className="flex items-c j-between mb-2">
-                      <label className="f-label" style={{marginBottom:0}}>Exclusions</label>
-                      <button className="qb-hint-btn" onClick={() => setExclusions("Landscaping, external paving, appliances, boundary walls, swimming pool, any work not specifically mentioned in the BOQ.")}>Load sample exclusions</button>
-                    </div>
-                    <textarea className="inp" style={{minHeight:100}} value={exclusions} onChange={e => setExclusions(e.target.value)} placeholder="List items not included in this quote…" />
-                  </div>
-
-                  <div className="f-group mb-0">
-                    <div className="flex items-c j-between mb-2">
-                      <label className="f-label" style={{marginBottom:0}}>Assumptions</label>
-                      <button className="qb-hint-btn" onClick={() => setAssumptions("Soil suitable for strip foundations. Approved plans supplied by client. No rock excavation anticipated.")}>Load sample assumptions</button>
-                    </div>
-                    <textarea className="inp" style={{minHeight:100}} value={assumptions} onChange={e => setAssumptions(e.target.value)} placeholder="e.g. Soil suitable for strip foundations…" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right column — Quote Summary */}
-            <div>
-              <div className="qb-summary-card">
-                <div className="qb-section-label mb-4">Quote Summary</div>
-
-                <div className="qb-summary-row" style={{borderBottom:"1px solid var(--border-sub)", paddingBottom:10, marginBottom:6}}>
-                  <span className="caption c-2">Subtotal (excl. VAT)</span>
-                  <span className="caption fw-6 fs-m">{fmtDec(subtotal)}</span>
-                </div>
-                <div className="qb-summary-row" style={{borderBottom:"1px solid var(--border-sub)", paddingBottom:10, marginBottom:12}}>
-                  <span className="caption c-2">VAT (15%)</span>
-                  <span className="caption fw-6 fs-m">{fmtDec(vat)}</span>
-                </div>
-
-                <div className="flex items-c j-between mb-1">
-                  <span className="h-4">Total (incl. VAT)</span>
-                  <span className="qb-summary-total">{fmtDec(total)}</span>
-                </div>
-                <div className="caption c-3 mt-2">{lineItems.reduce((a,g) => a + g.subgroups.reduce((b,sg) => b + sg.items.length, 0), 0)} line items added</div>
-              </div>
-            </div>
+      <div className="card mb-4">
+        <div className="card-head j-between">
+          <span className="h-3">Line Items</span>
+          <div className="flex gap-2">
+            <button className="btn btn-secondary btn-sm">+ Add Category</button>
+            <button className="btn btn-primary btn-sm">+ Add Line Item</button>
           </div>
-        )}
-
-        {/* ── ITEMS TAB ── */}
-        {activeTab === "items" && (
-          <div className="qb-items-layout">
-            {/* BOQ Browser panel */}
-            <div className="qb-boq-panel">
-              <div className="qb-boq-header">
-                <span className="h-4">BOQ Browser</span>
-                <span className="caption c-3">774 sections</span>
-              </div>
-              <div className="qb-boq-search">
-                <input className="inp" style={{fontSize:12.5}} placeholder="Search BOQ items…" value={boqSearch} onChange={e => setBoqSearch(e.target.value)} />
-              </div>
-              <div className="qb-boq-tree">
-                {BOQ_TREE.map(section => (
-                  <div key={section.id}>
-                    <div className="qb-tree-section" onClick={() => toggleSection(section.id)}>
-                      <span className="caret">{openSections[section.id] ? "▼" : "▶"}</span>
-                      {section.label}
-                    </div>
-                    {openSections[section.id] && section.children && section.children.map((child, ci) => (
-                      <div key={ci}>
-                        <div className="qb-tree-child">
-                          {child.children && child.children.length > 0 && <span className="caret">▶</span>}
-                          {child.label}
-                        </div>
-                        {child.children && child.children.map((gc, gci) => (
-                          <div key={gci} className="qb-tree-grandchild">{gc.label}</div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-                <div className="qb-tree-custom">
-                  <div className="qb-tree-custom-label">Custom Items</div>
-                  <div className="flex gap-2">
-                    <button className="qb-hint-btn">+ Heading</button>
-                    <button className="qb-hint-btn">+ Item</button>
-                  </div>
-                  <div className="qb-tree-child mt-2" style={{paddingLeft:0}}>My Custom Heading</div>
-                  <div className="qb-tree-child" style={{paddingLeft:0}}>Removals</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quote Line Items panel */}
-            <div className="qb-line-items-panel">
-              <div className="qb-li-header">
-                <span className="h-4">Quote Line Items</span>
-                <div className="flex items-c gap-3">
-                  <button className="btn btn-ghost btn-sm" title="List view">☰</button>
-                  <button className="btn btn-ghost btn-sm" title="Grid view">⊞</button>
-                  <span className="caption c-3">{lineItems.reduce((a,g) => a + g.subgroups.reduce((b,sg) => b + sg.items.length, 0), 0)} items</span>
-                </div>
-              </div>
-
-              <div className="qb-li-table-wrap">
-                <table className="qb-li-tbl">
-                  <thead>
-                    <tr>
-                      <th style={{width:32}}>#</th>
-                      <th>Description</th>
-                      <th style={{width:80}} className="r">QTY</th>
-                      <th style={{width:72}}>UNIT</th>
-                      <th style={{width:120}} className="r">RATE (R) *</th>
-                      <th style={{width:110}} className="r">TOTAL (R)</th>
-                      <th style={{width:36}} />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lineItems.map((group, gIdx) => {
-                      const groupTotal = group.subgroups.reduce((a,sg) => a + sg.items.reduce((b,it) => b + it.total, 0), 0);
-                      const itemCount  = group.subgroups.reduce((a,sg) => a + sg.items.length, 0);
-                      return [
-                        <tr key={`g-${gIdx}`} className="qb-li-group-row">
-                          <td colSpan={5} style={{fontWeight:700,fontSize:11,color:"var(--txt-2)",textTransform:"uppercase",letterSpacing:"0.5px"}}>
-                            {group.group}
-                            <span style={{fontWeight:400,marginLeft:8,color:"var(--txt-3)"}}>{itemCount} items</span>
-                          </td>
-                          <td className="qb-li-group-total">{fmtDec(groupTotal)}</td>
-                          <td />
-                        </tr>,
-                        ...group.subgroups.map((sg, sgIdx) => [
-                          <tr key={`sg-${gIdx}-${sgIdx}`} className="qb-li-subgroup-row">
-                            <td colSpan={7} style={{paddingLeft:20}}>
-                              <div style={{fontWeight:700,fontSize:11,color:"var(--txt-2)"}}>{sg.label}</div>
-                              <div style={{fontWeight:400,fontSize:10.5,color:"var(--txt-3)",marginTop:2,fontStyle:"italic"}}>{sg.hint}</div>
-                            </td>
-                          </tr>,
-                          ...sg.items.map((item, iIdx) => (
-                            <tr key={`i-${gIdx}-${sgIdx}-${iIdx}`} className="qb-li-item-row">
-                              <td className="caption c-3" style={{textAlign:"center"}}>{item.n}</td>
-                              <td style={{fontSize:12.5}}>{item.desc}</td>
-                              <td style={{textAlign:"right",fontFamily:"var(--font-m)",fontSize:12.5}}>{item.qty}</td>
-                              <td><span className="caption c-3">{item.unit}</span></td>
-                              <td style={{textAlign:"right"}}>
-                                <input
-                                  className="qb-rate-inp"
-                                  type="number"
-                                  value={item.rate}
-                                  onChange={e => handleRateChange(gIdx, sgIdx, iIdx, e.target.value)}
-                                />
-                              </td>
-                              <td style={{textAlign:"right",fontFamily:"var(--font-m)",fontWeight:600,fontSize:12.5}}>
-                                {item.total.toLocaleString("en-ZA")}
-                              </td>
-                              <td>
-                                <button className="btn btn-ghost btn-sm" style={{color:"var(--txt-3)",padding:"3px 6px",fontSize:13}} onClick={() => removeItem(gIdx, sgIdx, iIdx)}>✕</button>
-                              </td>
-                            </tr>
-                          ))
-                        ]).flat()
-                      ];
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Subtotals */}
-              <div className="qb-li-subtotal-bar">
-                <span className="caption c-2">Subtotal (excl. VAT)</span>
-                <span className="caption fw-6 fs-m">{fmtDec(subtotal)}</span>
-                <span className="caption c-2" style={{marginLeft:8}}>VAT (15%)</span>
-                <span className="caption fw-6 fs-m">{fmtDec(vat)}</span>
-              </div>
-
-              {/* Total bar */}
-              <div className="qb-li-total-bar">
-                <span style={{color:"white",fontWeight:700,fontSize:14,letterSpacing:"0.2px"}}>TOTAL (incl. VAT)</span>
-                <span style={{color:"white",fontWeight:700,fontSize:16,fontFamily:"var(--font-m)"}}>{fmtDec(total)}</span>
-              </div>
-
-              <div style={{padding:"8px 20px",background:"rgba(246,244,240,0.9)",fontSize:11,color:"var(--txt-3)",borderTop:"1px solid var(--border-sub)"}}>
-                * Rate is required for all items before submitting.
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ── MILESTONES TAB ── */}
-        {activeTab === "milestones" && (() => {
-          const msTotal      = milestones.reduce((a, m) => a + (parseFloat(m.amount) || 0), 0);
-          const diff         = msTotal - total;
-          const diffPct      = total > 0 ? ((msTotal / total) * 100).toFixed(1) : 0;
-          const balanced     = Math.abs(diff) < 1;
-          const over         = diff > 0.5;
-          const fillPct      = Math.min((msTotal / (total || 1)) * 100, 100);
-          const fillColor    = balanced ? "var(--success)" : over ? "var(--error)" : "var(--warning)";
-          const diffLabel    = balanced ? "✓ Balanced" : over ? `▲ Over by ${fmtDec(diff)}` : `▼ Under by ${fmtDec(Math.abs(diff))}`;
-          const diffClass    = balanced ? "balanced" : over ? "over" : "under";
-
-          const updateMs = (id, field, val) =>
-            setMilestones(prev => prev.map(m => m.id === id ? { ...m, [field]: val } : m));
-          const addMs = () =>
-            setMilestones(prev => [...prev, { id: Date.now(), label:"", description:"", amount:0, dueDate:"", status:"pending", invoiced:false }]);
-          const removeMs = id =>
-            setMilestones(prev => prev.filter(m => m.id !== id));
-
-          const statusColors = { pending:"var(--txt-3)", approved:"var(--success)", invoiced:"var(--brand-primary)", paid:"var(--success)" };
-          const statusLabels = { pending:"Pending", approved:"Approved", invoiced:"Invoiced", paid:"Paid" };
-
-          return (
-            <div className="qb-ms-layout">
-              {/* Left — milestone list */}
-              <div>
-                {/* Allocation indicator */}
-                <div className="qb-ms-card mb-4">
-                  <div style={{padding:"16px 20px"}}>
-                    <div className="flex items-c j-between mb-3">
-                      <div>
-                        <div className="qb-section-label mb-1">Drawdown Allocation</div>
-                        <div className="caption c-2">Milestone amounts must equal the total quote value for bank approval.</div>
-                      </div>
-                      <span className={`qb-ms-diff-badge ${diffClass}`}>{diffLabel}</span>
-                    </div>
-                    <div className="qb-ms-allocation-bar">
-                      <div className="qb-ms-allocation-fill" style={{width:`${fillPct}%`, background:fillColor}} />
-                    </div>
-                    <div className="flex j-between mt-2">
-                      <span className="micro c-3">R 0</span>
-                      <span className="micro c-3" style={{fontFamily:"var(--font-m)",fontWeight:600,color:fillColor}}>{diffPct}% allocated</span>
-                      <span className="micro c-3 fs-m">{fmtDec(total)}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Milestones list */}
-                <div className="qb-ms-card mb-4">
-                  <div className="qb-ms-card-head">
-                    <div>
-                      <span className="h-4">Payment Milestones</span>
-                      <span className="caption c-3 ml-auto" style={{marginLeft:10}}>{milestones.length} milestones</span>
-                    </div>
-                    <button className="btn btn-primary btn-sm" onClick={addMs}>+ Add Milestone</button>
-                  </div>
-
-                  {milestones.map((ms, idx) => {
-                    const pct = total > 0 ? ((parseFloat(ms.amount)||0) / total * 100).toFixed(1) : "0.0";
-                    const pctOver = parseFloat(pct) > 60;
-                    return (
-                      <div key={ms.id} className="qb-ms-item">
-                        <div className="qb-ms-connector" />
-                        <div className="flex items-s gap-3">
-                          <div className="qb-ms-num" style={{marginTop:2}}>{idx + 1}</div>
-                          <div style={{flex:1, minWidth:0}}>
-                            {/* Row 1: label + status + remove */}
-                            <div className="flex items-c gap-3 mb-2" style={{flexWrap:"wrap"}}>
-                              <input
-                                className="inp"
-                                style={{flex:1,minWidth:180,fontSize:13,fontWeight:600,padding:"6px 10px"}}
-                                placeholder="Milestone name, e.g. Foundations Complete"
-                                value={ms.label}
-                                onChange={e => updateMs(ms.id, "label", e.target.value)}
-                              />
-                              <select
-                                className="qb-ms-status-sel"
-                                value={ms.status}
-                                onChange={e => updateMs(ms.id, "status", e.target.value)}
-                                style={{color:statusColors[ms.status]}}
-                              >
-                                {Object.entries(statusLabels).map(([k,v]) => <option key={k} value={k}>{v}</option>)}
-                              </select>
-                              <button className="btn btn-ghost btn-sm" style={{color:"var(--txt-3)",padding:"3px 8px",fontSize:13,flexShrink:0}} onClick={() => removeMs(ms.id)}>✕</button>
-                            </div>
-
-                            {/* Row 2: description */}
-                            <textarea
-                              className="inp"
-                              style={{fontSize:12,minHeight:54,marginBottom:10,color:"var(--txt-2)"}}
-                              placeholder="Describe the work scope covered by this milestone…"
-                              value={ms.description}
-                              onChange={e => updateMs(ms.id, "description", e.target.value)}
-                            />
-
-                            {/* Row 3: amount + due date + % pill */}
-                            <div className="flex items-c gap-3" style={{flexWrap:"wrap"}}>
-                              <div style={{display:"flex",alignItems:"center",gap:6}}>
-                                <span className="caption c-3" style={{whiteSpace:"nowrap"}}>R</span>
-                                <input
-                                  className="qb-ms-amount-inp"
-                                  type="number"
-                                  placeholder="0.00"
-                                  value={ms.amount || ""}
-                                  onChange={e => updateMs(ms.id, "amount", parseFloat(e.target.value) || 0)}
-                                />
-                              </div>
-                              <div style={{display:"flex",alignItems:"center",gap:6}}>
-                                <span className="caption c-3" style={{whiteSpace:"nowrap"}}>Due</span>
-                                <input
-                                  className="inp"
-                                  type="date"
-                                  style={{width:148,fontSize:12.5,padding:"6px 10px"}}
-                                  value={ms.dueDate}
-                                  onChange={e => updateMs(ms.id, "dueDate", e.target.value)}
-                                />
-                              </div>
-                              <div style={{display:"flex",alignItems:"center",gap:6}}>
-                                <label style={{display:"flex",alignItems:"center",gap:5,fontSize:12,color:"var(--txt-2)",cursor:"pointer",userSelect:"none"}}>
-                                  <input
-                                    type="checkbox"
-                                    checked={ms.invoiced}
-                                    onChange={e => updateMs(ms.id, "invoiced", e.target.checked)}
-                                    style={{accentColor:"var(--brand-primary)",width:14,height:14}}
-                                  />
-                                  Invoice sent
-                                </label>
-                              </div>
-                              <span className={`qb-ms-pct-pill ${pctOver ? "over" : ""} ml-auto`}>{pct}%</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Bank draw-down notes */}
-                <div className="qb-ms-card">
-                  <div className="qb-ms-card-head">
-                    <span className="h-4">Draw-down Notes</span>
-                  </div>
-                  <div style={{padding:"16px 20px"}}>
-                    <textarea
-                      className="inp"
-                      style={{minHeight:90}}
-                      placeholder="Any special conditions for payment releases, inspection requirements, or bank inspector notes…"
-                      value={msNotes}
-                      onChange={e => setMsNotes(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Right — summary panel */}
-              <div>
-                {/* Totals summary */}
-                <div className="qb-ms-card mb-4" style={{padding:"18px 20px"}}>
-                  <div className="qb-section-label mb-4">Milestone Summary</div>
-
-                  <div className="qb-ms-summary-stat">
-                    <span className="caption c-2">Quote Total (incl. VAT)</span>
-                    <span className="caption fw-6 fs-m">{fmtDec(total)}</span>
-                  </div>
-                  <div className="qb-ms-summary-stat">
-                    <span className="caption c-2">Total Allocated</span>
-                    <span className="caption fw-6 fs-m" style={{color: over ? "var(--error)" : msTotal > 0 ? "var(--txt-1)" : "var(--txt-3)"}}>{fmtDec(msTotal)}</span>
-                  </div>
-                  <div className="qb-ms-summary-stat">
-                    <span className="caption c-2">Difference</span>
-                    <span className={`qb-ms-diff-badge ${diffClass}`} style={{fontSize:11,padding:"2px 10px"}}>{diffLabel}</span>
-                  </div>
-                  <div className="qb-ms-summary-stat" style={{marginTop:4}}>
-                    <span className="caption c-2">Milestones</span>
-                    <span className="caption fw-6">{milestones.length}</span>
-                  </div>
-                  <div className="qb-ms-summary-stat">
-                    <span className="caption c-2">Invoiced</span>
-                    <span className="caption fw-6 c-brand">{milestones.filter(m => m.invoiced).length} of {milestones.length}</span>
-                  </div>
-                </div>
-
-                {/* Per-milestone breakdown */}
-                <div className="qb-ms-card mb-4">
-                  <div className="qb-ms-card-head" style={{padding:"12px 16px"}}>
-                    <span className="caption fw-6">Breakdown</span>
-                  </div>
-                  {milestones.map((ms, idx) => {
-                    const pct = total > 0 ? ((parseFloat(ms.amount)||0) / total * 100).toFixed(1) : "0.0";
-                    const w   = Math.min(parseFloat(pct), 100);
-                    return (
-                      <div key={ms.id} style={{padding:"10px 16px", borderBottom:"1px solid var(--border-sub)"}}>
-                        <div className="flex items-c j-between mb-1">
-                          <span className="caption fw-5 truncate" style={{maxWidth:160}}>{ms.label || `Milestone ${idx+1}`}</span>
-                          <span className="micro fs-m c-2">{pct}%</span>
-                        </div>
-                        <div className="qb-ms-allocation-bar" style={{height:6,margin:0}}>
-                          <div className="qb-ms-allocation-fill" style={{width:`${w}%`,background:"var(--brand-primary)"}} />
-                        </div>
-                        <div className="flex j-between mt-1">
-                          <span className="micro c-3">{statusLabels[ms.status]}</span>
-                          <span className="micro c-2 fs-m">{fmtDec(parseFloat(ms.amount)||0)}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {milestones.length === 0 && (
-                    <div className="empty-state" style={{padding:"28px 16px"}}>
-                      <div className="micro c-3">No milestones added yet</div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Bank info note */}
-                <div className="qb-ms-bank-note">
-                  <div className="fw-6 mb-2" style={{fontSize:12,color:"var(--brand-primary)"}}>🏦 Bank Drawdown Requirements</div>
-                  Milestone amounts must total exactly the approved loan amount. Each drawdown requires an inspection certificate from a registered professional. FNB, ABSA, and Standard Bank typically require 3–6 milestones for residential projects.
-                </div>
-              </div>
-            </div>
-          );
-        })()}
+        </div>
+        <div style={{ overflowX:"auto" }}>
+          <table className="q-tbl">
+            <thead>
+              <tr>
+                <th style={{width:30}}>#</th>
+                <th>Category</th>
+                <th style={{minWidth:240}}>Description</th>
+                <th className="text-right">Qty</th>
+                <th>Unit</th>
+                <th className="text-right">Rate (R)</th>
+                <th className="text-right">Total (R)</th>
+                <th style={{width:40}} />
+              </tr>
+            </thead>
+            <tbody>
+              {QUOTE_ITEMS.map((item) => (
+                <tr key={item.id}>
+                  <td className="c-3 fs-m" style={{fontSize:11}}>{item.id}</td>
+                  <td><span className="tag">{item.cat}</span></td>
+                  <td className="caption">{item.desc}</td>
+                  <td className="num">{item.qty.toLocaleString()}</td>
+                  <td><span className="caption c-3">{item.unit}</span></td>
+                  <td className="num fw-5">{item.rate.toLocaleString()}</td>
+                  <td className="num fw-6 c-brand">{item.total.toLocaleString()}</td>
+                  <td><button className="btn btn-ghost btn-sm" style={{color:"var(--error)",padding:"3px 6px"}}>✕</button></td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="q-total">
+                <td colSpan={6} className="text-right">TOTAL (incl. 15% VAT)</td>
+                <td className="num">{fmt(total)}</td>
+                <td />
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
 
-      {/* Footer */}
-      <div className="qb-footer-bar">
+      <div className="grid-2 gap-6">
+        <div className="card p-5">
+          <div className="h-4 mb-4">Quote Terms & Conditions</div>
+          <div className="f-group">
+            <label className="f-label">Quote Validity</label>
+            <select className="inp"><option>14 days</option><option selected>30 days</option><option>60 days</option></select>
+          </div>
+          <div className="f-group">
+            <label className="f-label">Payment Terms</label>
+            <select className="inp">
+              <option>10/80/10 — Deposit / Progress / Completion</option>
+              <option selected>10/40/40/10 — Four instalments</option>
+              <option>On completion</option>
+            </select>
+          </div>
+          <div className="f-group">
+            <label className="f-label">Exclusions</label>
+            <textarea className="inp" placeholder="List items not included in this quote (e.g. landscaping, external paving, appliances, boundary walls)" style={{minHeight:80}} />
+          </div>
+          <div className="f-group">
+            <label className="f-label">Assumptions</label>
+            <textarea className="inp" placeholder="e.g. Soil suitable for strip foundations, approved plans supplied by client, etc." style={{minHeight:80}} />
+          </div>
+        </div>
+        <div className="card p-5">
+          <div className="h-4 mb-4">Attachments & Supporting Docs</div>
+          {[
+            { name:"Company Profile.pdf",  size:"2.1MB", icon:"🏢" },
+            { name:"CIDB Certificate.pdf", size:"0.4MB", icon:"🔏" },
+            { name:"Insurance COC.pdf",    size:"0.6MB", icon:"🛡️" },
+          ].map(d => (
+            <div key={d.name} className="flex items-c gap-3 mb-3 rounded-md p-3 bg-brand-lt">
+              <span style={{fontSize:20}}>{d.icon}</span>
+              <div className="flex-1">
+                <div className="caption fw-5">{d.name}</div>
+                <div className="micro c-3">{d.size}</div>
+              </div>
+              <button className="btn btn-ghost btn-sm c-error">Remove</button>
+            </div>
+          ))}
+          <button className="btn btn-secondary btn-sm w-full mt-2">+ Attach Document</button>
+
+          <div className="divider" />
+          <div className="h-4 mb-3">Cost Benchmark Check</div>
+          <Notif type="success" icon="✅" msg="Your total of R 4.2M is within the expected range for a 3-bed new build of 220m² in Pretoria (R 3.9M – R 4.8M)." />
+          <div className="caption c-2">Data sourced from Builders Warehouse, Cashbuild & PPC pricelist — updated Mar 2025.</div>
+        </div>
+      </div>
+
+      <div className="flex j-between items-c mt-6 card p-4" style={{background:"var(--brand-primary)"}}>
         <div>
-          <div className="caption c-2 fw-6">Total Quote Value (incl. VAT)</div>
-          <div style={{fontFamily:"var(--font-m)",fontWeight:700,fontSize:16,color:"var(--txt-1)",marginTop:3}}>{fmtDec(total)}</div>
+          <div className="caption c-white fw-6">Total Quote Value (incl. VAT)</div>
+          <div className="h-2 c-white fs-m mt-1">{fmt(total)}</div>
         </div>
         <div className="flex gap-3">
           <button className="btn btn-secondary" onClick={() => setScreen("builder-dashboard")}>Save Draft</button>
-          <button className="btn btn-accent btn-lg">Submit Quote →</button>
+          <button className="btn btn-accent btn-lg">Submit Quote to Client →</button>
         </div>
       </div>
     </div>
@@ -3901,509 +3160,6 @@ const DECISION_OPTIONS = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEMO DATA — Draw Progress
-// ─────────────────────────────────────────────────────────────────────────────
-const DRAW_PROJECTS = [
-  {
-    id: "BQ-2024-003",
-    title: "Waterkloof New Build — 3 Bed Cluster",
-    client: "Andre van Wyk",
-    clientAddress: "12 Jacanda Avenue, Waterkloof, Pretoria",
-    bank: "ABSA Bank",
-    bankDivision: "Residential Property Finance",
-    loanAmount: 3570000,
-    totalApproved: 2500000,
-    totalDrawn: 1700000,
-    stages: [
-      { num: 1, name: "Foundation",  approved: 250000,  drawn: 250000,  pct: 100, status: "complete" },
-      { num: 2, name: "Walls",       approved: 400000,  drawn: 400000,  pct: 100, status: "complete" },
-      { num: 3, name: "Roof",        approved: 350000,  drawn: 350000,  pct: 100, status: "complete" },
-      { num: 4, name: "First Fix",   approved: 350000,  drawn: 262500,  pct: 75,  status: "in-progress" },
-      { num: 5, name: "Second Fix",  approved: 400000,  drawn: 0,       pct: 0,   status: "pending" },
-      { num: 6, name: "Completion",  approved: 350000,  drawn: 0,       pct: 0,   status: "pending" },
-    ],
-  },
-  {
-    id: "BQ-2024-007",
-    title: "Sandton Extension — Master Suite Addition",
-    client: "Priya Naidoo",
-    clientAddress: "45 Rivonia Road, Sandton, Johannesburg",
-    bank: "FNB Home Loans",
-    bankDivision: "Building Finance Division",
-    loanAmount: 850000,
-    totalApproved: 850000,
-    totalDrawn: 510000,
-    stages: [
-      { num: 1, name: "Foundation",  approved: 120000,  drawn: 120000,  pct: 100, status: "complete" },
-      { num: 2, name: "Structure",   approved: 200000,  drawn: 200000,  pct: 100, status: "complete" },
-      { num: 3, name: "Roof",        approved: 190000,  drawn: 190000,  pct: 100, status: "complete" },
-      { num: 4, name: "First Fix",   approved: 180000,  drawn: 0,       pct: 0,   status: "pending" },
-      { num: 5, name: "Completion",  approved: 160000,  drawn: 0,       pct: 0,   status: "pending" },
-    ],
-  },
-  {
-    id: "BQ-2024-011",
-    title: "Centurion New Build — 4 Bed Family Home",
-    client: "Dean Botha",
-    clientAddress: "89 Jacaranda Street, Centurion, Pretoria",
-    bank: "Standard Bank",
-    bankDivision: "Home Loan Solutions",
-    loanAmount: 2100000,
-    totalApproved: 2100000,
-    totalDrawn: 315000,
-    stages: [
-      { num: 1, name: "Foundation",  approved: 315000,  drawn: 315000,  pct: 100, status: "complete" },
-      { num: 2, name: "Walls",       approved: 420000,  drawn: 0,       pct: 0,   status: "in-progress" },
-      { num: 3, name: "Roof",        approved: 375000,  drawn: 0,       pct: 0,   status: "pending" },
-      { num: 4, name: "First Fix",   approved: 350000,  drawn: 0,       pct: 0,   status: "pending" },
-      { num: 5, name: "Second Fix",  approved: 350000,  drawn: 0,       pct: 0,   status: "pending" },
-      { num: 6, name: "Completion",  approved: 290000,  drawn: 0,       pct: 0,   status: "pending" },
-    ],
-  },
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-// SCREEN — BANKER DRAW PROGRESS
-// ─────────────────────────────────────────────────────────────────────────────
-const BankerDrawProgress = ({ setScreen }) => {
-  const [selectedProject, setSelectedProject] = useState(DRAW_PROJECTS[0]);
-  const [requestingDraw, setRequestingDraw] = useState(false);
-  const [drawStage, setDrawStage] = useState(null);
-  const [drawNote, setDrawNote] = useState("");
-  const [drawSubmitted, setDrawSubmitted] = useState(false);
-  const [tab, setTab] = useState("progress");
-
-  const proj = selectedProject;
-  const pct = Math.round((proj.totalDrawn / proj.totalApproved) * 100);
-  const remaining = proj.totalApproved - proj.totalDrawn;
-
-  const stageStatus = {
-    "complete":    { label: "Complete",    color: "var(--success)",  bg: "var(--success-bg)", border: "rgba(42,125,79,0.25)" },
-    "in-progress": { label: "In Progress", color: "#0369A1",         bg: "rgba(3,105,161,0.10)", border: "rgba(3,105,161,0.25)" },
-    "pending":     { label: "Pending",     color: "var(--txt-3)",    bg: "rgba(0,0,0,0.04)", border: "var(--border-med)" },
-  };
-
-  const handleDrawRequest = () => {
-    setDrawSubmitted(true);
-    setTimeout(() => { setRequestingDraw(false); setDrawSubmitted(false); setDrawNote(""); setDrawStage(null); }, 2500);
-  };
-
-  const inProgressStages = proj.stages.filter(s => s.status === "in-progress");
-  const pendingStages    = proj.stages.filter(s => s.status === "pending");
-
-  return (
-    <div className="page-wrap">
-      {/* Header */}
-      <div className="flex items-c j-between mb-5">
-        <div>
-          <div className="h-2 mb-1">Draw Progress Monitor</div>
-          <div className="caption c-2">Track building loan draw releases · ABSA Residential Property Finance</div>
-        </div>
-        <div className="flex gap-2">
-          <button className="btn btn-secondary btn-sm">⬇ Export Report</button>
-          <button className="btn btn-primary btn-sm" onClick={() => setRequestingDraw(true)}>＋ Request Draw Release</button>
-        </div>
-      </div>
-
-      {/* Project Selector */}
-      <div className="flex gap-2 mb-5" style={{flexWrap:"wrap"}}>
-        {DRAW_PROJECTS.map(p => {
-          const pp = Math.round((p.totalDrawn / p.totalApproved) * 100);
-          const active = p.id === proj.id;
-          return (
-            <button
-              key={p.id}
-              onClick={() => { setSelectedProject(p); setTab("progress"); }}
-              style={{
-                display:"flex", flexDirection:"column", alignItems:"flex-start", gap:4,
-                padding:"12px 18px", borderRadius:"var(--r-lg)",
-                background: active ? "var(--brand-primary)" : "white",
-                border: `1.5px solid ${active ? "var(--brand-primary)" : "var(--border-med)"}`,
-                color: active ? "white" : "var(--txt-1)",
-                cursor:"pointer", transition:"all var(--dur-fast) var(--ease-out)",
-                boxShadow: active ? "0 4px 16px rgba(28,53,87,0.25)" : "var(--shadow-xs)",
-                minWidth: 200, textAlign:"left",
-              }}
-            >
-              <div style={{fontSize:12, fontWeight:700, opacity: active ? 0.75 : 0.55, letterSpacing:"0.4px"}}>{p.id}</div>
-              <div style={{fontSize:13, fontWeight:600, lineHeight:1.3}}>{p.client}</div>
-              <div style={{fontSize:11, opacity: active ? 0.75 : 0.5, marginTop:2}}>{pp}% drawn · R {(p.totalDrawn/1e6).toFixed(2)}M</div>
-              {/* mini progress */}
-              <div style={{width:"100%", height:3, background: active ? "rgba(255,255,255,0.25)" : "var(--border-sub)", borderRadius:99, marginTop:6, overflow:"hidden"}}>
-                <div style={{width:`${pp}%`, height:"100%", background: active ? "rgba(255,255,255,0.9)" : "var(--brand-primary)", borderRadius:99, transition:"width 0.6s var(--ease-out)"}} />
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Client + Bank info bar */}
-      <div className="card mb-4" style={{background:"var(--brand-primary)", border:"none", boxShadow:"0 4px 20px rgba(28,53,87,0.20)"}}>
-        <div style={{padding:"20px 28px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:20}}>
-          <div style={{display:"flex", alignItems:"center", gap:16}}>
-            <div style={{
-              width:48, height:48, borderRadius:"50%",
-              background:"rgba(255,255,255,0.15)", border:"1.5px solid rgba(255,255,255,0.3)",
-              display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0
-            }}>👤</div>
-            <div>
-              <div style={{fontSize:10, fontWeight:700, letterSpacing:"1px", color:"rgba(255,255,255,0.55)", textTransform:"uppercase", marginBottom:3}}>Client</div>
-              <div style={{fontSize:16, fontWeight:700, color:"white"}}>{proj.client}</div>
-              <div style={{fontSize:12, color:"rgba(255,255,255,0.65)", marginTop:2}}>{proj.clientAddress}</div>
-            </div>
-          </div>
-          <div style={{width:1, height:48, background:"rgba(255,255,255,0.15)"}} />
-          <div style={{display:"flex", alignItems:"center", gap:16}}>
-            <div style={{
-              width:48, height:48, borderRadius:"50%",
-              background:"rgba(255,255,255,0.15)", border:"1.5px solid rgba(255,255,255,0.3)",
-              display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, flexShrink:0
-            }}>🏦</div>
-            <div>
-              <div style={{fontSize:10, fontWeight:700, letterSpacing:"1px", color:"rgba(255,255,255,0.55)", textTransform:"uppercase", marginBottom:3}}>Bank</div>
-              <div style={{fontSize:16, fontWeight:700, color:"white"}}>{proj.bank}</div>
-              <div style={{fontSize:12, color:"rgba(255,255,255,0.65)", marginTop:2}}>{proj.bankDivision}</div>
-            </div>
-          </div>
-          <div style={{width:1, height:48, background:"rgba(255,255,255,0.15)"}} />
-          <div style={{textAlign:"right"}}>
-            <div style={{fontSize:10, fontWeight:700, letterSpacing:"1px", color:"rgba(255,255,255,0.55)", textTransform:"uppercase", marginBottom:3}}>Project Ref</div>
-            <div style={{fontSize:16, fontWeight:700, color:"white"}}>{proj.id}</div>
-            <div style={{fontSize:12, color:"rgba(255,255,255,0.65)", marginTop:2, fontFamily:"var(--font-m)"}}>{proj.title.split("—")[0].trim()}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div className="tabs mb-5">
-        {["progress","schedule","history"].map(t => (
-          <button key={t} className={`tab-item ${tab===t?"active":""}`} onClick={() => setTab(t)}>
-            {t === "progress" ? "📊 Draw Progress" : t === "schedule" ? "📋 Draw Schedule" : "🕐 Draw History"}
-          </button>
-        ))}
-      </div>
-
-      {/* ── PROGRESS TAB ── */}
-      {tab === "progress" && (
-        <div style={{display:"flex", flexDirection:"column", gap:20}}>
-          {/* Overall Progress Card */}
-          <div className="card">
-            <div className="card-head">
-              <span className="h-4">Overall Draw Progress</span>
-              <span className="badge b-inprogress" style={{marginLeft:"auto"}}>Active Project</span>
-            </div>
-            <div className="card-body">
-              <div className="flex gap-5 items-c" style={{flexWrap:"wrap"}}>
-                {/* Donut */}
-                <div style={{position:"relative", flexShrink:0}}>
-                  <svg width="120" height="120" viewBox="0 0 120 120">
-                    <circle cx="60" cy="60" r="48" fill="none" stroke="var(--border-sub)" strokeWidth="10" />
-                    <circle
-                      cx="60" cy="60" r="48" fill="none"
-                      stroke="var(--brand-primary)" strokeWidth="10"
-                      strokeLinecap="round"
-                      strokeDasharray={`${2 * Math.PI * 48}`}
-                      strokeDashoffset={`${2 * Math.PI * 48 * (1 - pct / 100)}`}
-                      transform="rotate(-90 60 60)"
-                      style={{transition:"stroke-dashoffset 1s var(--ease-out)"}}
-                    />
-                    <text x="60" y="56" textAnchor="middle" style={{fontFamily:"var(--font-d)", fontSize:22, fill:"var(--brand-primary)", fontWeight:700}}>{pct}%</text>
-                    <text x="60" y="70" textAnchor="middle" style={{fontFamily:"var(--font-b)", fontSize:8, fill:"var(--txt-3)", letterSpacing:1, textTransform:"uppercase"}}>COMPLETE</text>
-                  </svg>
-                </div>
-                {/* Bar + Stats */}
-                <div style={{flex:1, minWidth:200}}>
-                  <div className="flex items-c j-between mb-2">
-                    <span className="caption fw-6">Total Drawn vs Approved</span>
-                    <span className="caption fw-6" style={{color:"var(--brand-primary)"}}>{pct}%</span>
-                  </div>
-                  <div style={{height:12, background:"var(--border-sub)", borderRadius:99, overflow:"hidden", marginBottom:20}}>
-                    <div style={{
-                      height:"100%", width:`${pct}%`,
-                      background:"linear-gradient(90deg, var(--brand-primary), #2A5F8F)",
-                      borderRadius:99, transition:"width 1s var(--ease-out)"
-                    }} />
-                  </div>
-                  <div className="flex gap-4" style={{flexWrap:"wrap"}}>
-                    {[
-                      { label:"Total Drawn",    val:`R ${proj.totalDrawn.toLocaleString()}`,    color:"var(--brand-primary)" },
-                      { label:"Total Approved", val:`R ${proj.totalApproved.toLocaleString()}`, color:"var(--txt-1)" },
-                      { label:"Remaining",      val:`R ${remaining.toLocaleString()}`,           color:"var(--txt-3)" },
-                    ].map(s => (
-                      <div key={s.label}>
-                        <div style={{fontSize:20, fontWeight:700, fontFamily:"var(--font-d)", color:s.color}}>{s.val}</div>
-                        <div className="micro c-3 mt-1" style={{textTransform:"uppercase", letterSpacing:"0.5px"}}>{s.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stage Progress Timeline */}
-          <div className="card">
-            <div className="card-head"><span className="h-4">Draw Progress by Stage</span></div>
-            <div className="card-body">
-              {/* Stage stepper */}
-              <div style={{display:"flex", alignItems:"flex-start", marginBottom:32, position:"relative"}}>
-                {proj.stages.map((stage, i) => {
-                  const ss = stageStatus[stage.status];
-                  const isDone = stage.status === "complete";
-                  const isActive = stage.status === "in-progress";
-                  return (
-                    <div key={stage.num} style={{flex:1, display:"flex", flexDirection:"column", alignItems:"center", position:"relative"}}>
-                      {/* connector line */}
-                      {i < proj.stages.length - 1 && (
-                        <div style={{
-                          position:"absolute", top:15, left:"50%", right:"-50%",
-                          height:2,
-                          background: isDone ? "var(--success)" : "var(--border-med)",
-                          zIndex:0,
-                          transition:"background 0.5s"
-                        }} />
-                      )}
-                      {/* circle */}
-                      <div style={{
-                        width:30, height:30, borderRadius:"50%", zIndex:1,
-                        display:"flex", alignItems:"center", justifyContent:"center",
-                        fontSize:12, fontWeight:700,
-                        background: isDone ? "var(--success)" : isActive ? "var(--brand-primary)" : "white",
-                        color: isDone || isActive ? "white" : "var(--txt-3)",
-                        border: isDone || isActive ? "none" : "2px solid var(--border-med)",
-                        boxShadow: isActive ? "0 0 0 5px rgba(28,53,87,0.15)" : isDone ? "0 0 0 4px rgba(42,125,79,0.15)" : "none",
-                        transition:"all 0.4s",
-                      }}>
-                        {isDone ? "✓" : stage.num}
-                      </div>
-                      <div style={{
-                        fontSize:10.5, fontWeight: isActive ? 700 : 500, marginTop:8,
-                        color: isDone ? "var(--success)" : isActive ? "var(--brand-primary)" : "var(--txt-3)",
-                        textAlign:"center", whiteSpace:"nowrap",
-                      }}>
-                        {stage.num}. {stage.name}
-                      </div>
-                      <div style={{
-                        fontSize:10.5, color:"var(--txt-2)", marginTop:3, textAlign:"center", whiteSpace:"nowrap"
-                      }}>
-                        R {stage.approved.toLocaleString()}
-                      </div>
-                      <div style={{
-                        fontSize:10.5, fontWeight:700, marginTop:2, textAlign:"center",
-                        color: isDone ? "var(--success)" : isActive ? "var(--brand-primary)" : "var(--txt-3)",
-                      }}>
-                        {stage.pct}%
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Per-stage progress bars */}
-              <div style={{display:"flex", flexDirection:"column", gap:14}}>
-                {proj.stages.map(stage => {
-                  const ss = stageStatus[stage.status];
-                  return (
-                    <div key={stage.num} style={{
-                      padding:"14px 18px", borderRadius:"var(--r-md)",
-                      background: ss.bg, border:`1px solid ${ss.border}`,
-                      animation:"slideUp var(--dur-slow) var(--ease-out)",
-                    }}>
-                      <div className="flex items-c j-between mb-2">
-                        <div className="flex items-c gap-2">
-                          <span className="caption fw-6">Stage {stage.num} — {stage.name}</span>
-                          <span className="badge" style={{
-                            background: "rgba(255,255,255,0.7)", color:ss.color,
-                            fontSize:9.5, fontWeight:700, border:`1px solid ${ss.border}`
-                          }}>{ss.label.toUpperCase()}</span>
-                        </div>
-                        <div className="flex items-c gap-4">
-                          <span className="caption c-2">Drawn: <strong style={{color:ss.color}}>R {stage.drawn.toLocaleString()}</strong></span>
-                          <span className="caption c-2">Approved: <strong>R {stage.approved.toLocaleString()}</strong></span>
-                          <span className="caption fw-7" style={{color:ss.color, minWidth:32, textAlign:"right"}}>{stage.pct}%</span>
-                        </div>
-                      </div>
-                      <div style={{height:8, background:"rgba(255,255,255,0.6)", borderRadius:99, overflow:"hidden"}}>
-                        <div style={{
-                          height:"100%", width:`${stage.pct}%`,
-                          background: stage.status === "complete" ? "var(--success)" : stage.status === "in-progress" ? "#0369A1" : "var(--border-med)",
-                          borderRadius:99, transition:"width 0.8s var(--ease-out)",
-                        }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* Summary Cards */}
-          <div className="stat-grid">
-            <StatCard label="Stages Complete" value={proj.stages.filter(s=>s.status==="complete").length} color="var(--success)" icon="✅" />
-            <StatCard label="In Progress" value={proj.stages.filter(s=>s.status==="in-progress").length} color="#0369A1" icon="🔄" />
-            <StatCard label="Pending Stages" value={proj.stages.filter(s=>s.status==="pending").length} color="var(--txt-3)" icon="⏳" />
-            <StatCard label="Drawn to Date" value={`R ${(proj.totalDrawn/1e6).toFixed(2)}M`} color="var(--brand-primary)" icon="💰" />
-            <StatCard label="Remaining" value={`R ${(remaining/1e6).toFixed(2)}M`} color="var(--warning)" icon="🏦" />
-            <StatCard label="Overall Progress" value={`${pct}%`} color="var(--brand-primary)" icon="📊" />
-          </div>
-        </div>
-      )}
-
-      {/* ── SCHEDULE TAB ── */}
-      {tab === "schedule" && (
-        <div className="card">
-          <div className="card-head">
-            <span className="h-4">Draw Schedule Summary</span>
-            <span className="micro c-3" style={{marginLeft:"auto"}}>Values include VAT. Subject to bank verification before release.</span>
-          </div>
-          <div style={{overflowX:"auto"}}>
-            <table className="tbl">
-              <thead>
-                <tr>
-                  <th>Stage</th>
-                  <th>Description</th>
-                  <th>Approved Amount</th>
-                  <th>Drawn to Date</th>
-                  <th>Remaining</th>
-                  <th>Progress</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {proj.stages.map(stage => {
-                  const ss = stageStatus[stage.status];
-                  const rem = stage.approved - stage.drawn;
-                  return (
-                    <tr key={stage.num} style={{background: stage.status==="in-progress" ? "rgba(3,105,161,0.04)" : ""}}>
-                      <td className="caption fw-6" style={{color:"var(--txt-3)"}}>{stage.num}</td>
-                      <td className="caption fw-5">{stage.name}</td>
-                      <td className="caption fw-6" style={{fontFamily:"var(--font-m)"}}>R {stage.approved.toLocaleString()}</td>
-                      <td className="caption fw-6" style={{fontFamily:"var(--font-m)", color: stage.drawn > 0 ? "var(--brand-primary)" : "var(--txt-3)"}}>R {stage.drawn.toLocaleString()}</td>
-                      <td className="caption" style={{fontFamily:"var(--font-m)", color:"var(--txt-3)"}}>R {rem.toLocaleString()}</td>
-                      <td style={{minWidth:160}}>
-                        <div className="flex items-c gap-2">
-                          <div style={{flex:1, height:6, background:"var(--border-sub)", borderRadius:99, overflow:"hidden"}}>
-                            <div style={{
-                              height:"100%", width:`${stage.pct}%`,
-                              background: stage.status==="complete" ? "var(--success)" : stage.status==="in-progress" ? "#0369A1" : "var(--border-med)",
-                              borderRadius:99,
-                            }} />
-                          </div>
-                          <span className="micro fw-7" style={{color:ss.color, minWidth:28}}>{stage.pct}%</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className="badge" style={{background:ss.bg, color:ss.color, border:`1px solid ${ss.border}`, fontSize:9.5}}>
-                          {ss.label.toUpperCase()}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              <tfoot>
-                <tr style={{background:"rgba(28,53,87,0.04)", borderTop:"2px solid var(--border-med)"}}>
-                  <td colSpan={2} className="caption fw-7">TOTAL</td>
-                  <td className="caption fw-7" style={{fontFamily:"var(--font-m)"}}>R {proj.totalApproved.toLocaleString()}</td>
-                  <td className="caption fw-7" style={{fontFamily:"var(--font-m)", color:"var(--brand-primary)"}}>R {proj.totalDrawn.toLocaleString()}</td>
-                  <td className="caption fw-7" style={{fontFamily:"var(--font-m)", color:"var(--txt-3)"}}>R {remaining.toLocaleString()}</td>
-                  <td colSpan={2} className="caption fw-7" style={{color:"var(--brand-primary)"}}>{pct}% Complete</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <div className="card-foot">
-            <span style={{fontSize:13}}>ⓘ</span>
-            <span className="micro c-2">Values include VAT. Amounts are subject to verification and approval by the bank before release.</span>
-          </div>
-        </div>
-      )}
-
-      {/* ── HISTORY TAB ── */}
-      {tab === "history" && (
-        <div className="card">
-          <div className="card-head"><span className="h-4">Draw Release History</span></div>
-          <div className="card-body">
-            <div className="timeline">
-              {[
-                { date:"15 Nov 2024", stage:"Stage 3 — Roof",      amount:"R 350,000", type:"draw",     note:"Roof inspection passed. Draw released by Sarah Mokoena." },
-                { date:"02 Oct 2024", stage:"Stage 2 — Walls",     amount:"R 400,000", type:"draw",     note:"Wall plate inspection complete. Council approved." },
-                { date:"18 Aug 2024", stage:"Stage 1 — Foundation", amount:"R 250,000", type:"draw",    note:"Foundation inspection passed. Registered with NHBRC." },
-                { date:"01 Aug 2024", stage:"Loan Disbursed",       amount:"R 0",       type:"info",    note:"Building loan registered and approved. Draw schedule activated." },
-              ].map((ev, i) => (
-                <div key={i} className="tl-item">
-                  <div className="tl-dot" style={{background: ev.type==="draw" ? "var(--success)" : "var(--brand-primary)"}} />
-                  <div className="tl-body">
-                    <div className="flex items-c j-between mb-1">
-                      <span className="caption fw-6">{ev.stage}</span>
-                      {ev.amount !== "R 0" && (
-                        <span className="badge b-completed" style={{fontFamily:"var(--font-m)", fontSize:11}}>{ev.amount}</span>
-                      )}
-                    </div>
-                    <div className="micro c-2 mb-1">{ev.date}</div>
-                    <div className="caption c-2">{ev.note}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Draw Request Modal */}
-      {requestingDraw && (
-        <div style={{
-          position:"fixed", inset:0, background:"rgba(0,0,0,0.45)",
-          display:"flex", alignItems:"center", justifyContent:"center",
-          zIndex:500, backdropFilter:"blur(4px)", animation:"fadeIn 0.2s ease"
-        }}>
-          <div className="card" style={{width:480, maxWidth:"92vw", animation:"pop 0.28s var(--ease-spring)"}}>
-            {drawSubmitted ? (
-              <div className="card-body" style={{textAlign:"center", padding:48}}>
-                <div style={{fontSize:48, marginBottom:16}}>✅</div>
-                <div className="h-3 mb-2">Draw Request Submitted</div>
-                <div className="caption c-2">Your draw release request has been logged and sent to the inspection team.</div>
-              </div>
-            ) : (
-              <>
-                <div className="card-head">
-                  <span className="h-4">Request Draw Release</span>
-                  <button className="btn btn-ghost btn-sm" style={{marginLeft:"auto"}} onClick={() => setRequestingDraw(false)}>✕</button>
-                </div>
-                <div className="card-body">
-                  <div className="f-group">
-                    <label className="f-label">Select Stage <span className="req">*</span></label>
-                    <select className="inp" value={drawStage || ""} onChange={e => setDrawStage(e.target.value)}>
-                      <option value="">— Select a stage —</option>
-                      {[...inProgressStages, ...pendingStages].map(s => (
-                        <option key={s.num} value={s.num}>Stage {s.num} — {s.name} (R {s.approved.toLocaleString()})</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="f-group">
-                    <label className="f-label">Draw Amount (R) <span className="req">*</span></label>
-                    <input className="inp" type="number" placeholder="e.g. 87500" />
-                    <div className="f-hint">Partial draws are permitted. Maximum is the remaining approved amount for this stage.</div>
-                  </div>
-                  <div className="f-group" style={{marginBottom:0}}>
-                    <label className="f-label">Inspection Notes</label>
-                    <textarea className="inp" rows={3} placeholder="Describe the completed work or attach inspection report reference..." value={drawNote} onChange={e => setDrawNote(e.target.value)} />
-                  </div>
-                </div>
-                <div className="card-foot" style={{justifyContent:"flex-end", gap:8}}>
-                  <button className="btn btn-secondary btn-sm" onClick={() => setRequestingDraw(false)}>Cancel</button>
-                  <button className="btn btn-primary btn-sm" disabled={!drawStage} onClick={handleDrawRequest}>Submit Draw Request</button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
 // SCREEN — BANKER DASHBOARD
 // ─────────────────────────────────────────────────────────────────────────────
 const BankerDashboard = ({ setScreen, setActiveApp }) => {
@@ -5220,7 +3976,6 @@ const navConfig = {
     ]},
     { section: "Applications", items: [
       { key:"banker-application",   icon:"📋", label:"Active Review" },
-      { key:"banker-draw-progress", icon:"📈", label:"Draw Progress", badge:"3" },
     ]},
     { section: "Account", items: [
       { key:"profile",              icon:"👤", label:"Profile & Settings" },
@@ -5292,7 +4047,6 @@ const topbarConfig = {
   "institution-management": { title:"Institution Management", sub:"Register and manage banking institutions" },
   "banker-dashboard":       { title:"My Applications", sub:"FNB Home Loans — Sarah Mokoena" },
   "banker-application":     { title:"Application Review", sub:"Credit assessment & decision" },
-  "banker-draw-progress":   { title:"Draw Progress", sub:"Building loan draw releases & stage tracking" },
 };
 
 const Topbar = ({ screen, userRole, setScreen, onLogout }) => {
@@ -5333,11 +4087,10 @@ const DemoNav = ({ screen, setScreen, userRole, setRole }) => {
     { key:"institution-management", label:"⑨ Institutions",      group:"admin" },
     { key:"banker-dashboard",       label:"⑩ Banker Dash",       group:"banker" },
     { key:"banker-application",     label:"⑪ Loan Review",       group:"banker" },
-    { key:"banker-draw-progress",   label:"⑫ Draw Progress",     group:"banker" },
-    { key:"search",                 label:"⑬ Search",            group:"shared" },
-    { key:"bank-submission",        label:"⑭ Bank Submit",       group:"shared" },
-    { key:"profile",                label:"⑮ Profile",           group:"shared" },
-    { key:"empty-states",           label:"⑯ States",            group:"shared" },
+    { key:"search",                 label:"⑫ Search",            group:"shared" },
+    { key:"bank-submission",        label:"⑬ Bank Submit",       group:"shared" },
+    { key:"profile",                label:"⑭ Profile",           group:"shared" },
+    { key:"empty-states",           label:"⑮ States",            group:"shared" },
   ];
   return (
     <div className="demo-nav">
@@ -5393,7 +4146,6 @@ export default function BuildQuotePlatform() {
       case "institution-management": return <InstitutionManagementScreen setScreen={setScreen} />;
       case "banker-dashboard":       return <BankerDashboard setScreen={setScreen} setActiveApp={setActiveApp} />;
       case "banker-application":     return <BankerApplicationScreen setScreen={setScreen} application={activeApp} />;
-      case "banker-draw-progress":   return <BankerDrawProgress setScreen={setScreen} />;
       default:                  return <ClientDashboard setScreen={setScreen} />;
     }
   };

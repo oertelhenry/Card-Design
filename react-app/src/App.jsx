@@ -27,6 +27,7 @@ import TestDriveFormBlue from "./TestDriveFormBlue";
 import ActivityTimeline from "./ActivityTimeline";
 import ProjectMessages from "./ProjectMessages";
 import LegalScreens from "./LegalScreens";
+import QubrixLandingRedesign from "./QubrixLandingRedesign";
 
 
 const TABS = [
@@ -58,6 +59,7 @@ const TABS = [
   { label: "Activity Timeline", component: <ActivityTimeline /> },
   { label: "Project Messages", component: <ProjectMessages /> },
   { label: "Legal Screens", component: <LegalScreens /> },
+  { label: "Qubrix Landing Gareth", component: <QubrixLandingRedesign /> },
 ];
 
 function App() {
