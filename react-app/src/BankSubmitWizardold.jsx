@@ -4,7 +4,7 @@
  * 9-step wizard covering all SA home loan application fields
  */
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DESIGN TOKENS
@@ -261,97 +261,30 @@ const STYLES = `
   .wiz-footer-info { font-size:12px; color:var(--txt-3); }
   .wiz-footer-nav  { margin-left:auto; display:flex; gap:10px; align-items:center; }
 
-  /* ── Doc Upload Grid (Step 8 compact layout) ── */
-  .doc-status-bar {
-    display:flex; align-items:center; gap:16px;
-    padding:11px 16px; background:white; border:1px solid var(--border-sub);
-    border-radius:var(--r-md); margin-bottom:16px; box-shadow:var(--shadow-xs);
+  /* ── File Drop Zone ── */
+  .drop-zone {
+    border:2px dashed var(--border-med); border-radius:var(--r-lg);
+    padding:28px 20px; text-align:center; cursor:pointer;
+    transition:all var(--dur-fast) var(--ease-out);
+    background:rgba(0,0,0,0.01);
   }
-  .doc-stat { display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--txt-2); }
-  .doc-stat-num { font-size:20px; font-weight:600; color:var(--txt-1); line-height:1; }
-  .doc-stat-num.c-success { color:var(--success); }
-  .doc-stat-num.c-warning { color:var(--warning); }
-  .doc-stat-divider { width:1px; height:28px; background:var(--border-sub); }
+  .drop-zone:hover, .drop-zone.dragging { border-color:var(--brand-primary); background:var(--info-bg); }
+  .drop-zone-ico { font-size:32px; margin-bottom:10px; }
+  .drop-zone-title { font-size:13.5px; font-weight:500; color:var(--txt-1); margin-bottom:4px; }
+  .drop-zone-sub   { font-size:12px; color:var(--txt-3); }
 
-  .doc-grid {
-    display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px;
-  }
-  .doc-row {
-    display:flex; align-items:center; gap:10px;
-    padding:9px 12px; border-radius:var(--r-md);
-    border:1px solid var(--border-sub); background:white;
-    cursor:pointer; transition:all var(--dur-fast) var(--ease-out);
-    min-width:0;
-  }
-  .doc-row:hover { border-color:var(--brand-primary); box-shadow:var(--shadow-xs); }
-  .doc-row.doc-active { border-color:var(--brand-primary); background:var(--info-bg); }
-  .doc-row.doc-done   { border-color:rgba(42,125,79,0.35); }
-  .doc-row-icon {
-    width:28px; height:28px; border-radius:6px; flex-shrink:0;
-    display:flex; align-items:center; justify-content:center; font-size:13px;
-  }
-  .doc-row-icon.req  { background:var(--warning-bg); }
-  .doc-row-icon.opt  { background:rgba(0,0,0,0.05); }
-  .doc-row-icon.done { background:var(--success-bg); }
-  .doc-row-text { flex:1; min-width:0; }
-  .doc-row-name { font-size:12px; font-weight:600; color:var(--txt-1); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .doc-row-hint { font-size:10.5px; color:var(--txt-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .doc-row-badge {
-    flex-shrink:0; font-size:10px; font-weight:700; letter-spacing:0.2px;
-    padding:2px 7px; border-radius:var(--r-full);
-  }
-  .doc-badge-req  { background:var(--warning-bg); color:var(--warning); }
-  .doc-badge-opt  { background:rgba(0,0,0,0.05); color:var(--txt-3); }
-  .doc-badge-done { background:var(--success-bg); color:var(--success); }
-  .doc-row-chevron { font-size:11px; color:var(--txt-3); flex-shrink:0; }
-
-  @keyframes panelSlide { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-  .doc-upload-panel {
-    background:white; border:1px solid var(--brand-primary);
-    border-radius:var(--r-lg); overflow:hidden; margin-bottom:10px;
-    box-shadow:0 0 0 3px rgba(28,53,87,0.08);
-    animation:panelSlide var(--dur-fast) var(--ease-out);
-  }
-  .doc-panel-head {
-    display:flex; align-items:center; gap:8px;
-    padding:10px 14px; background:var(--info-bg);
-    border-bottom:1px solid var(--border-sub);
-  }
-  .doc-panel-title { font-size:13px; font-weight:600; flex:1; }
-  .doc-panel-close {
-    width:24px; height:24px; border-radius:var(--r-sm);
-    display:flex; align-items:center; justify-content:center;
-    color:var(--txt-3); font-size:14px; cursor:pointer;
-    transition:all var(--dur-fast);
-  }
-  .doc-panel-close:hover { background:var(--error-bg); color:var(--error); }
-  .doc-panel-hint { font-size:11.5px; color:var(--txt-2); padding:8px 14px 0; }
-  .doc-drop-zone {
-    margin:10px 14px; border:1.5px dashed var(--border-str);
-    border-radius:var(--r-md); padding:14px 12px;
-    display:flex; align-items:center; gap:10px;
-    cursor:pointer; transition:all var(--dur-fast) var(--ease-out);
-  }
-  .doc-drop-zone:hover, .doc-drop-zone.dragging {
-    border-color:var(--brand-primary); background:var(--info-bg);
-  }
-  .doc-drop-text { font-size:12.5px; color:var(--txt-2); }
-  .doc-drop-text strong { color:var(--brand-primary); }
-  .doc-files-list { padding:0 14px 12px; display:flex; flex-direction:column; gap:5px; }
-  .doc-file-chip {
-    display:flex; align-items:center; gap:8px;
-    padding:6px 10px; border-radius:var(--r-sm);
-    background:rgba(0,0,0,0.03); border:1px solid var(--border-sub);
+  .file-item {
+    display:flex; align-items:center; gap:12px;
+    padding:10px 14px; border-radius:var(--r-md);
+    background:white; border:1px solid var(--border-sub);
+    box-shadow:var(--shadow-xs); margin-bottom:8px;
     animation:slideUp var(--dur-fast) var(--ease-out);
   }
-  .doc-file-chip-name { font-size:12px; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--txt-1); }
-  .doc-file-chip-size { font-size:11px; color:var(--txt-3); flex-shrink:0; }
-  .doc-file-chip-del {
-    flex-shrink:0; cursor:pointer; color:var(--txt-3);
-    font-size:13px; padding:2px 4px; border-radius:4px;
-    transition:all var(--dur-fast);
-  }
-  .doc-file-chip-del:hover { color:var(--error); background:var(--error-bg); }
+  .file-item-ico { font-size:20px; flex-shrink:0; }
+  .file-item-name { font-size:12.5px; font-weight:500; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .file-item-size { font-size:11px; color:var(--txt-3); white-space:nowrap; }
+  .file-item-remove { color:var(--txt-3); font-size:13px; cursor:pointer; padding:4px; transition:color var(--dur-fast); }
+  .file-item-remove:hover { color:var(--error); }
 
   /* ── Bank Selector ── */
   .bank-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
@@ -986,59 +919,43 @@ const EmploymentPanel = ({ title, role, data, onChange }) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DOC UPLOAD PANEL — inline expand panel (used inside StepDocuments)
+// FILE UPLOADER
 // ─────────────────────────────────────────────────────────────────────────────
-const DocUploadPanel = ({ doc, files, onAdd, onRemove, onClose }) => {
+const FileUploader = ({ label, hint, docKey, files, onAdd, onRemove }) => {
   const inp = useRef();
   const [dragging, setDragging] = useState(false);
-  const myFiles = files[doc.key] || [];
+  const myFiles = files[docKey] || [];
 
   const handleFiles = (fileList) => {
     Array.from(fileList).forEach(f => {
-      onAdd(doc.key, { name:f.name, size:f.size, type:f.type, id:Date.now()+Math.random() });
+      onAdd(docKey, { name:f.name, size:f.size, type:f.type, id:Date.now()+Math.random() });
     });
   };
 
-  const fmtSize = (bytes) => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024*1024) return Math.round(bytes/1024) + ' KB';
-    return (bytes/1024/1024).toFixed(1) + ' MB';
-  };
-
   return (
-    <div className="doc-upload-panel">
-      <div className="doc-panel-head">
-        <span style={{fontSize:14}}>📤</span>
-        <span className="doc-panel-title">{doc.label}</span>
-        <span className={`doc-row-badge ${doc.required?"doc-badge-req":"doc-badge-opt"}`}>
-          {doc.required?"Required":"Optional"}
-        </span>
-        <span className="doc-panel-close" onClick={onClose} title="Close">✕</span>
-      </div>
-      <div className="doc-panel-hint">{doc.hint} · PDF, JPG, PNG · max 10 MB each</div>
+    <div className="f-group">
+      {label && <label className="f-label">{label}</label>}
+      {hint && <div className="f-hint mb-3">{hint}</div>}
       <div
-        className={`doc-drop-zone${dragging?" dragging":""}`}
+        className={`drop-zone${dragging?" dragging":""}`}
         onDragOver={e=>{e.preventDefault();setDragging(true);}}
         onDragLeave={()=>setDragging(false)}
         onDrop={e=>{e.preventDefault();setDragging(false);handleFiles(e.dataTransfer.files);}}
         onClick={()=>inp.current.click()}
       >
-        <span style={{fontSize:20}}>📎</span>
-        <span className="doc-drop-text">Drop files here or <strong>click to browse</strong></span>
+        <div className="drop-zone-ico">📎</div>
+        <div className="drop-zone-title">Drop files here or click to browse</div>
+        <div className="drop-zone-sub">PDF, JPG, PNG • Max 10MB per file</div>
         <input ref={inp} type="file" multiple style={{display:"none"}} onChange={e=>handleFiles(e.target.files)} />
       </div>
-      {myFiles.length > 0 && (
-        <div className="doc-files-list">
-          {myFiles.map(f => (
-            <div key={f.id} className="doc-file-chip">
-              <span style={{fontSize:14}}>{f.type?.includes("pdf")?"📄":"🖼️"}</span>
-              <span className="doc-file-chip-name">{f.name}</span>
-              <span className="doc-file-chip-size">{fmtSize(f.size)}</span>
-              <span className="doc-file-chip-del" onClick={()=>onRemove(doc.key,f.id)} title="Remove">✕</span>
-            </div>
-          ))}
+      {myFiles.map(f => (
+        <div key={f.id} className="file-item">
+          <span className="file-item-ico">{f.type?.includes("pdf")?"📄":"🖼️"}</span>
+          <span className="file-item-name">{f.name}</span>
+          <span className="file-item-size">{(f.size/1024).toFixed(0)} KB</span>
+          <span className="file-item-remove" onClick={()=>onRemove(docKey,f.id)}>✕</span>
         </div>
-      )}
+      ))}
     </div>
   );
 };
@@ -1694,93 +1611,25 @@ const DOC_REQUIREMENTS = [
   { key:"empContract",label:"Employment Contract",              hint:"If employed for less than 12 months",                         required:false },
 ];
 
-// STEP 8 — Documents (compact grid + inline expand panel)
-const StepDocuments = ({ files, onAdd, onRemove }) => {
-  const [activeKey, setActiveKey] = useState(null);
-
-  const totalFiles = Object.values(files).reduce((a, arr) => a + (arr||[]).length, 0);
-  const reqDocs = DOC_REQUIREMENTS.filter(d => d.required);
-  const reqDone = reqDocs.filter(d => (files[d.key]||[]).length > 0).length;
-  const reqMissing = reqDocs.length - reqDone;
-
-  const togglePanel = (key) => setActiveKey(prev => prev === key ? null : key);
-  const activeDoc = DOC_REQUIREMENTS.find(d => d.key === activeKey);
-
-  return (
-    <div style={{animation:"slideUp 0.3s var(--ease-out)"}}>
-
-      {/* Status bar */}
-      <div className="doc-status-bar">
-        <div className="doc-stat">
-          <span className={`doc-stat-num${totalFiles > 0 ? " c-success" : ""}`}>{totalFiles}</span>
-          <span>files uploaded</span>
+const StepDocuments = ({ files, onAdd, onRemove }) => (
+  <div style={{animation:"slideUp 0.3s var(--ease-out)"}}>
+    <Notif type="warning" icon="⚠️">
+      Missing required documents may delay or reject your application. Documents marked <strong>Required</strong> must be uploaded before submission.
+    </Notif>
+    {DOC_REQUIREMENTS.map(doc => (
+      <div key={doc.key} className="card mb-4">
+        <div className="card-head" style={{background:doc.required?"rgba(28,53,87,0.03)":"white"}}>
+          <span className="h-4" style={{flex:1}}>{doc.label}</span>
+          <span className={`badge${doc.required?" badge-warning":" badge-info"}`}>{doc.required?"Required":"Optional"}</span>
+          {(files[doc.key]||[]).length>0 && <span className="badge badge-success">✓ {(files[doc.key]||[]).length} file{(files[doc.key]||[]).length>1?"s":""}</span>}
         </div>
-        <div className="doc-stat-divider" />
-        <div className="doc-stat">
-          <span className={`doc-stat-num${reqDone > 0 ? " c-success" : ""}`}>{reqDone}</span>
-          <span>/ {reqDocs.length} required done</span>
+        <div className="card-body" style={{paddingTop:16,paddingBottom:16}}>
+          <FileUploader hint={doc.hint} docKey={doc.key} files={files} onAdd={onAdd} onRemove={onRemove} />
         </div>
-        <div className="doc-stat-divider" />
-        {reqMissing > 0 ? (
-          <div className="doc-stat" style={{color:"var(--warning)"}}>
-            <span>⚠️</span>
-            <span style={{fontWeight:600}}>{reqMissing} required {reqMissing === 1 ? "doc" : "docs"} outstanding</span>
-          </div>
-        ) : (
-          <div className="doc-stat" style={{color:"var(--success)"}}>
-            <span>✅</span>
-            <span style={{fontWeight:600}}>All required documents uploaded</span>
-          </div>
-        )}
       </div>
-
-      {reqMissing > 0 && (
-        <Notif type="warning" icon="⚠️">
-          Documents marked <strong>Required</strong> must be uploaded before submission. Click any row to expand and upload.
-        </Notif>
-      )}
-
-      {/* 2-column doc checklist grid */}
-      <div className="doc-grid">
-        {DOC_REQUIREMENTS.map(doc => {
-          const uploaded = files[doc.key] || [];
-          const isDone = uploaded.length > 0;
-          const isActive = activeKey === doc.key;
-          return (
-            <div
-              key={doc.key}
-              className={`doc-row${isActive ? " doc-active" : ""}${isDone && !isActive ? " doc-done" : ""}`}
-              onClick={() => togglePanel(doc.key)}
-            >
-              <div className={`doc-row-icon ${isDone ? "done" : doc.required ? "req" : "opt"}`}>
-                {isDone ? "✓" : doc.required ? "↑" : "📄"}
-              </div>
-              <div className="doc-row-text">
-                <div className="doc-row-name">{doc.label}</div>
-                <div className="doc-row-hint">{doc.hint}</div>
-              </div>
-              <span className={`doc-row-badge ${isDone ? "doc-badge-done" : doc.required ? "doc-badge-req" : "doc-badge-opt"}`}>
-                {isDone ? `✓ ${uploaded.length}` : doc.required ? "Required" : "Optional"}
-              </span>
-              <span className="doc-row-chevron">{isActive ? "▴" : "▾"}</span>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Upload panel — appears below the grid, slides in when a row is selected */}
-      {activeDoc && (
-        <DocUploadPanel
-          doc={activeDoc}
-          files={files}
-          onAdd={onAdd}
-          onRemove={onRemove}
-          onClose={() => setActiveKey(null)}
-        />
-      )}
-    </div>
-  );
-};
+    ))}
+  </div>
+);
 
 // STEP 9 — Review & Submit
 const StepReview = ({ data, files, onGoToStep }) => {
