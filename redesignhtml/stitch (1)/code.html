@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Builder Directory | Qubrix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fbf9f5",
+                    "outline": "#74777f",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1c3557",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-container": "#fd8e55",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#30312e",
+                    "primary-fixed-dim": "#b0c8f1",
+                    "surface-container": "#f0eeea",
+                    "on-background": "#1b1c1a",
+                    "on-secondary-container": "#6e2a00",
+                    "tertiary": "#0f2033",
+                    "secondary": "#9c440f",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "safety-green": "#10B981",
+                    "outline-variant": "#c4c6cf",
+                    "on-surface": "#1b1c1a",
+                    "on-primary-container": "#869ec6",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f2f0ec",
+                    "on-primary-fixed-variant": "#30476b",
+                    "surface": "#fbf9f5",
+                    "slate-gray": "#334155",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdbcc",
+                    "tertiary-container": "#25354a",
+                    "surface-variant": "#e4e2de",
+                    "on-secondary-fixed-variant": "#7a3000",
+                    "surface-tint": "#485f84",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "on-tertiary-container": "#8e9eb6",
+                    "on-primary-fixed": "#001c3b",
+                    "onyx": "#1A1A1A",
+                    "surface-container-high": "#eae8e4",
+                    "surface-container-low": "#f5f3ef",
+                    "surface-container-highest": "#e4e2de",
+                    "inverse-primary": "#b0c8f1",
+                    "on-secondary-fixed": "#351000",
+                    "secondary-fixed-dim": "#ffb693",
+                    "primary": "#021f41",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "background": "#fbf9f5",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dbdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "body-md": ["DM Sans"],
+                    "label-md": ["DM Sans"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-sm": ["DM Sans"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["DM Sans"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .level-1-shadow {
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.02);
+        }
+        .level-2-shadow:hover {
+            box-shadow: 0 12px 12px 0 rgba(2, 31, 65, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface-bright dark:bg-onyx shadow-sm sticky top-0 z-50">
+<nav class="flex justify-between items-center px-margin-desktop h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim" href="#">Qubrix</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 transition-colors duration-200" href="#">Find Builders</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">My Quotes</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Documents</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:block relative">
+<input class="bg-surface-container-low border-none rounded-full px-4 py-2 text-body-md focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search builders..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2 text-outline">search</span>
+</div>
+<button class="bg-[#C4622D] text-white px-6 py-2 rounded-lg font-label-md text-label-md hover:bg-secondary transition-all active:scale-95 duration-150">Get Quote</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwdnqiFNqgZO8qovG9OusQbUZCF3BhxN_gI8xlBGZBstDukvCAzF_9ZC8InUQ-Zcw7c8XL-aa-HSFw36WOp-RbDTEIvPUwRDxe0gpUO7unFKG4okHbtANBJhP6u20SSh50rt8Hh4-vYVG668LEKTSwtDMlf-xjcY1jDsZRi5GMZigaxH4_LeBrqDfTEivRshc4UWoqbaFEZPFCwsHgxdkvjZ-EZR4AK6S_4459x2qyy3OOAqS971FaYT25Rr1pGOMblIfEr_5Kr9M"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<div class="flex flex-col md:flex-row gap-gutter">
+<!-- Filter Sidebar -->
+<aside class="w-full md:w-72 flex-shrink-0 space-y-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl level-1-shadow border border-outline-variant/30">
+<h2 class="font-headline-md text-headline-md mb-6 text-primary">Filters</h2>
+<!-- Region -->
+<div class="mb-8">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider block mb-4">Region</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md group-hover:text-primary transition-colors">Gauteng</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md group-hover:text-primary transition-colors">Western Cape</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md group-hover:text-primary transition-colors">KwaZulu-Natal</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="font-body-md text-body-md group-hover:text-primary transition-colors">Mpumalanga</span>
+</label>
+</div>
+</div>
+<!-- Specialization -->
+<div class="mb-8">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider block mb-4">Specialization</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full border border-outline-variant bg-surface-bright text-label-sm font-label-sm hover:border-primary hover:text-primary transition-all">Roofing</button>
+<button class="px-3 py-1.5 rounded-full border border-primary bg-primary-container text-on-primary-container text-label-sm font-label-sm transition-all">Full Renovation</button>
+<button class="px-3 py-1.5 rounded-full border border-outline-variant bg-surface-bright text-label-sm font-label-sm hover:border-primary hover:text-primary transition-all">Plumbing</button>
+<button class="px-3 py-1.5 rounded-full border border-outline-variant bg-surface-bright text-label-sm font-label-sm hover:border-primary hover:text-primary transition-all">Interior Design</button>
+<button class="px-3 py-1.5 rounded-full border border-outline-variant bg-surface-bright text-label-sm font-label-sm hover:border-primary hover:text-primary transition-all">Solar Install</button>
+</div>
+</div>
+<!-- NHBRC Status -->
+<div>
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider block mb-4">NHBRC Status</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 border-outline text-safety-green focus:ring-safety-green" name="nhbrc" type="radio"/>
+<span class="font-body-md text-body-md group-hover:text-safety-green transition-colors">Verified Only</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 border-outline text-primary focus:ring-primary" name="nhbrc" type="radio"/>
+<span class="font-body-md text-body-md group-hover:text-primary transition-colors">All Contractors</span>
+</label>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary">Verified Builders</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Showing 12 contractors in Johannesburg, Gauteng</p>
+</div>
+<div class="hidden sm:flex items-center gap-2 bg-surface-container-low p-1 rounded-lg">
+<button class="p-2 bg-white rounded-md shadow-sm text-primary"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 text-outline hover:text-primary"><span class="material-symbols-outlined">list</span></button>
+</div>
+</div>
+<!-- Builder Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 level-1-shadow level-2-shadow transition-all group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A wide professional photograph of a luxury residential construction site featuring a modern house under development. The image is bright with high-key natural lighting, emphasizing clean architectural lines and structural integrity. The scene includes a neatly organized workspace with premium building materials, reflecting a mood of professional expertise and high-end craftsmanship in a light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv-Nv2Q45W-VVtFacJ2bcNEP_OtGJ4zmAdbwT-O8GFvhC3DLrQIPVuv44ucKxbxy1SqwECI4LW8aYDeY9l1h2hX5ern0EKQeCZoMl2QAtsL7dYos1vvM73z-GSlZG-uzq5fxRuj9jf6dj1T6fHl3EjVhOZTNmZ1FNw2GPWuNUbsN7v7JA3-BlLBkPkHIf4NM2V3nfTSQ-UTk0KKTNxI1LJ5aduR2-rol7ER-hO5CWvg-eXCPyqySQJJIcRcgzLxYGeHFigoFze9T8"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-safety-green text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-safety-green font-label-sm text-label-sm uppercase tracking-wide">NHBRC Verified</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Apex Structured Living</h3>
+<div class="flex items-center gap-1 text-[#C4622D]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Sandton, Johannesburg</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Full Renovation</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Architecture</span>
+</div>
+<div class="flex gap-3">
+<button class="flex-grow bg-[#C4622D] text-white py-3 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors">Request Quote</button>
+<button class="p-3 border border-outline-variant rounded-lg text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">bookmark</span></button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 level-1-shadow level-2-shadow transition-all group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional close-up shot of architectural blueprints and a digital tablet on a clean white desk in a bright, sunlit modern office. The image has a professional and trustworthy atmosphere with soft shadows and a neutral color palette of grays and navy blues. The lighting is airy and optimistic, perfectly capturing the essence of technological sophistication and precise renovation planning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq5KsNwSNMH-yX_09kSJrQhZE54YQnECot1ge02a1lLVaLWAF8QwkTI02P_GCbNGImRfn3B-biLRHKLP3-Go7IJ0_3sM-RPYRKzG3VoKDKB3VnvDcDTmbWet7pYlR53iRM-qNpMrey6XKM5bgVOXUsC6y0x0aH6AtXwfuW87qoVJXB2U2FP7HbEQ0hDPXSM3aDLP9Yw1LIe95IDx4aiz0aaCbtrMNe7QEQsm1YuW5dx39wW-ERYMiufjgnKLKvq9Vg634OAwt2-f0"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-safety-green text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-safety-green font-label-sm text-label-sm uppercase tracking-wide">NHBRC Verified</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Summit Roofing &amp; Deck</h3>
+<div class="flex items-center gap-1 text-[#C4622D]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.7</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Centurion, Pretoria</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Roofing Specialist</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Outdoor</span>
+</div>
+<div class="flex gap-3">
+<button class="flex-grow bg-[#C4622D] text-white py-3 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors">Request Quote</button>
+<button class="p-3 border border-outline-variant rounded-lg text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">bookmark</span></button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 level-1-shadow level-2-shadow transition-all group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-quality image of a sleek, modern interior renovation featuring minimalist design elements, light wood flooring, and expansive glass walls. The lighting is bright and natural, creating a serene and professional environment. The color palette is sophisticated, using whites and subtle earth tones that align with the brand's premium identity. The overall style is clean, organized, and structurally sound." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqKyBKUY_5jTa3wgVOTWaWFP8yGLg57PhCncGcvqFcfBTBDcftEvrODbxgDZebKNF2v0ma6NVtfcGXJ84T1WgvKiobp7A1fmt7RYKr7S5Bh9kwDj96VYp-bJuBjWD-D94yiaRjse_9gUKEaNfc5jUjh5jaBCitcoOtHEJgNBDy69Zn7vMwcuN8-UgdCDz0QhhhQnuBhridoXjUiuBlIZHvyDFlkXPB2zSViVoHT0hN1aF1Bi0_-B7iLv_6n3YdN9pX_oe1X7EBrfQ"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-safety-green text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-safety-green font-label-sm text-label-sm uppercase tracking-wide">NHBRC Verified</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Blue Horizon Devs</h3>
+<div class="flex items-center gap-1 text-[#C4622D]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">5.0</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Midrand, Johannesburg</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Luxury Homes</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Green Tech</span>
+</div>
+<div class="flex gap-3">
+<button class="flex-grow bg-[#C4622D] text-white py-3 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors">Request Quote</button>
+<button class="p-3 border border-outline-variant rounded-lg text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">bookmark</span></button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 level-1-shadow level-2-shadow transition-all group">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist image of a newly constructed modern kitchen with premium marble countertops and sleek dark cabinets. The photography is high-key and professional, using soft shadows to highlight the structural integrity and functional elegance of the space. The visual style is rooted in reliability and expert craftsmanship, featuring a palette of whites, grays, and deep navy accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ8R4ng0hGaGDTzAL8BbIX_i-4ONHq1xA1l8CHHMVD_dscmkcSefX_ISB5ZZ6WB05X_Z7Z6H50lrOfolB0Nr9VJo2xl4a16SkVPO-tGrDakyWUr6K_SZbImh4eTTKiyugQLnivYXAYXOnxcdRsIahJ69HUqncunXXpsgoQKW8hRTqKdNSSELqvblKQ3GCLv4hZ9NRJcuOkZlGGvWOH_C41E8ix4ULlo8jlO5hhyEv2wVDgR4WvL7Pp7MDPaR2mwI-izaXrrPMZBQ8"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-safety-green text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-safety-green font-label-sm text-label-sm uppercase tracking-wide">NHBRC Verified</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Urban Core Interiors</h3>
+<div class="flex items-center gap-1 text-[#C4622D]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.6</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Randburg, Johannesburg</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Interior Fit-out</span>
+<span class="bg-surface-container-high px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant">Renovation</span>
+</div>
+<div class="flex gap-3">
+<button class="flex-grow bg-[#C4622D] text-white py-3 rounded-lg font-label-md text-label-md hover:bg-secondary transition-colors">Request Quote</button>
+<button class="p-3 border border-outline-variant rounded-lg text-primary hover:bg-surface-container transition-colors"><span class="material-symbols-outlined">bookmark</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-outline hover:border-primary hover:text-primary transition-all"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md text-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all font-label-md text-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all font-label-md text-label-md">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all font-label-md text-label-md">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-outline hover:border-primary hover:text-primary transition-all"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-primary dark:bg-onyx text-on-primary py-12">
+<div class="w-full px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="space-y-4">
+<h2 class="font-headline-md text-headline-md text-on-primary">Qubrix</h2>
+<p class="font-body-md text-body-md text-primary-fixed/80">Connecting South African homeowners with the most reliable, NHBRC verified contractors for every renovation need.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-secondary-container mb-4 uppercase tracking-widest">Platform</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Builder Directory</a></li>
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Bank Finance Guide</a></li>
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Contract Templates</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-secondary-container mb-4 uppercase tracking-widest">Legal</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Safety Standards</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-secondary-container mb-4 uppercase tracking-widest">Support</h4>
+<ul class="space-y-2">
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Contact Support</a></li>
+<li><a class="font-body-md text-body-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Help Center</a></li>
+<li class="flex items-center gap-2 mt-4">
+<span class="w-2 h-2 rounded-full bg-safety-green"></span>
+<span class="font-label-sm text-label-sm">NHBRC Partnership Active</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="w-full px-margin-desktop max-w-container-max mx-auto mt-12 pt-8 border-t border-white/10 text-center">
+<p class="font-label-sm text-label-sm text-primary-fixed/60">© 2024 Qubrix South Africa. All Rights Reserved. NHBRC Verified Partner.</p>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface dark:bg-surface-dim shadow-[0_-4px_12px_rgba(0,0,0,0.02)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-container bg-secondary-container/10 dark:bg-secondary-container/20 rounded-xl p-2" href="#">
+<span class="material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm-mobile">Builders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="request_quote">request_quote</span>
+<span class="font-label-sm text-label-sm-mobile">Quotes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm-mobile">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+
+        // Filter functionality simulation
+        const checkLabels = document.querySelectorAll('aside label.group');
+        checkLabels.forEach(label => {
+            label.addEventListener('click', () => {
+                const checkbox = label.querySelector('input');
+                if(checkbox.type === 'checkbox') {
+                   // Toggle logic could go here
+                }
+            });
+        });
+    </script>
+</body></html>

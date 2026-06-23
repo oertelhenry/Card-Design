@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Qubrix | Project Quote &amp; Bank Application</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fbf9f5",
+                        "outline": "#74777f",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1c3557",
+                        "primary-fixed": "#d5e3ff",
+                        "secondary-container": "#fd8e55",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#30312e",
+                        "primary-fixed-dim": "#b0c8f1",
+                        "surface-container": "#f0eeea",
+                        "on-background": "#1b1c1a",
+                        "on-secondary-container": "#6e2a00",
+                        "tertiary": "#0f2033",
+                        "secondary": "#9c440f",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "safety-green": "#10B981",
+                        "outline-variant": "#c4c6cf",
+                        "on-surface": "#1b1c1a",
+                        "on-primary-container": "#869ec6",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#d3e4fe",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f0ec",
+                        "on-primary-fixed-variant": "#30476b",
+                        "surface": "#fbf9f5",
+                        "slate-gray": "#334155",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffdbcc",
+                        "tertiary-container": "#25354a",
+                        "surface-variant": "#e4e2de",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "surface-tint": "#485f84",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "on-tertiary-container": "#8e9eb6",
+                        "on-primary-fixed": "#001c3b",
+                        "onyx": "#1A1A1A",
+                        "surface-container-high": "#eae8e4",
+                        "surface-container-low": "#f5f3ef",
+                        "surface-container-highest": "#e4e2de",
+                        "inverse-primary": "#b0c8f1",
+                        "on-secondary-fixed": "#351000",
+                        "secondary-fixed-dim": "#ffb693",
+                        "primary": "#021f41",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "background": "#fbf9f5",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["DM Sans"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["DM Sans"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active { color: #021f41; border-color: #021f41; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<header class="bg-surface-bright dark:bg-onyx shadow-sm sticky top-0 z-50">
+<div class="flex justify-between items-center px-margin-desktop h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Qubrix</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Find Builders</a>
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 transition-colors duration-200" href="#">My Quotes</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Documents</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block px-6 py-2.5 bg-secondary text-white rounded-full font-label-md text-label-md active:scale-95 transition-transform duration-150 hover:bg-opacity-90">Get Quote</button>
+<div class="h-10 w-10 rounded-full bg-surface-container overflow-hidden border border-outline-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoRkJtLbIb2vyq5Ie9YGGdg3vybfExWPyNxy7nb8swu1DTM04dNj8x3EndA-AN_IXrx9Vr0ZQ-KGVz6-kyPd2lG7CyqJwp9S_mbxs8pBLollmEnqdnZospM-aZIzn7YRg2Y8yFkx_7-DGL9PrPWmGtWL7prqkCLbo3_QBs4_D-PJbC_g77zHn48XJae7at3UCP8V1JgFujdD-i6ZnSxqRBf9ONeRczyyRieZLy44bGMa2sE4Wuxhi2AcUIXtYmTzzeOgjuYX6r550"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<!-- Progress Indicator -->
+<div class="mb-12">
+<div class="flex items-center justify-between max-w-3xl mx-auto relative">
+<!-- Line background -->
+<div class="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 z-0"></div>
+<!-- Progress Line -->
+<div class="absolute top-1/2 left-0 w-2/3 h-0.5 bg-primary -translate-y-1/2 z-0 transition-all duration-500"></div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary uppercase">Quote</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-md ring-4 ring-primary-fixed">
+<span class="font-label-md text-label-md">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary uppercase">Review</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center border-2 border-outline-variant">
+<span class="font-label-md text-label-md">3</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Bank Submit</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Project & Costs -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- Project Overview -->
+<section class="bg-surface-container-lowest rounded-xl p-6 md:p-8 shadow-[0_4px_12px_rgba(0,0,0,0.02)] border border-surface-variant/30">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-1">Double-Story Extension</h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                                42 Silver Oak Estate, Sandton, Johannesburg
+                            </p>
+</div>
+<div class="bg-safety-green/10 text-safety-green px-4 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-md text-label-md">NHBRC Approved</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-y border-surface-variant/50">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Total Area</p>
+<p class="font-headline-md text-headline-md text-primary">145 m²</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Duration</p>
+<p class="font-headline-md text-headline-md text-primary">22 Weeks</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Quote Date</p>
+<p class="font-headline-md text-headline-md text-primary">Oct 24, 2024</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Expiring In</p>
+<p class="font-headline-md text-headline-md text-secondary">12 Days</p>
+</div>
+</div>
+<div class="mt-6">
+<h3 class="font-label-md text-label-md text-primary mb-3">Project Scope Summary</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Proposed double-story master suite extension including ensuite bathroom, walk-in dressing room, and balcony. Scope covers structural engineering, NHBRC registrations, plumbing, electrical installations to code, and high-end finishing as per technical specifications.
+                        </p>
+</div>
+</section>
+<!-- Detailed Cost Breakdown (AI Benchmarks) -->
+<section class="bg-surface-container-lowest rounded-xl p-6 md:p-8 shadow-[0_4px_12px_rgba(0,0,0,0.02)] border border-surface-variant/30">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-md text-headline-md text-primary">Cost Breakdown</h2>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-md text-[10px] font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span> AI BENCHMARKED
+                            </span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Market Average: <span class="text-primary">R14,200/m²</span></p>
+</div>
+<div class="space-y-4">
+<!-- Cost Item -->
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">foundation</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Sub-structure &amp; Shell</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Excavations, Concrete, Brickwork</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">R485,000</p>
+<p class="font-label-sm text-label-sm text-safety-green">On Benchmark</p>
+</div>
+</div>
+<!-- Cost Item -->
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">plumbing</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Mechanical &amp; Electrical</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Reticulation, Sanitaryware, Lighting</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">R212,500</p>
+<p class="font-label-sm text-label-sm text-secondary">6% Above Avg.</p>
+</div>
+</div>
+<!-- Cost Item -->
+<div class="flex items-center justify-between p-4 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">colors</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Finishes &amp; Fittings</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Flooring, Paint, Carpentry</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-headline-md text-primary">R345,000</p>
+<p class="font-label-sm text-label-sm text-safety-green">Excellent Value</p>
+</div>
+</div>
+</div>
+<div class="mt-8 p-6 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm opacity-80 uppercase mb-1">Total Estimated Investment</p>
+<p class="font-display-lg text-display-lg text-white">R1,042,500.00</p>
+</div>
+<button class="flex items-center gap-2 font-label-md text-label-md text-white border border-on-primary-container px-6 py-3 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> Full PDF Quote
+                        </button>
+</div>
+</section>
+</div>
+<!-- Right Column: Builder & Bank -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Builder Profile -->
+<section class="bg-white rounded-xl p-6 shadow-sm border border-surface-variant/30">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase mb-6">Contracting Builder</h3>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-16 h-16 rounded-xl bg-surface-container overflow-hidden">
+<img alt="Builder logo" class="w-full h-full object-cover" data-alt="A professional, minimalist logo for a construction company named 'Elite Structures' displayed on a clean white building front. The lighting is soft morning sun, giving a sense of reliability and high-end architectural expertise. The style is corporate and modern, featuring deep navy and metallic silver accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHLO5AJ00iF8vrkxGmurgja1TV6jRHxh0G6V9PujsFB1bOnEWcgdIAmnJs8owt0UXKnqzjMNs-lZL-geER29v4ZSRKZGMMqC3sG7RiSYIXgsyoTfaWmX_eD844_WmODuSuT90Hytec5IcUqSSGcL-9u-nwEmKfVwbFL6C0EsFCHoVbDekCIe8j42xo3VasIN59CtT6Ne-rWjw3UH-eHUQkpUuI9Ax9GoYViCRQOFSbG3MQ4Ch9d0ltWvqOJ2vmrGbbr_wknwToDvo"/>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-primary">Elite Structures SA</p>
+<div class="flex items-center gap-1 text-safety-green">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md">4.9 (124 reviews)</span>
+</div>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-between text-label-md font-label-md">
+<span class="text-on-surface-variant">NHBRC Reg.</span>
+<span class="text-primary font-bold">#10023498</span>
+</div>
+<div class="flex items-center justify-between text-label-md font-label-md">
+<span class="text-on-surface-variant">Public Liability</span>
+<span class="text-safety-green flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> Active</span>
+</div>
+<div class="flex items-center justify-between text-label-md font-label-md">
+<span class="text-on-surface-variant">Completed Projects</span>
+<span class="text-primary">48 in area</span>
+</div>
+</div>
+<button class="w-full py-3 border border-outline text-primary rounded-full font-label-md text-label-md hover:bg-surface-container-low transition-colors">View Portfolio</button>
+</section>
+<!-- Bank Application Section -->
+<section class="bg-surface-bright rounded-xl p-6 shadow-md border-2 border-primary/10">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-secondary-container/20 rounded-lg">
+<span class="material-symbols-outlined text-secondary">account_balance</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">Submit to Bank</h3>
+</div>
+<div class="space-y-6">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Qubrix is an authorized bank partner. We package your quote for rapid building loan approval.
+                        </p>
+<div class="space-y-3">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Required Documents</p>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-white border border-surface-variant cursor-pointer hover:border-primary transition-all">
+<input checked="" class="rounded text-secondary focus:ring-secondary w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md text-primary flex-1">Approved Building Plans</span>
+<span class="material-symbols-outlined text-safety-green">check_circle</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-white border border-surface-variant cursor-pointer hover:border-primary transition-all">
+<input checked="" class="rounded text-secondary focus:ring-secondary w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md text-primary flex-1">Contractor NHBRC Cert</span>
+<span class="material-symbols-outlined text-safety-green">check_circle</span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-lg bg-white border border-surface-variant cursor-pointer hover:border-primary transition-all">
+<input class="rounded text-secondary focus:ring-secondary w-5 h-5" type="checkbox"/>
+<span class="font-label-md text-label-md text-primary flex-1">Latest Bank Statements</span>
+<span class="material-symbols-outlined text-outline">pending</span>
+</label>
+</div>
+<div class="p-4 bg-white rounded-lg border border-dashed border-outline-variant text-center">
+<span class="material-symbols-outlined text-outline-variant text-[32px] mb-2">upload_file</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Drop bank statements here or <span class="text-secondary underline">browse</span></p>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-headline-md text-headline-md shadow-lg active:scale-95 transition-transform">
+                            Apply for Finance
+                        </button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant">
+                            Estimated approval time: <span class="font-bold">48 - 72 Hours</span>
+</p>
+</div>
+</section>
+<!-- Help/Support -->
+<div class="flex items-center justify-center gap-6 py-4">
+<a class="font-label-md text-label-md text-on-surface-variant flex items-center gap-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                        Help Center
+                    </a>
+<a class="font-label-md text-label-md text-on-surface-variant flex items-center gap-2 hover:text-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                        Chat Support
+                    </a>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-primary dark:bg-onyx mt-12 py-12">
+<div class="w-full px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="col-span-1 md:col-span-1">
+<span class="font-headline-md text-headline-md text-on-primary block mb-4">Qubrix</span>
+<p class="font-body-md text-body-md text-primary-fixed/80 leading-relaxed">
+                    South Africa's premier platform for managed residential construction and digital building finance.
+                </p>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-sm text-label-sm text-secondary-fixed mb-4 uppercase">Platform</h4>
+<ul class="space-y-2">
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Builder Directory</a></li>
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Bank Finance Guide</a></li>
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Technical Standards</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-sm text-label-sm text-secondary-fixed mb-4 uppercase">Company</h4>
+<ul class="space-y-2">
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-label-md text-label-md text-primary-fixed/80 hover:text-white transition-colors" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-sm text-label-sm text-secondary-fixed mb-4 uppercase">Our Partners</h4>
+<div class="flex flex-wrap gap-4 opacity-60 grayscale hover:grayscale-0 transition-all">
+<div class="h-8 w-16 bg-white/10 rounded flex items-center justify-center font-bold text-white text-[10px]">ABSA</div>
+<div class="h-8 w-16 bg-white/10 rounded flex items-center justify-center font-bold text-white text-[10px]">FNB</div>
+<div class="h-8 w-16 bg-white/10 rounded flex items-center justify-center font-bold text-white text-[10px]">NHBRC</div>
+</div>
+</div>
+</div>
+<div class="w-full px-margin-desktop max-w-container-max mx-auto mt-12 pt-8 border-t border-white/10 text-center">
+<p class="font-label-sm text-label-sm text-primary-fixed/60">
+                © 2024 Qubrix South Africa. All Rights Reserved. NHBRC Verified Partner.
+            </p>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface dark:bg-surface-dim shadow-[0_-4px_12px_rgba(0,0,0,0.02)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-label-sm text-label-sm-mobile">Builders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-container bg-secondary-container/10 dark:bg-secondary-container/20 rounded-xl p-2 scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">request_quote</span>
+<span class="font-label-sm text-label-sm-mobile">Quotes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm-mobile">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction: Checkbox toggle visual feedback
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const icon = this.parentElement.querySelector('.material-symbols-outlined');
+                if (this.checked) {
+                    icon.textContent = 'check_circle';
+                    icon.className = 'material-symbols-outlined text-safety-green';
+                } else {
+                    icon.textContent = 'pending';
+                    icon.className = 'material-symbols-outlined text-outline';
+                }
+            });
+        });
+
+        // Hover animation for Cost Items
+        const costItems = document.querySelectorAll('.bg-surface-container-low');
+        costItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateX(4px)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body></html>

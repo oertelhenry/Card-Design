@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Qubrix | Property Owner Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fbf9f5",
+                    "outline": "#74777f",
+                    "on-error": "#ffffff",
+                    "primary-container": "#1c3557",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-container": "#fd8e55",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#30312e",
+                    "primary-fixed-dim": "#b0c8f1",
+                    "surface-container": "#f0eeea",
+                    "on-background": "#1b1c1a",
+                    "on-secondary-container": "#6e2a00",
+                    "tertiary": "#0f2033",
+                    "secondary": "#9c440f",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "safety-green": "#10B981",
+                    "outline-variant": "#c4c6cf",
+                    "on-surface": "#1b1c1a",
+                    "on-primary-container": "#869ec6",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f2f0ec",
+                    "on-primary-fixed-variant": "#30476b",
+                    "surface": "#fbf9f5",
+                    "slate-gray": "#334155",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed": "#ffdbcc",
+                    "tertiary-container": "#25354a",
+                    "surface-variant": "#e4e2de",
+                    "on-secondary-fixed-variant": "#7a3000",
+                    "surface-tint": "#485f84",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "on-tertiary-container": "#8e9eb6",
+                    "on-primary-fixed": "#001c3b",
+                    "onyx": "#1A1A1A",
+                    "surface-container-high": "#eae8e4",
+                    "surface-container-low": "#f5f3ef",
+                    "surface-container-highest": "#e4e2de",
+                    "inverse-primary": "#b0c8f1",
+                    "on-secondary-fixed": "#351000",
+                    "secondary-fixed-dim": "#ffb693",
+                    "primary": "#021f41",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "background": "#fbf9f5",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#dbdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "40px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "body-md": ["DM Sans"],
+                    "label-md": ["DM Sans"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "label-sm": ["DM Sans"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["DM Sans"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-border {
+            position: relative;
+        }
+        .active-nav-border::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: currentColor;
+        }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-surface font-body-md selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-bright dark:bg-onyx shadow-sm fixed top-0 left-0 w-full z-50">
+<nav class="flex justify-between items-center px-margin-desktop h-16 w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Qubrix</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Find Builders</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">My Quotes</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Documents</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="hidden md:block bg-secondary text-on-primary font-label-md text-label-md px-6 py-2 rounded-full hover:shadow-lg transition-all active:scale-95 duration-150">Get Quote</button>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile photo" class="w-full h-auto" data-alt="A professional close-up headshot of a smiling middle-aged man with short dark hair and a neat beard, set against a blurred architectural background. The lighting is bright and clean, emphasizing a professional corporate atmosphere. The color palette is high-contrast with warm skin tones and cool blue background hues, following the modern professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAue_SvYo5T3qeItHr8ObV3OOo0zvqpiJRdYT6FNDo2ff-Qw1RHRKhj509IyARo2tNdSxcgS5YsbZQO_EGfeg7w6Jx45JIA_t_u3TgALlinT1EtuKLPpIGLEMLzlu7dPotaW_uv0X14soBVVkIgpQ-0vQgbcYx99ZAok9DihSKND-19iYtQ9M_GULnHfuLPBBoQhyd6zTY5tRbwCH6FZk4og9h4rHqHCbGq1KX4nBhywAI48yNYiiJQBGGLdDeHw-bHkvHCZ8T3DiE"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-20 md:pb-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<!-- Welcome Section -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Welcome back, David.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Your property renovations are 82% on track this month.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-6 py-3 rounded-xl hover:bg-surface-container-low transition-colors shadow-sm">
+<span class="material-symbols-outlined text-primary">search</span>
+<span class="font-label-md text-label-md text-primary">Find a Builder</span>
+</button>
+<button class="flex items-center gap-2 bg-secondary text-on-primary px-6 py-3 rounded-xl hover:shadow-md transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-md text-label-md">Start New Quote</span>
+</button>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Active Projects Grid (Bento Style) -->
+<div class="lg:col-span-8">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-lg text-headline-lg text-primary">Active Projects</h2>
+<a class="text-secondary font-label-md text-label-md hover:underline" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_24px_rgba(28,53,87,0.06)] transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">foundation</span>
+</div>
+<span class="bg-safety-green/10 text-safety-green font-label-sm text-label-sm px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined !text-sm" data-weight="fill">check_circle</span>
+                                On Schedule
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Sandton Villa Extension</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Kitchen remodel &amp; patio expansion.</p>
+<div class="space-y-2">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Current Phase: <span class="text-primary font-bold">Building</span></span>
+<span class="text-primary">65%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 65%"></div>
+</div>
+<div class="flex justify-between pt-2">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="A sharp, modern portrait of a structural engineer in a white hard hat standing on a construction site. The lighting is golden hour sun, casting a professional and reliable glow. The background shows blurred steel frameworks and blue skies, matching the architectural precision theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhuGiOchzKw7FiNc0Nis1n0_H4hvE31Ak20UXpo09kyaHIo6J8s3If0fFvMciO4w8QIHkPo27VKzzJMbIpEh9AEvUSyd_nZ9w839v3s3L8z7byPusePitVhDHA9M_E0WumWFxXwtaXn1tATyZKCdyizottNz4Gbh5ryKblhvy1oe1fn2yoZ-OJ3cOtS2iOwExeIvBrZsQzfleAwk8pMGrhrldrKo7lq6vCaUz52eeeCkfPU2n_3i9YxQhlv8aIHFuxNAKbbQ-eDsI"/>
+<img class="w-8 h-8 rounded-full border-2 border-white" data-alt="A focused close-up of a construction site manager looking at a tablet. He is wearing a high-visibility vest. The environment is clean and organized, conveying professional expertise and technical sophistication in residential construction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB98PQ0dQRhjRoehdHHpNflxXkQbSbUNL1ESA0JE291uZ4m-NVvi3Qx0Z5j-D95L_ToJl2t52-ACPfmtU1o96Mnm8rgTjOyGc0Ev7CshrUwp2MyaUMZlLOO6kQCtmcrEi8WrU-jUSyH_83dX_QwspYk9VY_fnpDlayOkd51CmRJRgvd7JXX7ALYJYfGd0ZuGHoq4hhvy9_C1Ty3fSyM6IF2WoWJf4dYBt5COw_TZSIKsRNAPJySVjh4WqkRdvFjyjetFRw1p_J4CxI"/>
+</div>
+<span class="text-label-sm text-on-surface-variant italic">Next: Inspections</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_24px_rgba(28,53,87,0.06)] transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<span class="bg-primary-fixed text-primary font-label-sm text-label-sm px-2 py-1 rounded">
+                                Planning
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-1">Camps Bay Loft</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Structural reinforcement &amp; interior design.</p>
+<div class="space-y-2">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">Current Phase: <span class="text-primary font-bold">Quoting</span></span>
+<span class="text-primary">20%</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 20%"></div>
+</div>
+<div class="flex justify-between pt-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant !text-lg">description</span>
+<span class="text-label-sm text-on-surface-variant">3 Quotes Received</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Statistics Section -->
+<div class="mt-8 bg-primary text-on-primary rounded-xl p-8 relative overflow-hidden">
+<div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div>
+<p class="text-on-primary-container font-label-sm text-label-sm mb-1 uppercase tracking-wider">Total Invested</p>
+<p class="font-headline-lg text-headline-lg">R2.4M</p>
+</div>
+<div>
+<p class="text-on-primary-container font-label-sm text-label-sm mb-1 uppercase tracking-wider">Active Tasks</p>
+<p class="font-headline-lg text-headline-lg">12</p>
+</div>
+<div>
+<p class="text-on-primary-container font-label-sm text-label-sm mb-1 uppercase tracking-wider">Verified Pros</p>
+<p class="font-headline-lg text-headline-lg">04</p>
+</div>
+<div>
+<p class="text-on-primary-container font-label-sm text-label-sm mb-1 uppercase tracking-wider">Project Days</p>
+<p class="font-headline-lg text-headline-lg">45</p>
+</div>
+</div>
+<!-- Decorative background pattern -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-tertiary-container/20 rounded-full -ml-12 -mb-12 blur-2xl"></div>
+</div>
+</div>
+<!-- Recent Quotes (Side List) -->
+<aside class="lg:col-span-4">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline-lg text-headline-lg text-primary">Recent Quotes</h2>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.02)] divide-y divide-surface-container overflow-hidden">
+<!-- Quote 1 -->
+<div class="p-6 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">R450,000.00</span>
+<span class="text-label-sm text-on-surface-variant">2h ago</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">Apex Structural Ltd</h4>
+<div class="flex items-center gap-2 mt-1 mb-4">
+<span class="flex items-center gap-1 bg-safety-green/10 text-safety-green font-label-sm text-label-sm px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined !text-xs" data-weight="fill">verified</span>
+                                Verified Builder
+                            </span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant line-clamp-1 italic">"Revised foundation plan including reinforced steel..."</p>
+</div>
+<!-- Quote 2 -->
+<div class="p-6 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">R385,000.00</span>
+<span class="text-label-sm text-on-surface-variant">5h ago</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">BuildRight Pros</h4>
+<div class="flex items-center gap-2 mt-1 mb-4">
+<span class="flex items-center gap-1 bg-safety-green/10 text-safety-green font-label-sm text-label-sm px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined !text-xs" data-weight="fill">verified</span>
+                                Verified Builder
+                            </span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant line-clamp-1 italic">"Quote includes premium granite finishes..."</p>
+</div>
+<!-- Quote 3 -->
+<div class="p-6 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">R510,000.00</span>
+<span class="text-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary group-hover:text-secondary transition-colors">Cape Craft Interiors</h4>
+<div class="flex items-center gap-2 mt-1 mb-4">
+<span class="flex items-center gap-1 bg-safety-green/10 text-safety-green font-label-sm text-label-sm px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined !text-xs" data-weight="fill">verified</span>
+                                Verified Builder
+                            </span>
+</div>
+<p class="text-label-md font-label-md text-on-surface-variant line-clamp-1 italic">"Complete renovation with lighting design phase..."</p>
+</div>
+<div class="p-4 text-center">
+<button class="text-primary font-label-md text-label-md hover:text-secondary transition-colors py-2">Compare All Quotes</button>
+</div>
+</div>
+<!-- AI Insight Card -->
+<div class="mt-8 bg-tertiary-container text-on-tertiary-container rounded-xl p-6 border-l-4 border-secondary shadow-lg">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h5 class="font-headline-md text-headline-md">AI Savings Insight</h5>
+</div>
+<p class="font-body-md text-body-md opacity-90">Switching to <span class="font-bold text-on-tertiary">Eco-Block foundation</span> for the villa could save up to <span class="text-secondary font-bold">R45,000</span> without compromising structural integrity.</p>
+<button class="mt-4 text-on-tertiary font-label-md text-label-md flex items-center gap-1 hover:gap-2 transition-all">
+                        View Analysis <span class="material-symbols-outlined !text-sm">arrow_forward</span>
+</button>
+</div>
+</aside>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component - Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface dark:bg-surface-dim shadow-[0_-4px_12px_rgba(0,0,0,0.02)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-container bg-secondary-container/10 dark:bg-secondary-container/20 rounded-xl p-2 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">verified</span>
+<span class="font-label-sm text-label-sm-mobile">Builders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">request_quote</span>
+<span class="font-label-sm text-label-sm-mobile">Quotes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant p-2 hover:text-secondary transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm-mobile">Profile</span>
+</a>
+</nav>
+<!-- Footer (Shared Component) -->
+<footer class="bg-primary dark:bg-onyx w-full py-12 mt-12">
+<div class="w-full px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter text-on-primary">
+<div class="md:col-span-1">
+<span class="font-headline-md text-headline-md text-on-primary font-bold">Qubrix</span>
+<p class="mt-4 font-body-md text-body-md opacity-70">Building trust in South African residential construction since 2021.</p>
+</div>
+<div>
+<h6 class="font-label-sm text-label-sm mb-6 uppercase opacity-50 tracking-widest">Resources</h6>
+<ul class="space-y-4">
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Builder Directory</a></li>
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Bank Finance Guide</a></li>
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Success Stories</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-sm text-label-sm mb-6 uppercase opacity-50 tracking-widest">Company</h6>
+<ul class="space-y-4">
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Privacy Policy</a></li>
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Terms of Service</a></li>
+<li><a class="text-primary-fixed/80 hover:text-white transition-colors hover:underline decoration-secondary-container underline-offset-4" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-sm text-label-sm mb-6 uppercase opacity-50 tracking-widest">Connect</h6>
+<p class="font-label-md text-label-md text-primary-fixed/80 mb-4">support@qubrix.co.za</p>
+<div class="flex gap-4">
+<!-- Social icons would go here -->
+</div>
+</div>
+</div>
+<div class="w-full px-margin-desktop max-w-container-max mx-auto mt-12 pt-8 border-t border-white/10">
+<p class="font-label-sm text-label-sm text-primary-fixed/50">© 2024 Qubrix South Africa. All Rights Reserved. NHBRC Verified Partner.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for progress bars
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressBars = document.querySelectorAll('.h-full.bg-secondary, .h-full.bg-secondary-container');
+            progressBars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.5s cubic-bezier(0.65, 0, 0.35, 1)';
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

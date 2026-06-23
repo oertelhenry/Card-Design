@@ -28,9 +28,19 @@ import ActivityTimeline from "./ActivityTimeline";
 import ProjectMessages from "./ProjectMessages";
 import LegalScreens from "./LegalScreens";
 import QubrixLandingRedesign from "./QubrixLandingRedesign";
+import QubrixBuilderDirectory from "./QubrixBuilderDirectory";
+import QubrixDashboard from "./QubrixDashboard";
+import QubrixLogin from "./QubrixLogin";
+import QubrixQuoteBankApp from "./QubrixQuoteBankApp";
+import QubrixApp from "./QubrixApp";
+import QubrixProductsPage from "./QubrixProductsPage";
+import AppLayout from "./AppLayout";
+import Survey from "./survey-editor";
+import SurveyCardPreview from "./SurveyCardPreview";
 
 
 const TABS = [
+  { label: "AppLayout", component: <AppLayout /> },
   { label: "Admin UI", component: <PersonalyzAdmin /> },
   { label: "Design Spec", component: <PersonalyzDesignSpec /> },
   { label: "Trend Report", component: <TrendReport /> },
@@ -60,6 +70,14 @@ const TABS = [
   { label: "Project Messages", component: <ProjectMessages /> },
   { label: "Legal Screens", component: <LegalScreens /> },
   { label: "Qubrix Landing Gareth", component: <QubrixLandingRedesign /> },
+  { label: "QubrixBuilderDirectory", component: <QubrixBuilderDirectory /> },
+  { label: "QubrixDashboard", component: <QubrixDashboard /> },
+  { label: "QubrixLogin", component: <QubrixLogin /> },
+  { label: "QubrixQuoteBankApp", component: <QubrixQuoteBankApp /> },
+  { label: "Qubrix App", component: <QubrixApp /> },
+  { label: "Survey", component: <Survey /> },
+  { label: "Survey Card Preview", component: <SurveyCardPreview /> },
+  { label: "Qubrix Products Page", component: <QubrixProductsPage /> },
 ];
 
 function App() {

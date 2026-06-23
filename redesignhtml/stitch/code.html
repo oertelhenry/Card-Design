@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Qubrix</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fbf9f5",
+                        "outline": "#74777f",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1c3557",
+                        "primary-fixed": "#d5e3ff",
+                        "secondary-container": "#fd8e55",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#30312e",
+                        "primary-fixed-dim": "#b0c8f1",
+                        "surface-container": "#f0eeea",
+                        "on-background": "#1b1c1a",
+                        "on-secondary-container": "#6e2a00",
+                        "tertiary": "#0f2033",
+                        "secondary": "#9c440f",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "safety-green": "#10B981",
+                        "outline-variant": "#c4c6cf",
+                        "on-surface": "#1b1c1a",
+                        "on-primary-container": "#869ec6",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#d3e4fe",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f0ec",
+                        "on-primary-fixed-variant": "#30476b",
+                        "surface": "#fbf9f5",
+                        "slate-gray": "#334155",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffdbcc",
+                        "tertiary-container": "#25354a",
+                        "surface-variant": "#e4e2de",
+                        "on-secondary-fixed-variant": "#7a3000",
+                        "surface-tint": "#485f84",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "on-tertiary-container": "#8e9eb6",
+                        "on-primary-fixed": "#001c3b",
+                        "onyx": "#1A1A1A",
+                        "surface-container-high": "#eae8e4",
+                        "surface-container-low": "#f5f3ef",
+                        "surface-container-highest": "#e4e2de",
+                        "inverse-primary": "#b0c8f1",
+                        "on-secondary-fixed": "#351000",
+                        "secondary-fixed-dim": "#ffb693",
+                        "primary": "#021f41",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "background": "#fbf9f5",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#dbdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["DM Sans"],
+                        "label-md": ["DM Sans"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["DM Sans"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["DM Sans"],
+                        "headline-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased overflow-x-hidden">
+<main class="min-h-screen flex flex-col md:flex-row">
+<!-- Left Side: High-Impact Hero Section -->
+<section class="relative w-full md:w-1/2 lg:w-3/5 bg-primary overflow-hidden flex flex-col p-8 md:p-margin-desktop">
+<!-- Decorative Elements -->
+<div class="absolute inset-0 hero-pattern opacity-50"></div>
+<div class="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-secondary opacity-10 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[300px] h-[300px] bg-primary-container opacity-20 rounded-full blur-[80px]"></div>
+<!-- Header / Logo Area -->
+<div class="relative z-10 mb-12">
+<img alt="Qubrix Logo" class="h-16 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLsdzHC0GRzRXra2yzUox9XXtTwYgXiD3AoB2TJuyriiJVyx6AzhQYP0VsS8hvtQwhiE87lPq598dJBgGRIEysLprQrBNu6cKD4XBDLCtpp6A_wKQ2JntLY3CG3CDaahaYYjMdpEfn4tCfSItAIw4ff74GAOeJRxJVzqhuIK3Fra1ubO5aJEoW89U_HsNmfh2w7gbIo5gzttYBTPuDsUdOdRO-jn8EAiqtT1dF5nxyjPrDHc9xnMkwJEYro"/>
+</div>
+<!-- Content Area -->
+<div class="relative z-10 flex-grow flex flex-col justify-center max-w-xl">
+<h1 class="font-display-lg text-display-lg text-on-primary mb-8 leading-tight">
+                    Where trusted builders meet property owners.
+                </h1>
+<!-- Key Value Propositions -->
+<div class="space-y-8">
+<!-- Value 1 -->
+<div class="flex gap-gutter group">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center group-hover:bg-secondary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-on-primary" data-icon="verified">verified</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-primary mb-1">Verified Builders</h3>
+<p class="text-on-primary-container text-body-md opacity-90">Every contractor is vetted for NHBRC compliance and quality craftsmanship.</p>
+</div>
+</div>
+<!-- Value 2 -->
+<div class="flex gap-gutter group">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center group-hover:bg-secondary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-on-primary" data-icon="psychology">psychology</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-primary mb-1">AI-assisted Quoting</h3>
+<p class="text-on-primary-container text-body-md opacity-90">Generate accurate construction cost estimates in minutes using advanced AI.</p>
+</div>
+</div>
+<!-- Value 3 -->
+<div class="flex gap-gutter group">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-on-primary/10 flex items-center justify-center group-hover:bg-secondary-container transition-colors duration-300">
+<span class="material-symbols-outlined text-on-primary" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-primary mb-1">Direct Bank Integration</h3>
+<p class="text-on-primary-container text-body-md opacity-90">Seamless financial workflows with South Africa's leading commercial banks.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Copyright in Hero -->
+<div class="relative z-10 pt-12 mt-auto">
+<p class="text-label-sm text-on-primary-container opacity-60">
+                    © 2024 Qubrix South Africa. NHBRC Verified Partner.
+                </p>
+</div>
+</section>
+<!-- Right Side: Login Form -->
+<section class="w-full md:w-1/2 lg:w-2/5 bg-surface flex items-center justify-center p-8 md:p-margin-desktop">
+<div class="w-full max-w-md">
+<div class="mb-10 text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Welcome Back</h2>
+<p class="font-body-md text-on-surface-variant">Sign in to manage your construction projects.</p>
+</div>
+<form class="space-y-6" id="loginForm">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface" for="email">Email Address</label>
+<div class="relative group">
+<input class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 outline-none placeholder:text-outline/50" id="email" name="email" placeholder="name@example.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="block font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="text-label-sm text-secondary hover:underline underline-offset-4" href="#">Forgot password?</a>
+</div>
+<div class="relative group">
+<input class="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200 outline-none placeholder:text-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary" id="remember" type="checkbox"/>
+<label class="text-label-md text-on-surface-variant select-none" for="remember">Remember me for 30 days</label>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-secondary hover:bg-secondary/90 text-on-primary font-label-md text-body-md py-4 rounded-xl shadow-lg shadow-secondary/20 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 group" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center text-label-sm">
+<span class="bg-surface px-4 text-on-surface-variant font-medium uppercase tracking-wider">Social Sign In</span>
+</div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 px-4 py-3 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors duration-200">
+<svg class="w-5 h-5" viewbox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
+<span class="font-label-md">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 px-4 py-3 border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors duration-200">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.82 1.102.82 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+<span class="font-label-md">GitHub</span>
+</button>
+</div>
+<!-- Registration Link -->
+<div class="mt-10 text-center">
+<p class="font-body-md text-on-surface-variant">
+                        Don't have an account? 
+                        <a class="text-secondary font-bold hover:underline underline-offset-4" href="#">Register</a>
+</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = e.target.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                
+                // Visual feedback for interaction
+                btn.innerHTML = `<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> Authenticating...`;
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    // Reset or Redirect (mock)
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    console.log('Login attempt recorded');
+                }, 1500);
+            });
+
+            // Smooth entrance animation for value props
+            const props = document.querySelectorAll('.group');
+            props.forEach((prop, index) => {
+                prop.style.opacity = '0';
+                prop.style.transform = 'translateY(20px)';
+                prop.style.transition = `all 0.6s ease-out ${index * 0.15}s`;
+                
+                setTimeout(() => {
+                    prop.style.opacity = '1';
+                    prop.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+</body></html>
