@@ -268,7 +268,7 @@ function Label({ children, htmlFor }) {
   return (
     <label
       htmlFor={htmlFor}
-      style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}
+      style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}
     >
       {children}
     </label>
@@ -295,8 +295,8 @@ function Input({ id, type = "text", placeholder, value, onChange, autoComplete, 
         style={{
           width: "100%",
           height: 44,
-          padding: isPassword ? "0 40px 0 11px" : "0 11px",
-          fontSize: 13,
+          padding: isPassword ? "0 44px 0 14px" : "0 14px",
+          fontSize: 15,
           fontFamily: F,
           fontWeight: 400,
           color: C.text1,
@@ -753,7 +753,7 @@ function RegisterPage({ onBack, onSignUp }) {
 
 // ─── User Dropdown ─────────────────────────────────────────────────────────────
 
-function UserDropdown({ user, onClose, onSignOut, collapsed }) {
+function UserDropdown({ user, onClose, onSignOut, collapsed, onNavigate }) {
   const C = useC();
   const ref = useRef(null);
 
@@ -766,8 +766,8 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
   }, [onClose]);
 
   const menuItems = [
-    { label: "Settings", icon: "settings" },
-    { label: "Subscription", icon: "creditCard" },
+    { id: "settings", label: "Settings", icon: "settings" },
+    { id: "subscription", label: "Subscription", icon: "creditCard" },
   ];
 
   return (
@@ -802,7 +802,12 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
 
       {/* Menu items */}
       {menuItems.map((item) => (
-        <DropdownItem key={item.label} icon={item.icon} label={item.label} />
+        <DropdownItem
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          onClick={() => { onNavigate?.(item.id); onClose(); }}
+        />
       ))}
 
       {/* Divider */}
@@ -810,6 +815,105 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
 
       {/* Logout */}
       <DropdownItem icon="logout" label="Log out" danger onClick={onSignOut} />
+
+      {/* Bottom padding */}
+      <div style={{ height: 4 }} />
+    </div>
+  );
+}
+
+// ─── Topbar User Dropdown (light/dark-adaptive, top-right) ─────────────────────
+
+function TopDropdownItem({ icon, label, danger = false, onClick }) {
+  const C = useC();
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "9px 16px",
+        background: hovered ? (danger ? C.dangerBg : C.bgInput) : "transparent",
+        border: "none",
+        cursor: "pointer",
+        textAlign: "left",
+        fontFamily: F,
+        transition: "background 0.12s",
+      }}
+    >
+      <Icon name={icon} size={15} color={danger ? C.danger : C.text2} style={{ transition: "color 0.12s" }} />
+      <span style={{ fontSize: 13.5, fontWeight: 450, color: danger ? C.danger : C.text1, letterSpacing: "-0.005em" }}>
+        {label}
+      </span>
+    </button>
+  );
+}
+
+function TopUserDropdown({ user, onClose, onNavigate, onSignOut }) {
+  const C = useC();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) onClose();
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose]);
+
+  const menuItems = [
+    { id: "settings", label: "Settings", icon: "settings" },
+    { id: "subscription", label: "Subscription", icon: "creditCard" },
+  ];
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        position: "absolute",
+        top: "calc(100% + 8px)",
+        right: 0,
+        width: 224,
+        background: C.bgSurface,
+        border: `1px solid ${C.border}`,
+        borderRadius: R.md,
+        boxShadow: C.shadow.dropdown,
+        overflow: "hidden",
+        zIndex: 200,
+        fontFamily: F,
+      }}
+    >
+      {/* Name + email header */}
+      <div style={{ padding: "12px 16px 10px", borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ fontSize: 13.5, fontWeight: 650, color: C.text1, letterSpacing: "-0.01em" }}>
+          {user.firstName} {user.lastName}
+        </div>
+        <div style={{ fontSize: 12, color: C.text3, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {user.email}
+        </div>
+      </div>
+
+      {/* Menu items */}
+      {menuItems.map((item) => (
+        <TopDropdownItem
+          key={item.id}
+          icon={item.icon}
+          label={item.label}
+          onClick={() => { onNavigate?.(item.id); onClose(); }}
+        />
+      ))}
+
+      {/* Divider */}
+      <div style={{ height: 1, background: C.border, margin: "4px 0" }} />
+
+      {/* Logout */}
+      <TopDropdownItem icon="logout" label="Log out" danger onClick={onSignOut} />
 
       {/* Bottom padding */}
       <div style={{ height: 4 }} />
@@ -1031,6 +1135,7 @@ function Sidebar({ activeNav, onNavChange, collapsed, onToggleCollapse, user, on
             collapsed={collapsed}
             onClose={() => setDropdownOpen(false)}
             onSignOut={onSignOut}
+            onNavigate={(id) => { onNavChange(id); }}
           />
         )}
 
@@ -1128,10 +1233,11 @@ function Sidebar({ activeNav, onNavChange, collapsed, onToggleCollapse, user, on
 
 // ─── Topbar ────────────────────────────────────────────────────────────────────
 
-function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack }) {
+function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack, onNavigate, onSignOut }) {
   const C = useC();
   const initials = [user.firstName?.[0], user.lastName?.[0]].filter(Boolean).join("") || "?";
   const [avatarHover, setAvatarHover] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dk = darkMode; // kept for the toggle button border/bg only
   const topBg      = C.bgSurface;
@@ -1257,6 +1363,7 @@ function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            outline: "none",
             transition: "background 0.2s, border-color 0.2s",
             flexShrink: 0,
             lineHeight: 0,
@@ -1270,29 +1377,41 @@ function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack
         </button>
 
         {/* Avatar */}
-        <div
-          onMouseEnter={() => setAvatarHover(true)}
-          onMouseLeave={() => setAvatarHover(false)}
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: R.full,
-            background: "linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            color: "#fff",
-            fontSize: 12.5,
-            fontWeight: 700,
-            fontFamily: F,
-            letterSpacing: "0.02em",
-            boxShadow: avatarHover ? "0 0 0 3px rgba(79,70,229,0.20)" : "none",
-            transition: "box-shadow 0.15s",
-            flexShrink: 0,
-          }}
-        >
-          {initials}
+        <div style={{ position: "relative" }}>
+          <div
+            onClick={() => setDropdownOpen(v => !v)}
+            onMouseEnter={() => setAvatarHover(true)}
+            onMouseLeave={() => setAvatarHover(false)}
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: R.full,
+              background: "linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "#fff",
+              fontSize: 12.5,
+              fontWeight: 700,
+              fontFamily: F,
+              letterSpacing: "0.02em",
+              boxShadow: avatarHover || dropdownOpen ? "0 0 0 3px rgba(79,70,229,0.20)" : "none",
+              transition: "box-shadow 0.15s",
+              flexShrink: 0,
+            }}
+          >
+            {initials}
+          </div>
+
+          {dropdownOpen && (
+            <TopUserDropdown
+              user={user}
+              onClose={() => setDropdownOpen(false)}
+              onNavigate={onNavigate}
+              onSignOut={onSignOut}
+            />
+          )}
         </div>
       </div>
     </header>
@@ -1351,452 +1470,808 @@ function DashboardPlaceholder({ user }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// ─── Microsites Feature ────────────────────────────────────────────────────────
-// ═══════════════════════════════════════════════════════════════════════════════
+// ─── Settings: Switch toggle ────────────────────────────────────────────────────
 
-// ─── Sample Data ───────────────────────────────────────────────────────────────
-
-const MICROSITES_DATA = [
-  { id: "ms1",  name: "CFAOKenya",         subtitle: "CFAO Mobility Kenya",    company: "Seriti",               cards: 0,  created: "07 May 2026", logo: "🔴", logoBg: "#DC2626" },
-  { id: "ms2",  name: "CFAOMOBILITYKENYA", subtitle: "CFAO Mobility Kenya",    company: "CFAO-Mobility-Kenya",  cards: 15, created: "07 May 2026", logo: "🔴", logoBg: "#DC2626" },
-  { id: "ms3",  name: "CheryDXB",          subtitle: "CheryDXB",               company: "SeritiInternationalUAE", cards: 2, created: "23 Jun 2026", logo: null, logoBg: "#6B7280" },
-  { id: "ms4",  name: "JACKenya",          subtitle: "JAC KENYA",              company: "Seriti",               cards: 3,  created: "10 Apr 2026", logo: "🚗", logoBg: "#1D4ED8" },
-  { id: "ms5",  name: "JetourMauritius",   subtitle: "Jetour Mauritius",       company: "Jetour",               cards: 6,  created: "27 Oct 2025", logo: "⬛", logoBg: "#111827" },
-  { id: "ms6",  name: "lot",               subtitle: "Jetour",                 company: "Jetour",               cards: 1,  created: "15 Oct 2025", logo: "J",  logoBg: "#374151" },
-  { id: "ms7",  name: "MarketDemandFruits",subtitle: "Market Demand Fruits",   company: "Seriti",               cards: 3,  created: "19 Jan 2026", logo: "🍊", logoBg: "#EA580C" },
-  { id: "ms8",  name: "MercedesMauritius", subtitle: "Mercedes Benz Mauritius",company: "CFAOMauritius",        cards: 3,  created: "08 Apr 2026", logo: "⭕", logoBg: "#9CA3AF" },
-  { id: "ms9",  name: "NalediMotors",      subtitle: "NALEDI MOTORS",          company: "Seriti",               cards: 4,  created: "28 Oct 2025", logo: "⬛", logoBg: "#1F2937" },
-  { id: "ms10", name: "RedstoneMotors",    subtitle: "NZ Test site",           company: "Seriti",               cards: 1,  created: "29 Jan 2026", logo: "🟢", logoBg: "#15803D" },
-  { id: "ms11", name: "RedStoneMotors2",   subtitle: "RedStone Motors Ltd",    company: "Seriti",               cards: 2,  created: "14 Feb 2026", logo: "⬛", logoBg: "#374151" },
-  { id: "ms12", name: "showroom",          subtitle: "McCarthy Toyota",        company: "Personalyz",           cards: 5,  created: "22 Mar 2026", logo: "⭕", logoBg: "#9CA3AF" },
-  { id: "ms13", name: "testMicrosite",     subtitle: "asdf",                   company: "Seriti",               cards: 0,  created: "01 Feb 2026", logo: "🟢", logoBg: "#15803D" },
-  { id: "ms14", name: "ToyotaMauritius",   subtitle: "Toyota Mauritius",       company: "ToyotaMauritius",      cards: 15, created: "12 Sep 2025", logo: "T",  logoBg: "#DC2626",
-    vehicles: ["bZ4X","CorollaCrossHybrid","CorollaCrossHybridAero","CorollaHybrid","CrownHybrid","FortunerVActive","Hiace","Hiace14Deluxe","HiluxDoubleCab","LandCruiser300","Prado","ProACE","RAV4","Yaris","YarisAero"],
-  },
-];
-
-// ─── Microsite Logo / Avatar ────────────────────────────────────────────────────
-
-function MicrositeLogo({ ms, size = 36 }) {
+function Switch({ checked, onChange }) {
   const C = useC();
-  if (ms.imageUrl) {
-    return (
-      <div style={{ width: size, height: size, borderRadius: R.sm, overflow: "hidden", flexShrink: 0, border: `1px solid ${C.border}` }}>
-        <img src={ms.imageUrl} alt={ms.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </div>
-    );
-  }
   return (
-    <div style={{
-      width: size, height: size, borderRadius: R.sm, flexShrink: 0,
-      background: ms.logoBg || C.bgInput,
-      display: "flex", alignItems: "center", justifyContent: "center",
-      fontSize: size * 0.42, color: "#fff", fontWeight: 700, fontFamily: FD,
-      border: `1px solid rgba(0,0,0,0.08)`,
-    }}>
-      {typeof ms.logo === "string" && ms.logo.length <= 2 ? ms.logo : ""}
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      role="switch"
+      aria-checked={checked}
+      style={{
+        width: 38, height: 22, borderRadius: R.full, border: "none", padding: 2,
+        background: checked ? C.accent : C.border, cursor: "pointer", position: "relative",
+        flexShrink: 0, transition: "background 0.15s", display: "flex", alignItems: "center",
+      }}
+    >
+      <span
+        style={{
+          width: 18, height: 18, borderRadius: R.full, background: "#fff",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.25)",
+          transform: checked ? "translateX(16px)" : "translateX(0)",
+          transition: "transform 0.15s",
+        }}
+      />
+    </button>
+  );
+}
+
+function SettingsLabel({ children }) {
+  const C = useC();
+  return (
+    <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
+      {children}
+    </label>
+  );
+}
+
+function SettingsCard({ icon, title, subtitle, children, footer }) {
+  const C = useC();
+  return (
+    <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "14px 20px", borderBottom: `1px solid ${C.border}`, background: C.bgPage }}>
+        <div style={{ width: 22, height: 22, borderRadius: R.full, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <Icon name={icon} size={13} color={C.accent} />
+        </div>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 650, color: C.text1, fontFamily: FD, lineHeight: 1.3 }}>{title}</div>
+          {subtitle && <div style={{ fontSize: 12, color: C.text3, marginTop: 1 }}>{subtitle}</div>}
+        </div>
+      </div>
+      <div style={{ padding: "16px 20px" }}>
+        {children}
+      </div>
+      {footer && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8, padding: "12px 20px", borderTop: `1px solid ${C.border}`, background: C.bgPage }}>
+          {footer}
+        </div>
+      )}
     </div>
   );
 }
 
-// ─── Cards count badge ──────────────────────────────────────────────────────────
+// ─── Settings Page ──────────────────────────────────────────────────────────────
 
-function CardsBadge({ count }) {
-  const C = useC();
-  const color = count === 0 ? C.text3 : count >= 10 ? C.accent : C.success;
-  return (
-    <span style={{
-      display: "inline-flex", alignItems: "center", justifyContent: "center",
-      minWidth: 24, height: 24, borderRadius: R.full, padding: "0 6px",
-      fontSize: 12.5, fontWeight: 700, fontFamily: F,
-      background: count === 0 ? C.bgInput : count >= 10 ? C.accentLight : "rgba(47,165,99,0.10)",
-      color,
-    }}>
-      {count}
-    </span>
-  );
-}
-
-// ─── Edit Microsite Drawer ──────────────────────────────────────────────────────
-
-function EditMicrositeDrawer({ ms, onClose, onSave, onDelete }) {
+function SettingsPage({ user }) {
   const C = useC();
   const [form, setForm] = useState({
-    name: ms.name,
-    description: ms.subtitle,
-    details: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    enabled: true,
   });
-  const set = k => e => setForm(v => ({ ...v, [k]: e.target.value }));
+  const [pw, setPw] = useState({ newPassword: "", confirmPassword: "" });
+  const [savedProfile, setSavedProfile] = useState(false);
+  const [savedPw, setSavedPw] = useState(false);
 
-  const vehicles = ms.vehicles || [];
+  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }));
+
+  const fieldStyle = { height: 32, fontSize: 13, padding: "0 11px" };
+
+  const handleSaveProfile = () => {
+    setSavedProfile(true);
+    setTimeout(() => setSavedProfile(false), 2000);
+  };
+
+  const handleSavePassword = () => {
+    setSavedPw(true);
+    setPw({ newPassword: "", confirmPassword: "" });
+    setTimeout(() => setSavedPw(false), 2000);
+  };
 
   return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.18)", zIndex: 200 }}
-      />
+    <div style={{ padding: "24px 28px", maxWidth: 680, fontFamily: F }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
 
-      {/* Drawer panel */}
-      <div style={{
-        position: "fixed", top: 0, right: 0, bottom: 0,
-        width: 380, background: C.bgSurface,
-        boxShadow: "-8px 0 32px rgba(0,0,0,0.12)",
-        zIndex: 201, display: "flex", flexDirection: "column",
-        fontFamily: F,
-      }}>
-        {/* Drawer header */}
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        {/* Profile Details */}
+        <SettingsCard
+          icon="user"
+          title="Profile Details"
+          subtitle="Update your name, email address, and account status"
+          footer={
+            <>
+              <Btn variant="ghost" style={{ height: 34, padding: "0 16px", fontSize: 13 }}>
+                Cancel
+              </Btn>
+              <Btn onClick={handleSaveProfile} style={{ height: 34, padding: "0 18px", fontSize: 13 }}>
+                {savedProfile ? <><Icon name="check" size={14} color="#fff" /> Saved</> : "Save"}
+              </Btn>
+            </>
+          }
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 650, color: C.text1, fontFamily: FD }}>Edit Microsite</div>
-              <div style={{ fontSize: 12, color: C.accent, marginTop: 2 }}>Editing: {ms.name}</div>
+              <SettingsLabel>First name</SettingsLabel>
+              <Input value={form.firstName} onChange={set("firstName")} style={fieldStyle} />
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <button style={{ display: "flex", alignItems: "center", gap: 5, height: 32, padding: "0 12px", background: C.bgInput, border: `1px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F }}>
-                <Icon name="eye" size={13} color={C.text2} /> Preview
-              </button>
-              <button style={{ display: "flex", alignItems: "center", gap: 5, height: 32, padding: "0 12px", background: C.bgInput, border: `1px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F }}>
-                <Icon name="share" size={13} color={C.text2} /> Share
-              </button>
-              <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: R.sm, border: `1px solid ${C.border}`, background: C.bgInput, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Icon name="x" size={14} color={C.text2} />
-              </button>
+            <div>
+              <SettingsLabel>Last name</SettingsLabel>
+              <Input value={form.lastName} onChange={set("lastName")} style={fieldStyle} />
             </div>
           </div>
-        </div>
 
-        {/* Scrollable body */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
-
-          {/* Microsite Image */}
           <div style={{ marginBottom: 16 }}>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}>Microsite Image</label>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-              {/* Logo preview with border */}
-              <div style={{
-                width: 72, height: 72, borderRadius: R.md, flexShrink: 0,
-                border: `1.5px solid ${C.border}`, overflow: "hidden",
-                background: C.bgSurface,
-              }}>
-                <MicrositeLogo ms={ms} size={72} />
-              </div>
-              {/* Actions + hint stacked */}
-              <div style={{ paddingTop: 2 }}>
-                {/* Change + Remove on one row */}
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
-                  <button style={{ display: "flex", alignItems: "center", gap: 5, height: 30, padding: "0 12px", background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F, fontWeight: 500 }}>
-                    <Icon name="image" size={13} color={C.text2} /> Change
-                  </button>
-                  <button style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F, padding: 0, fontWeight: 500 }}>
-                    Remove
-                  </button>
-                </div>
-                <p style={{ margin: 0, fontSize: 11.5, color: C.text3 }}>PNG, JPG or GIF. Recommended 200×200px.</p>
-              </div>
-            </div>
+            <SettingsLabel>
+              Email address <span style={{ color: C.danger }}>*</span>
+            </SettingsLabel>
+            <Input type="email" value={form.email} onChange={set("email")} style={fieldStyle} />
           </div>
 
-          {/* Name */}
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
-              Name <span style={{ color: C.danger }}>*</span>
-            </label>
-            <input
-              value={form.name}
-              onChange={set("name")}
-              style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
-            />
-            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>Unique identifier for this microsite</p>
-          </div>
-
-          {/* Description */}
-          <div style={{ marginBottom: 12 }}>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
-              Description <span style={{ color: C.danger }}>*</span>
-            </label>
-            <input
-              value={form.description}
-              onChange={set("description")}
-              style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
-            />
-            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>The display name for this microsite</p>
-          </div>
-
-          {/* Details */}
-          <div style={{ marginBottom: 18 }}>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>Details</label>
-            <input
-              value={form.details}
-              onChange={set("details")}
-              placeholder="e.g. Vehicle List"
-              style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
-            />
-            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>Short description of what this microsite contains</p>
-          </div>
-
-          {/* Vehicles list */}
-          {vehicles.length > 0 && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", background: C.bgPage, borderRadius: R.sm }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <Icon name="carFront" size={13} color={C.text3} />
-                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", color: C.text3, textTransform: "uppercase", fontFamily: F }}>Vehicles</span>
-                </div>
-                <span style={{ fontSize: 12, fontWeight: 700, color: C.accent }}>{vehicles.length}</span>
-              </div>
-              <div style={{ border: `1px solid ${C.border}`, borderRadius: R.md, overflow: "hidden" }}>
-                {vehicles.map((v, i) => (
-                  <div
-                    key={v}
-                    style={{
-                      display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
-                      borderBottom: i < vehicles.length - 1 ? `1px solid ${C.border}` : "none",
-                      background: i % 2 === 0 ? "transparent" : C.bgPage,
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.background = C.accentLight}
-                    onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? "transparent" : C.bgPage}
-                  >
-                    <div style={{ width: 28, height: 20, background: C.bgInput, borderRadius: R.xs, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <Icon name="carFront" size={13} color={C.text3} />
-                    </div>
-                    <span style={{ fontSize: 13.5, color: C.text1, fontWeight: 450 }}>{v}</span>
-                  </div>
-                ))}
-              </div>
+              <div style={{ fontSize: 13, fontWeight: 550, color: C.text1 }}>Account enabled</div>
+              <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>Disabling sign-in revokes access without deleting the account</div>
             </div>
-          )}
-        </div>
-
-        {/* Drawer footer */}
-        <div style={{ padding: "14px 20px", borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: C.bgPage }}>
-          <button
-            onClick={onDelete}
-            style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 13, color: C.danger, fontFamily: F, fontWeight: 550, padding: "4px 0" }}
-          >
-            <Icon name="trash" size={14} color={C.danger} /> Delete
-          </button>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button
-              onClick={onClose}
-              style={{ height: 36, padding: "0 16px", background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 13, color: C.text2, fontFamily: F, fontWeight: 550 }}
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => { onSave(form); onClose(); }}
-              style={{ display: "flex", alignItems: "center", gap: 6, height: 36, padding: "0 16px", background: C.accent, border: "none", borderRadius: R.sm, cursor: "pointer", fontSize: 13, color: "#fff", fontFamily: F, fontWeight: 600 }}
-            >
-              <Icon name="check" size={14} color="#fff" /> Save Changes
-            </button>
+            <Switch checked={form.enabled} onChange={(v) => setForm(f => ({ ...f, enabled: v }))} />
           </div>
-        </div>
+        </SettingsCard>
+
+        {/* Change Password */}
+        <SettingsCard
+          icon="lock"
+          title="Change Password"
+          footer={
+            <Btn
+              onClick={handleSavePassword}
+              disabled={!pw.newPassword || pw.newPassword !== pw.confirmPassword}
+              style={{ height: 34, padding: "0 18px", fontSize: 13 }}
+            >
+              {savedPw ? <><Icon name="check" size={14} color="#fff" /> Updated</> : "Update Password"}
+            </Btn>
+          }
+        >
+          <p style={{ margin: "0 0 12px", fontSize: 12.5, color: C.text3, fontStyle: "italic" }}>
+            Leave blank to keep the current password.
+          </p>
+          <div style={{ marginBottom: 10 }}>
+            <SettingsLabel>New password</SettingsLabel>
+            <Input
+              type="password"
+              value={pw.newPassword}
+              onChange={(e) => setPw(p => ({ ...p, newPassword: e.target.value }))}
+              autoComplete="new-password"
+              style={fieldStyle}
+            />
+          </div>
+          <div>
+            <SettingsLabel>Confirm password</SettingsLabel>
+            <Input
+              type="password"
+              value={pw.confirmPassword}
+              onChange={(e) => setPw(p => ({ ...p, confirmPassword: e.target.value }))}
+              autoComplete="new-password"
+              style={fieldStyle}
+            />
+            {pw.confirmPassword && pw.newPassword !== pw.confirmPassword && (
+              <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.danger }}>Passwords do not match.</p>
+            )}
+          </div>
+        </SettingsCard>
+
       </div>
-    </>
+    </div>
   );
 }
 
-// ─── Microsites Page ────────────────────────────────────────────────────────────
+// ─── Notifications: Mock Data ───────────────────────────────────────────────────
 
-function MicrositesPage() {
+const NOTIF_CARDS = [
+  { id: "c1",  name: "jetour003",             company: "Jetour",  orgUnit: "JetourBW",  type: "businesscard", subscribers: 16, lastUsed: null },
+  { id: "c2",  name: "CustomWalksPAARLGIM",   company: "Seriti",  orgUnit: "50efe594",  type: "businesscard", subscribers: 10, lastUsed: null },
+  { id: "c3",  name: "KshiteejSeedhoneea",    company: "Jetour",  orgUnit: "e3fffb08",  type: "businesscard", subscribers: 6,  lastUsed: null },
+  { id: "c4",  name: "YolandaRossouw",        company: "Jetour",  orgUnit: "e3fffb08",  type: "businesscard", subscribers: 5,  lastUsed: null },
+  { id: "c5",  name: "AldoOppel",             company: "Seriti",  orgUnit: "50efe594",  type: "businesscard", subscribers: 5,  lastUsed: "2026/02/02 14:53" },
+  { id: "c6",  name: "X70PlusDelux",          company: "Jetour",  orgUnit: null,        type: "vehiclecard",  subscribers: 5,  lastUsed: null },
+  { id: "c7",  name: "T1EDGE",                company: "Jetour",  orgUnit: null,        type: "vehiclecard",  subscribers: 4,  lastUsed: null },
+  { id: "c8",  name: "AashiqHemraz",          company: "Jetour",  orgUnit: "e3fffb08",  type: "businesscard", subscribers: 4,  lastUsed: null },
+  { id: "c9",  name: "DashingDelux",          company: "Jetour",  orgUnit: null,        type: "vehiclecard",  subscribers: 4,  lastUsed: null },
+  { id: "c10", name: "jetour004",             company: "Jetour",  orgUnit: "JetourBW",  type: "businesscard", subscribers: 4,  lastUsed: null },
+  { id: "c11", name: "batman",                company: "Personalyz", orgUnit: null,     type: "businesscard", subscribers: 2,  lastUsed: null },
+  { id: "c12", name: "henry",                 company: "Personalyz", orgUnit: null,     type: "businesscard", subscribers: 1,  lastUsed: null },
+];
+
+const NOTIF_HISTORY = [
+  { id: "h1",  card: "jetour001",       title: "Proud sponsors of 2026 SABF Botswana Re Mmogo Rally", url: "https://cards.personalyz.me/JetourBW/jetour001",        body: "Our Jetour T2 was the star of the show, book your test drive and experience 2026 SA CAR OF THE YEAR Watch the video of this fabulous vehicle", sent: 3, failed: 0, sentAt: "2026/06/18 11:28" },
+  { id: "h2",  card: "batman",          title: "this is henry test",                                    url: "https://www.nedbank.co.za",                              body: "this is henry test",  sent: 2, failed: 1, sentAt: "2026/05/21 12:40" },
+  { id: "h3",  card: "batman",          title: "test",                                                  url: "https://www.nedbank.co.za",                              body: "test",                 sent: 2, failed: 1, sentAt: "2026/05/19 15:39" },
+  { id: "h4",  card: "batman",          title: "New Products",                                          url: "ghttps://www",                                            body: "New Products",         sent: 2, failed: 1, sentAt: "2026/05/19 15:39" },
+  { id: "h5",  card: "batman",          title: "test",                                                  url: "https://cards.personalyz.me/ToyotaKeny...",             body: "test",                 sent: 2, failed: 1, sentAt: "2026/04/12 18:25" },
+  { id: "h6",  card: "batman",          title: "test",                                                  url: "https://cards.personalyz.me/ToyotaKeny...",             body: "test",                 sent: 2, failed: 1, sentAt: "2026/04/10 22:39" },
+  { id: "h7",  card: "henry",           title: "Henry Test",                                            url: "https://cards.personalyz.me/Personalyz/...",            body: "Henry Test",           sent: 1, failed: 0, sentAt: "2026/03/13 15:32" },
+  { id: "h8",  card: "aldotest",        title: "asdf",                                                  url: "https://cards.personalyz.me/Seriti/aldotest",           body: "asdf",                 sent: 1, failed: 0, sentAt: "2026/03/13 09:51" },
+  { id: "h9",  card: "Unknown",         title: "asdf",                                                  url: "https://cards.personalyz.me/site/Person...",            body: "asdf",                 sent: 2, failed: 0, sentAt: "2026/03/13 09:50" },
+  { id: "h10", card: "NovaRenevations", title: "asdf",                                                  url: "https://cards.personalyz.me/Seriti/Nova...",            body: "asdf",                 sent: 3, failed: 0, sentAt: "2026/03/13 09:50" },
+];
+
+const NOTIF_TYPE_STYLES = {
+  businesscard: { bg: "rgba(79,70,229,0.08)", color: "#4F46E5", plain: false },
+  vehiclecard:  { bg: "transparent",          color: null,      plain: true  },
+};
+
+// ─── Notifications: small shared bits ───────────────────────────────────────────
+
+function NotifSelect({ value, options, onChange, style = {} }) {
   const C = useC();
-  const [search, setSearch] = useState("");
-  const [searchFocused, setSearchFocused] = useState(false);
-  const [editingMs, setEditingMs] = useState(null);
-  const [microsites, setMicrosites] = useState(MICROSITES_DATA);
-  const [page, setPage] = useState(1);
-  const perPage = 10;
-
-  const filtered = microsites.filter(ms =>
-    ms.name.toLowerCase().includes(search.toLowerCase()) ||
-    ms.subtitle.toLowerCase().includes(search.toLowerCase()) ||
-    ms.company.toLowerCase().includes(search.toLowerCase())
+  return (
+    <div style={{ position: "relative" }}>
+      <select
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+        style={{
+          height: 32, padding: "0 30px 0 12px", fontSize: 13, fontFamily: F, color: C.text1,
+          background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm,
+          outline: "none", appearance: "none", cursor: "pointer", ...style,
+        }}
+      >
+        {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </select>
+      <div style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }}>
+        <Icon name="chevDown" size={14} color={C.text3} />
+      </div>
+    </div>
   );
-  const pageCount = Math.ceil(filtered.length / perPage);
-  const pageItems = filtered.slice((page - 1) * perPage, page * perPage);
+}
 
-  const handleSave = (form) => {
-    setMicrosites(prev => prev.map(ms =>
-      ms.id === editingMs.id ? { ...ms, name: form.name, subtitle: form.description } : ms
-    ));
-  };
+function NotifSearchInput({ value, onChange, placeholder }) {
+  const C = useC();
+  const [focused, setFocused] = useState(false);
+  return (
+    <div
+      style={{
+        display: "flex", alignItems: "center", gap: 8, height: 32, padding: "0 12px",
+        background: focused ? C.bgInputFocus : C.bgInput,
+        border: `1.5px solid ${focused ? C.borderFocus : C.border}`, borderRadius: R.sm,
+        transition: "background 0.15s, border-color 0.15s", minWidth: 220,
+      }}
+    >
+      <Icon name="search" size={14} color={C.text3} />
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        placeholder={placeholder}
+        style={{ border: "none", outline: "none", background: "transparent", fontSize: 13, color: C.text1, fontFamily: F, width: "100%" }}
+      />
+    </div>
+  );
+}
 
-  const handleDelete = () => {
-    setMicrosites(prev => prev.filter(ms => ms.id !== editingMs.id));
-    setEditingMs(null);
-  };
+function NotifCheckbox({ checked, indeterminate, onChange }) {
+  const C = useC();
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      style={{
+        width: 17, height: 17, borderRadius: 4, flexShrink: 0, cursor: "pointer",
+        border: `1.5px solid ${checked || indeterminate ? C.accent : C.border}`,
+        background: checked || indeterminate ? C.accent : C.bgSurface,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 0,
+      }}
+    >
+      {indeterminate && !checked && <div style={{ width: 8, height: 2, background: "#fff", borderRadius: 1 }} />}
+      {checked && <Icon name="check" size={11} color="#fff" />}
+    </button>
+  );
+}
+
+function TabButton({ active, label, icon, count, onClick }) {
+  const C = useC();
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "flex", alignItems: "center", gap: 7, height: 34, padding: "0 16px",
+        borderRadius: R.sm, cursor: "pointer", fontFamily: F, fontSize: 13.5, fontWeight: 600,
+        background: active ? C.accent : C.bgSurface,
+        border: `1.5px solid ${active ? C.accent : C.border}`,
+        color: active ? "#fff" : C.text2,
+        transition: "background 0.15s, border-color 0.15s, color 0.15s",
+      }}
+    >
+      <Icon name={icon} size={14} color={active ? "#fff" : C.text3} />
+      {label}
+      {count != null && (
+        <span
+          style={{
+            fontSize: 11, fontWeight: 700, padding: "1px 6px", borderRadius: R.full,
+            background: active ? "rgba(255,255,255,0.22)" : C.bgInput,
+            color: active ? "#fff" : C.text3,
+          }}
+        >
+          {count}
+        </span>
+      )}
+    </button>
+  );
+}
+
+function NotifPagination({ page, setPage, rows, setRows, total }) {
+  const C = useC();
+  const pageCount = Math.max(1, Math.ceil(total / rows));
+  const from = total === 0 ? 0 : (page - 1) * rows + 1;
+  const to = Math.min(total, page * rows);
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 4px 4px" }}>
+      <span style={{ fontSize: 13, color: C.text3 }}>{from}–{to} of {total}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 13, color: C.text3 }}>Rows:</span>
+        <NotifSelect
+          value={String(rows)}
+          onChange={(v) => { setRows(Number(v)); setPage(1); }}
+          options={[10, 25, 50].map(n => ({ value: String(n), label: String(n) }))}
+          style={{ height: 30 }}
+        />
+        <button
+          onClick={() => setPage(p => Math.max(1, p - 1))}
+          disabled={page === 1}
+          style={{ width: 30, height: 30, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, cursor: page === 1 ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", opacity: page === 1 ? 0.4 : 1 }}
+        >
+          <Icon name="chevLeft" size={15} color={C.text2} />
+        </button>
+        <span style={{ width: 30, height: 30, borderRadius: R.sm, background: C.accent, color: "#fff", fontSize: 13, fontWeight: 650, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {page}
+        </span>
+        <button
+          onClick={() => setPage(p => Math.min(pageCount, p + 1))}
+          disabled={page === pageCount}
+          style={{ width: 30, height: 30, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, cursor: page === pageCount ? "default" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", opacity: page === pageCount ? 0.4 : 1 }}
+        >
+          <Icon name="chevRight" size={15} color={C.text2} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Notifications: Modal shell ─────────────────────────────────────────────────
+
+function NotifModal({ onClose, maxWidth = 480, children }) {
+  const C = useC();
+  return (
+    <div
+      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      style={{
+        position: "fixed", inset: 0, background: "rgba(15,15,22,0.45)", zIndex: 300,
+        display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
+      }}
+    >
+      <div
+        onMouseDown={(e) => e.stopPropagation()}
+        style={{
+          width: "100%", maxWidth, maxHeight: "88vh", overflowY: "auto",
+          background: C.bgSurface, borderRadius: R.lg, boxShadow: C.shadow.form, fontFamily: F,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Notifications: Send modal ──────────────────────────────────────────────────
+
+function SendNotificationModal({ selectedCards, onClose, onSend }) {
+  const C = useC();
+  const [title, setTitle] = useState("");
+  const [routeToCard, setRouteToCard] = useState(true);
+  const [message, setMessage] = useState("");
 
   return (
-    <>
-      <div style={{ padding: "24px 28px 32px", fontFamily: F }}>
-        {/* Toolbar */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
-          {/* Search */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: 8,
-            height: 38, width: 220, padding: "0 12px",
-            background: searchFocused ? C.bgInputFocus : C.bgInput,
-            border: `1.5px solid ${searchFocused ? C.borderFocus : C.border}`,
-            borderRadius: R.sm,
-            boxShadow: searchFocused ? "0 0 0 3px rgba(79,70,229,0.14)" : "none",
-            transition: "border-color 0.15s, box-shadow 0.15s",
-          }}>
-            <Icon name="search" size={14} color={C.text3} />
-            <input
-              value={search}
-              onChange={e => { setSearch(e.target.value); setPage(1); }}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              placeholder="Search microsites..."
-              style={{ border: "none", outline: "none", background: "transparent", fontSize: 13.5, color: C.text1, fontFamily: F, width: "100%" }}
-            />
-          </div>
+    <NotifModal onClose={onClose} maxWidth={480}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", padding: "18px 20px 0" }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Send Push Notification</h2>
+          <span
+            style={{
+              display: "inline-block", marginTop: 8, fontSize: 12, fontWeight: 600, color: C.accent,
+              background: C.accentLight, borderRadius: R.full, padding: "3px 10px",
+            }}
+          >
+            {selectedCards.length} card{selectedCards.length === 1 ? "" : "s"} selected
+          </span>
+        </div>
+        <button
+          onClick={onClose}
+          style={{ width: 26, height: 26, borderRadius: R.sm, border: "none", background: C.bgInput, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+        >
+          <Icon name="x" size={14} color={C.text2} />
+        </button>
+      </div>
 
-          {/* Vehicle tab pill */}
-          <div style={{ display: "flex", alignItems: "center", gap: 20, marginLeft: 4 }}>
-            <button style={{
-              background: "none", border: "none", borderTop: "none", borderLeft: "none", borderRight: "none", outline: "none",
-              borderBottom: `2.5px solid ${C.accent}`,
-              cursor: "pointer", padding: "6px 2px 8px", fontFamily: F,
-              fontSize: 14, fontWeight: 650, color: C.accent,
-            }}>
-              Vehicle{" "}
-              <span style={{ marginLeft: 5, fontSize: 12, fontWeight: 650, background: C.accent, color: "#fff", borderRadius: R.full, padding: "1px 7px" }}>{microsites.length}</span>
-            </button>
+      <div style={{ padding: "18px 20px" }}>
+        <div style={{ marginBottom: 14 }}>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
+            Title <span style={{ color: C.danger }}>*</span>
+          </label>
+          <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Notification title" style={{ height: 32, fontSize: 13, padding: "0 11px" }} />
+        </div>
+
+        <div
+          style={{
+            display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", marginBottom: 14,
+            background: C.accentLight, border: `1.5px solid rgba(79,70,229,0.18)`, borderRadius: R.sm,
+          }}
+        >
+          <div style={{ width: 30, height: 30, borderRadius: R.sm, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <Icon name="grid" size={14} color="#fff" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text1 }}>Route to Card</div>
+            <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>Tapping the notification opens the card directly</div>
+          </div>
+          <Switch checked={routeToCard} onChange={setRouteToCard} />
+        </div>
+
+        <div>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
+            Message <span style={{ color: C.text3, fontWeight: 400 }}>(optional)</span>
+          </label>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Notification message body…"
+            rows={4}
+            style={{
+              width: "100%", padding: "9px 11px", fontSize: 13, fontFamily: F, color: C.text1,
+              background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm,
+              outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5,
+            }}
+          />
+        </div>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8, padding: "12px 20px", borderTop: `1px solid ${C.border}` }}>
+        <Btn variant="ghost" onClick={onClose} style={{ height: 34, padding: "0 16px", fontSize: 13 }}>Cancel</Btn>
+        <Btn
+          disabled={!title.trim()}
+          onClick={() => onSend({ title, routeToCard, message })}
+          style={{ height: 34, padding: "0 16px", fontSize: 13 }}
+        >
+          <Icon name="bell" size={13} color="#fff" /> Send to {selectedCards.length} Card{selectedCards.length === 1 ? "" : "s"}
+        </Btn>
+      </div>
+    </NotifModal>
+  );
+}
+
+// ─── Notifications: History detail modal ────────────────────────────────────────
+
+function HistoryDetailModal({ item, onClose }) {
+  const C = useC();
+  return (
+    <NotifModal onClose={onClose} maxWidth={520}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "18px 20px", borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ width: 32, height: 32, borderRadius: R.full, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <Icon name="bell" size={15} color={C.accent} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 650, color: C.text1, fontFamily: FD, lineHeight: 1.3 }}>{item.title}</div>
+          <div style={{ fontSize: 12, color: C.text3, marginTop: 2 }}>{item.sentAt}</div>
+        </div>
+        <button
+          onClick={onClose}
+          style={{ width: 26, height: 26, borderRadius: R.sm, border: "none", background: C.bgInput, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+        >
+          <Icon name="x" size={14} color={C.text2} />
+        </button>
+      </div>
+
+      <div style={{ padding: "18px 20px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+          <div style={{ background: C.bgPage, border: `1px solid ${C.border}`, borderRadius: R.sm, padding: "10px 12px" }}>
+            <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase", marginBottom: 6 }}>Card</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: C.text1 }}>{item.card}</div>
+          </div>
+          <div style={{ background: C.bgPage, border: `1px solid ${C.border}`, borderRadius: R.sm, padding: "10px 12px" }}>
+            <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase", marginBottom: 6 }}>Body</div>
+            <div style={{ fontSize: 13, color: C.text1, lineHeight: 1.45 }}>{item.body}</div>
           </div>
         </div>
 
-        {/* Table */}
-        <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F }}>
-            <thead>
-              <tr>
-                {["Microsite", "Company", "Cards", "Created"].map((h, i) => (
-                  <th key={h} style={{
-                    textAlign: i >= 2 ? "center" : "left",
-                    padding: "11px 20px", fontSize: 11.5, fontWeight: 650,
-                    letterSpacing: "0.04em", color: C.text3, textTransform: "uppercase",
-                    borderBottom: `1px solid ${C.border}`, background: C.bgPage, whiteSpace: "nowrap",
-                  }}>
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {pageItems.map((ms, idx) => (
-                <tr
-                  key={ms.id}
-                  style={{ borderBottom: idx < pageItems.length - 1 ? `1px solid ${C.border}` : "none", cursor: "pointer" }}
-                  onClick={() => setEditingMs(ms)}
-                  onMouseEnter={e => e.currentTarget.style.background = C.bgPage}
-                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-                >
-                  {/* Microsite name + logo */}
-                  <td style={{ padding: "10px 20px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <MicrositeLogo ms={ms} size={36} />
-                      <div>
-                        <div style={{ fontSize: 13.5, fontWeight: 600, color: C.accent }}>{ms.name}</div>
-                        <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>{ms.subtitle}</div>
-                      </div>
-                    </div>
-                  </td>
+        <div style={{ background: C.bgPage, border: `1px solid ${C.border}`, borderRadius: R.sm, padding: "10px 12px", marginBottom: 14 }}>
+          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase", marginBottom: 6 }}>URL</div>
+          <div style={{ fontSize: 13, color: C.accent, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.url}</div>
+        </div>
 
-                  {/* Company */}
-                  <td style={{ padding: "10px 20px" }}>
-                    <span style={{
-                      fontSize: 13.5, color: ms.company === "Jetour" || ms.company === "ToyotaMauritius" || ms.company === "CFAO-Mobility-Kenya" ? C.accent : C.text1,
-                      fontWeight: 450,
-                    }}>
-                      {ms.company}
-                    </span>
-                  </td>
-
-                  {/* Cards count */}
-                  <td style={{ padding: "10px 20px", textAlign: "center" }}>
-                    <CardsBadge count={ms.cards} />
-                  </td>
-
-                  {/* Created */}
-                  <td style={{ padding: "10px 20px", fontSize: 13, color: C.text2, whiteSpace: "nowrap", textAlign: "center" }}>
-                    {ms.created}
-                  </td>
-                </tr>
-              ))}
-              {pageItems.length === 0 && (
-                <tr>
-                  <td colSpan={4} style={{ padding: "48px 20px", textAlign: "center", fontSize: 14, color: C.text3 }}>
-                    No microsites match your search.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-
-          {/* Pagination */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderTop: `1px solid ${C.border}` }}>
-            <span style={{ fontSize: 13, color: C.text2 }}>
-              Showing {filtered.length === 0 ? "0" : `${(page - 1) * perPage + 1}–${Math.min(page * perPage, filtered.length)}`} of {filtered.length} microsites
-            </span>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <button
-                disabled={page === 1}
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                style={{ width: 28, height: 28, borderRadius: R.sm, border: "none", background: "transparent", cursor: page === 1 ? "not-allowed" : "pointer", opacity: page === 1 ? 0.35 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
-              >
-                <Icon name="chevLeft" size={14} color={C.text2} />
-              </button>
-              {Array.from({ length: pageCount }, (_, i) => i + 1).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  style={{ minWidth: 28, height: 28, borderRadius: R.sm, border: "none", background: p === page ? C.accent : "transparent", color: p === page ? "#fff" : C.text2, fontSize: 13, fontWeight: p === page ? 650 : 500, fontFamily: F, cursor: "pointer" }}
-                >
-                  {p}
-                </button>
-              ))}
-              <button
-                disabled={page >= pageCount}
-                onClick={() => setPage(p => Math.min(pageCount, p + 1))}
-                style={{ width: 28, height: 28, borderRadius: R.sm, border: "none", background: "transparent", cursor: page >= pageCount ? "not-allowed" : "pointer", opacity: page >= pageCount ? 0.35 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
-              >
-                <Icon name="chevRight" size={14} color={C.text2} />
-              </button>
-            </div>
-            <div style={{ fontSize: 13, color: C.text2 }}>Per page <strong style={{ color: C.text1 }}>10</strong></div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          <div style={{ background: "rgba(47,165,99,0.08)", borderRadius: R.sm, padding: "12px 10px", textAlign: "center" }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: C.success }}>{item.sent}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: C.success, marginTop: 2 }}>Devices Sent</div>
+          </div>
+          <div style={{ background: C.dangerBg, borderRadius: R.sm, padding: "12px 10px", textAlign: "center" }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: C.danger }}>{item.failed}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: C.danger, marginTop: 2 }}>Devices Failed</div>
+          </div>
+          <div style={{ background: C.accentLight, borderRadius: R.sm, padding: "12px 10px", textAlign: "center" }}>
+            <div style={{ fontSize: 20, fontWeight: 700, color: C.accent }}>{item.sent + item.failed}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: C.accent, marginTop: 2 }}>Total Devices</div>
           </div>
         </div>
       </div>
 
-      {/* Edit drawer */}
-      {editingMs && (
-        <EditMicrositeDrawer
-          ms={editingMs}
-          onClose={() => setEditingMs(null)}
-          onSave={handleSave}
-          onDelete={handleDelete}
+      <div style={{ display: "flex", justifyContent: "flex-end", padding: "12px 20px", borderTop: `1px solid ${C.border}` }}>
+        <Btn variant="ghost" onClick={onClose} style={{ height: 34, padding: "0 18px", fontSize: 13 }}>Close</Btn>
+      </div>
+    </NotifModal>
+  );
+}
+
+// ─── Notifications: Send tab ────────────────────────────────────────────────────
+
+function SendTab() {
+  const C = useC();
+  const [company, setCompany] = useState("all");
+  const [orgUnit, setOrgUnit] = useState("all");
+  const [cardType, setCardType] = useState("all");
+  const [search, setSearch] = useState("");
+  const [selected, setSelected] = useState(new Set());
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState(10);
+  const [showSendModal, setShowSendModal] = useState(false);
+
+  const filtered = NOTIF_CARDS.filter(c =>
+    (cardType === "all" || c.type === cardType) &&
+    (company === "all" || c.company === company) &&
+    c.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const pageItems = filtered.slice((page - 1) * rows, page * rows);
+
+  const allOnPageSelected = pageItems.length > 0 && pageItems.every(c => selected.has(c.id));
+  const someOnPageSelected = pageItems.some(c => selected.has(c.id));
+
+  const toggleOne = (id) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+  const toggleAllOnPage = (checked) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      pageItems.forEach(c => checked ? next.add(c.id) : next.delete(c.id));
+      return next;
+    });
+  };
+
+  const selectedCards = NOTIF_CARDS.filter(c => selected.has(c.id));
+  const totalSubscribers = selectedCards.reduce((sum, c) => sum + c.subscribers, 0);
+
+  const companies = ["all", ...Array.from(new Set(NOTIF_CARDS.map(c => c.company)))];
+
+  return (
+    <>
+      {/* Filters row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
+        <NotifSelect
+          value={company}
+          onChange={setCompany}
+          options={[{ value: "all", label: "All Companies" }, ...companies.filter(c => c !== "all").map(c => ({ value: c, label: c }))]}
+        />
+        <NotifSelect value={orgUnit} onChange={setOrgUnit} options={[{ value: "all", label: "All Org Units" }]} />
+        <NotifSelect
+          value={cardType}
+          onChange={setCardType}
+          options={[{ value: "all", label: "All Card Types" }, { value: "businesscard", label: "Business Card" }, { value: "vehiclecard", label: "Vehicle Card" }]}
+        />
+        <NotifSearchInput value={search} onChange={setSearch} placeholder="Search by name…" />
+        <div style={{ flex: 1 }} />
+        <Btn
+          disabled={selected.size === 0}
+          onClick={() => setShowSendModal(true)}
+          style={{ height: 32, padding: "0 16px", fontSize: 13 }}
+        >
+          <Icon name="bell" size={13} color="#fff" /> Send ({selected.size})
+        </Btn>
+      </div>
+
+      {/* Selection banner */}
+      {selected.size > 0 && (
+        <div
+          style={{
+            display: "flex", alignItems: "center", gap: 8, padding: "6px 14px", marginBottom: 8,
+            background: C.accentLight, border: `1px solid rgba(79,70,229,0.18)`, borderRadius: R.sm,
+          }}
+        >
+          <Icon name="check" size={13} color={C.accent} />
+          <span style={{ fontSize: 13, color: C.accent, fontWeight: 600 }}>
+            {selected.size} card{selected.size === 1 ? "" : "s"} selected
+          </span>
+          <span style={{ fontSize: 13, color: C.text3 }}>— reaching approximately {totalSubscribers} subscribers</span>
+          <div style={{ flex: 1 }} />
+          <button
+            onClick={() => setSelected(new Set())}
+            style={{ display: "flex", alignItems: "center", gap: 4, background: "none", border: "none", cursor: "pointer", fontSize: 12.5, color: C.text3, fontFamily: F }}
+          >
+            <Icon name="x" size={12} color={C.text3} /> Clear
+          </button>
+        </div>
+      )}
+
+      {/* Table */}
+      <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "7px 16px", borderBottom: `1px solid ${C.border}`, background: C.bgPage }}>
+          <div style={{ width: 17 }}>
+            <NotifCheckbox checked={allOnPageSelected} indeterminate={someOnPageSelected && !allOnPageSelected} onChange={toggleAllOnPage} />
+          </div>
+          <span style={{ flex: 1, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Card Name</span>
+          <span style={{ width: 120, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Card Type</span>
+          <span style={{ width: 90, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Subscribers</span>
+          <span style={{ width: 130, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Last Used</span>
+        </div>
+
+        {pageItems.length === 0 && (
+          <div style={{ padding: "40px 20px", textAlign: "center", fontSize: 14, color: C.text3 }}>No cards match your filters.</div>
+        )}
+
+        {pageItems.map((c) => {
+          const isSel = selected.has(c.id);
+          const typeStyle = NOTIF_TYPE_STYLES[c.type] || { bg: "transparent", color: C.text2, plain: true };
+          return (
+            <div
+              key={c.id}
+              onClick={() => toggleOne(c.id)}
+              style={{
+                display: "flex", alignItems: "center", gap: 14, padding: "6px 16px", cursor: "pointer",
+                borderBottom: `1px solid ${C.border}`,
+                background: isSel ? C.accentLight : "transparent",
+                borderLeft: `3px solid ${isSel ? C.accent : "transparent"}`,
+              }}
+            >
+              <div style={{ width: 17 }} onClick={(e) => e.stopPropagation()}>
+                <NotifCheckbox checked={isSel} onChange={() => toggleOne(c.id)} />
+              </div>
+              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                <div style={{ width: 26, height: 26, borderRadius: R.sm, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Icon name="grid" size={14} color={C.accent} />
+                </div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 13.5, fontWeight: 600, color: C.text1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</div>
+                  <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>
+                    {c.company}{c.orgUnit ? ` · ${c.orgUnit}` : ""}
+                  </div>
+                </div>
+              </div>
+              <div style={{ width: 120 }}>
+                {typeStyle.plain ? (
+                  <span style={{ fontSize: 12.5, color: C.text2 }}>{c.type}</span>
+                ) : (
+                  <span style={{ fontSize: 11.5, fontWeight: 600, color: typeStyle.color, background: typeStyle.bg, borderRadius: R.full, padding: "3px 10px" }}>{c.type}</span>
+                )}
+              </div>
+              <div style={{ width: 90, fontSize: 13, fontWeight: 650, color: C.accent }}>{c.subscribers}</div>
+              <div style={{ width: 130, fontSize: 12.5, color: C.text3 }}>{c.lastUsed || "–"}</div>
+            </div>
+          );
+        })}
+      </div>
+
+      <NotifPagination page={page} setPage={setPage} rows={rows} setRows={setRows} total={filtered.length} />
+
+      {showSendModal && (
+        <SendNotificationModal
+          selectedCards={selectedCards}
+          onClose={() => setShowSendModal(false)}
+          onSend={() => {
+            setShowSendModal(false);
+            setSelected(new Set());
+          }}
         />
       )}
     </>
   );
 }
 
+// ─── Notifications: History tab ─────────────────────────────────────────────────
+
+function HistoryTab() {
+  const C = useC();
+  const [company, setCompany] = useState("all");
+  const [orgUnit, setOrgUnit] = useState("all");
+  const [search, setSearch] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState(10);
+  const [activeItem, setActiveItem] = useState(null);
+
+  const filtered = NOTIF_HISTORY.filter(h => h.title.toLowerCase().includes(search.toLowerCase()));
+  const pageItems = filtered.slice((page - 1) * rows, page * rows);
+
+  return (
+    <>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
+        <NotifSelect value={company} onChange={setCompany} options={[{ value: "all", label: "All Companies" }]} />
+        <NotifSelect value={orgUnit} onChange={setOrgUnit} options={[{ value: "all", label: "All Org Units" }]} />
+        <NotifSearchInput value={search} onChange={setSearch} placeholder="Search by title…" />
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={(e) => setDateFrom(e.target.value)}
+          style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+        />
+        <span style={{ fontSize: 13, color: C.text3 }}>to</span>
+        <input
+          type="date"
+          value={dateTo}
+          onChange={(e) => setDateTo(e.target.value)}
+          style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+        />
+      </div>
+
+      <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "7px 16px", borderBottom: `1px solid ${C.border}`, background: C.bgPage }}>
+          <span style={{ width: 140, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Card</span>
+          <span style={{ flex: 1, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Title</span>
+          <span style={{ width: 200, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Url</span>
+          <span style={{ width: 60, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Sent</span>
+          <span style={{ width: 60, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Failed</span>
+          <span style={{ width: 130, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase" }}>Sent At</span>
+          <span style={{ width: 36 }} />
+        </div>
+
+        {pageItems.length === 0 && (
+          <div style={{ padding: "40px 20px", textAlign: "center", fontSize: 14, color: C.text3 }}>No notifications match your search.</div>
+        )}
+
+        {pageItems.map((h) => (
+          <div key={h.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "5px 16px", borderBottom: `1px solid ${C.border}` }}>
+            <span style={{ width: 140, fontSize: 13, fontWeight: 600, color: C.text1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.card}</span>
+            <span style={{ flex: 1, fontSize: 13, color: C.text1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.title}</span>
+            <span style={{ width: 200, fontSize: 12.5, color: C.accent, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{h.url}</span>
+            <span style={{ width: 60, fontSize: 13, fontWeight: 650, color: C.success }}>{h.sent}</span>
+            <span style={{ width: 60, fontSize: 13, fontWeight: 650, color: h.failed > 0 ? C.danger : C.text3 }}>{h.failed}</span>
+            <span style={{ width: 130, fontSize: 12.5, color: C.text3 }}>{h.sentAt}</span>
+            <span style={{ width: 36 }}>
+              <button
+                onClick={() => setActiveItem(h)}
+                style={{ width: 24, height: 24, borderRadius: R.sm, border: "none", background: C.accentLight, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <Icon name="eye" size={13} color={C.accent} />
+              </button>
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <NotifPagination page={page} setPage={setPage} rows={rows} setRows={setRows} total={filtered.length} />
+
+      {activeItem && (
+        <HistoryDetailModal item={activeItem} onClose={() => setActiveItem(null)} />
+      )}
+    </>
+  );
+}
+
+// ─── Notifications Page ─────────────────────────────────────────────────────────
+
+function NotificationsPage() {
+  const [tab, setTab] = useState("send");
+
+  return (
+    <div style={{ padding: "24px 28px", fontFamily: F }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+        <TabButton active={tab === "send"} icon="bell" label="Send" onClick={() => setTab("send")} />
+        <TabButton active={tab === "history"} icon="clock" label="History" count={NOTIF_HISTORY.length} onClick={() => setTab("history")} />
+      </div>
+
+      {tab === "send" ? <SendTab /> : <HistoryTab />}
+    </div>
+  );
+}
 
 // ─── Admin Layout ──────────────────────────────────────────────────────────────
 
 function AdminLayout({ user, onSignOut }) {
   // AdminLayout owns darkMode and is the ThemeCtx.Provider root.
-  const [activeNav, setActiveNav] = useState("microsites");
+  const [activeNav, setActiveNav] = useState("dashboard");
   const [collapsed, setCollapsed] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const C = darkMode ? CD : C_LIGHT;
-
-  const navTitle = NAV.find(n => n.id === activeNav)?.label || "Dashboard";
-  const navSubtitle = activeNav === "dashboard" ? `Welcome back, ${user.firstName || "there"}` :
-                      activeNav === "microsites" ? "Vehicle lots and card collections" : null;
 
   return (
     <ThemeCtx.Provider value={darkMode}>
@@ -1816,25 +2291,24 @@ function AdminLayout({ user, onSignOut }) {
         {/* Main content column */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden", background: C.bgPage }}>
           <Topbar
-            title={navTitle}
-            subtitle={navSubtitle}
+            title={activeNav === "settings" ? "Settings" : (NAV.find(n => n.id === activeNav)?.label || "Dashboard")}
+            subtitle={
+              activeNav === "dashboard" ? `Welcome back, ${user.firstName || "there"}`
+              : activeNav === "notifications" ? "Send messages to card subscribers and review history"
+              : null
+            }
             darkMode={darkMode}
             onToggleDark={() => setDarkMode(v => !v)}
             user={user}
-            actions={activeNav === "microsites" ? (
-              <Btn style={{ height: 36, padding: "0 16px", fontSize: 13.5 }}>
-                <Icon name="plus" size={15} color="#fff" />
-                New Microsite
-              </Btn>
-            ) : null}
+            onNavigate={setActiveNav}
+            onSignOut={onSignOut}
           />
 
           <main style={{ flex: 1, overflowY: "auto", background: C.bgPage, transition: "background 0.25s", position: "relative" }}>
-            {activeNav === "microsites" ? (
-              <MicrositesPage />
-            ) : (
-              <DashboardPlaceholder user={user} />
-            )}
+            {activeNav === "settings" ? <SettingsPage user={user} />
+              : activeNav === "notifications" ? <NotificationsPage />
+              : <DashboardPlaceholder user={user} />
+            }
           </main>
         </div>
 

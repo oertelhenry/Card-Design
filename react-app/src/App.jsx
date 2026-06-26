@@ -41,6 +41,7 @@ import CardzApp from "./cardz/layout";
 import AllCards from "./cardz/AllCards";
 import Surveys from "./cardz/Surveys";
 import Microsites from "./cardz/Microsites";
+import Notifications from "./cardz/Notifications";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -85,6 +86,7 @@ const TABS = [
   { label: "Cardz All Cards", component: <AllCards /> },
   { label: "Cardz All Surveys", component: <Surveys /> },
   { label: "Cardz All Microsites", component: <Microsites /> },
+  { label: "Cardz All Notifications", component: <Notifications /> },
 ];
 
 function App() {

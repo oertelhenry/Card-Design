@@ -753,7 +753,7 @@ function RegisterPage({ onBack, onSignUp }) {
 
 // ─── User Dropdown ─────────────────────────────────────────────────────────────
 
-function UserDropdown({ user, onClose, onSignOut, collapsed }) {
+function UserDropdown({ user, onClose, onSignOut, collapsed, onNavigate }) {
   const C = useC();
   const ref = useRef(null);
 
@@ -766,8 +766,8 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
   }, [onClose]);
 
   const menuItems = [
-    { label: "Settings", icon: "settings" },
-    { label: "Subscription", icon: "creditCard" },
+    { id: "settings", label: "Settings", icon: "settings" },
+    { id: "subscription", label: "Subscription", icon: "creditCard" },
   ];
 
   return (
@@ -802,7 +802,12 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
 
       {/* Menu items */}
       {menuItems.map((item) => (
-        <DropdownItem key={item.label} icon={item.icon} label={item.label} />
+        <DropdownItem
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          onClick={() => { onNavigate?.(item.id); onClose(); }}
+        />
       ))}
 
       {/* Divider */}
@@ -810,6 +815,105 @@ function UserDropdown({ user, onClose, onSignOut, collapsed }) {
 
       {/* Logout */}
       <DropdownItem icon="logout" label="Log out" danger onClick={onSignOut} />
+
+      {/* Bottom padding */}
+      <div style={{ height: 4 }} />
+    </div>
+  );
+}
+
+// ─── Topbar User Dropdown (light/dark-adaptive, top-right) ─────────────────────
+
+function TopDropdownItem({ icon, label, danger = false, onClick }) {
+  const C = useC();
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "9px 16px",
+        background: hovered ? (danger ? C.dangerBg : C.bgInput) : "transparent",
+        border: "none",
+        cursor: "pointer",
+        textAlign: "left",
+        fontFamily: F,
+        transition: "background 0.12s",
+      }}
+    >
+      <Icon name={icon} size={15} color={danger ? C.danger : C.text2} style={{ transition: "color 0.12s" }} />
+      <span style={{ fontSize: 13.5, fontWeight: 450, color: danger ? C.danger : C.text1, letterSpacing: "-0.005em" }}>
+        {label}
+      </span>
+    </button>
+  );
+}
+
+function TopUserDropdown({ user, onClose, onNavigate, onSignOut }) {
+  const C = useC();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) onClose();
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose]);
+
+  const menuItems = [
+    { id: "settings", label: "Settings", icon: "settings" },
+    { id: "subscription", label: "Subscription", icon: "creditCard" },
+  ];
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        position: "absolute",
+        top: "calc(100% + 8px)",
+        right: 0,
+        width: 224,
+        background: C.bgSurface,
+        border: `1px solid ${C.border}`,
+        borderRadius: R.md,
+        boxShadow: C.shadow.dropdown,
+        overflow: "hidden",
+        zIndex: 200,
+        fontFamily: F,
+      }}
+    >
+      {/* Name + email header */}
+      <div style={{ padding: "12px 16px 10px", borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ fontSize: 13.5, fontWeight: 650, color: C.text1, letterSpacing: "-0.01em" }}>
+          {user.firstName} {user.lastName}
+        </div>
+        <div style={{ fontSize: 12, color: C.text3, marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {user.email}
+        </div>
+      </div>
+
+      {/* Menu items */}
+      {menuItems.map((item) => (
+        <TopDropdownItem
+          key={item.id}
+          icon={item.icon}
+          label={item.label}
+          onClick={() => { onNavigate?.(item.id); onClose(); }}
+        />
+      ))}
+
+      {/* Divider */}
+      <div style={{ height: 1, background: C.border, margin: "4px 0" }} />
+
+      {/* Logout */}
+      <TopDropdownItem icon="logout" label="Log out" danger onClick={onSignOut} />
 
       {/* Bottom padding */}
       <div style={{ height: 4 }} />
@@ -1031,6 +1135,7 @@ function Sidebar({ activeNav, onNavChange, collapsed, onToggleCollapse, user, on
             collapsed={collapsed}
             onClose={() => setDropdownOpen(false)}
             onSignOut={onSignOut}
+            onNavigate={(id) => { onNavChange(id); }}
           />
         )}
 
@@ -1128,10 +1233,11 @@ function Sidebar({ activeNav, onNavChange, collapsed, onToggleCollapse, user, on
 
 // ─── Topbar ────────────────────────────────────────────────────────────────────
 
-function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack }) {
+function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack, onNavigate, onSignOut }) {
   const C = useC();
   const initials = [user.firstName?.[0], user.lastName?.[0]].filter(Boolean).join("") || "?";
   const [avatarHover, setAvatarHover] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dk = darkMode; // kept for the toggle button border/bg only
   const topBg      = C.bgSurface;
@@ -1257,6 +1363,7 @@ function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
+            outline: "none",
             transition: "background 0.2s, border-color 0.2s",
             flexShrink: 0,
             lineHeight: 0,
@@ -1270,29 +1377,41 @@ function Topbar({ title, subtitle, darkMode, onToggleDark, user, actions, onBack
         </button>
 
         {/* Avatar */}
-        <div
-          onMouseEnter={() => setAvatarHover(true)}
-          onMouseLeave={() => setAvatarHover(false)}
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: R.full,
-            background: "linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            color: "#fff",
-            fontSize: 12.5,
-            fontWeight: 700,
-            fontFamily: F,
-            letterSpacing: "0.02em",
-            boxShadow: avatarHover ? "0 0 0 3px rgba(79,70,229,0.20)" : "none",
-            transition: "box-shadow 0.15s",
-            flexShrink: 0,
-          }}
-        >
-          {initials}
+        <div style={{ position: "relative" }}>
+          <div
+            onClick={() => setDropdownOpen(v => !v)}
+            onMouseEnter={() => setAvatarHover(true)}
+            onMouseLeave={() => setAvatarHover(false)}
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: R.full,
+              background: "linear-gradient(135deg, #6C63FF 0%, #4F46E5 100%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "#fff",
+              fontSize: 12.5,
+              fontWeight: 700,
+              fontFamily: F,
+              letterSpacing: "0.02em",
+              boxShadow: avatarHover || dropdownOpen ? "0 0 0 3px rgba(79,70,229,0.20)" : "none",
+              transition: "box-shadow 0.15s",
+              flexShrink: 0,
+            }}
+          >
+            {initials}
+          </div>
+
+          {dropdownOpen && (
+            <TopUserDropdown
+              user={user}
+              onClose={() => setDropdownOpen(false)}
+              onNavigate={onNavigate}
+              onSignOut={onSignOut}
+            />
+          )}
         </div>
       </div>
     </header>
@@ -1351,6 +1470,191 @@ function DashboardPlaceholder({ user }) {
   );
 }
 
+// ─── Settings: Switch toggle ────────────────────────────────────────────────────
+
+function Switch({ checked, onChange }) {
+  const C = useC();
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      role="switch"
+      aria-checked={checked}
+      style={{
+        width: 38, height: 22, borderRadius: R.full, border: "none", padding: 2,
+        background: checked ? C.accent : C.border, cursor: "pointer", position: "relative",
+        flexShrink: 0, transition: "background 0.15s", display: "flex", alignItems: "center",
+      }}
+    >
+      <span
+        style={{
+          width: 18, height: 18, borderRadius: R.full, background: "#fff",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.25)",
+          transform: checked ? "translateX(16px)" : "translateX(0)",
+          transition: "transform 0.15s",
+        }}
+      />
+    </button>
+  );
+}
+
+function SettingsLabel({ children }) {
+  const C = useC();
+  return (
+    <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}>
+      {children}
+    </label>
+  );
+}
+
+function SettingsCard({ icon, title, subtitle, children, footer }) {
+  const C = useC();
+  return (
+    <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "14px 20px", borderBottom: `1px solid ${C.border}`, background: C.bgPage }}>
+        <div style={{ width: 22, height: 22, borderRadius: R.full, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <Icon name={icon} size={13} color={C.accent} />
+        </div>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 650, color: C.text1, fontFamily: FD, lineHeight: 1.3 }}>{title}</div>
+          {subtitle && <div style={{ fontSize: 12, color: C.text3, marginTop: 1 }}>{subtitle}</div>}
+        </div>
+      </div>
+      <div style={{ padding: "16px 20px" }}>
+        {children}
+      </div>
+      {footer && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8, padding: "12px 20px", borderTop: `1px solid ${C.border}`, background: C.bgPage }}>
+          {footer}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Settings Page ──────────────────────────────────────────────────────────────
+
+function SettingsPage({ user }) {
+  const C = useC();
+  const [form, setForm] = useState({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    enabled: true,
+  });
+  const [pw, setPw] = useState({ newPassword: "", confirmPassword: "" });
+  const [savedProfile, setSavedProfile] = useState(false);
+  const [savedPw, setSavedPw] = useState(false);
+
+  const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }));
+
+  const fieldStyle = { height: 32, fontSize: 13, padding: "0 11px" };
+
+  const handleSaveProfile = () => {
+    setSavedProfile(true);
+    setTimeout(() => setSavedProfile(false), 2000);
+  };
+
+  const handleSavePassword = () => {
+    setSavedPw(true);
+    setPw({ newPassword: "", confirmPassword: "" });
+    setTimeout(() => setSavedPw(false), 2000);
+  };
+
+  return (
+    <div style={{ padding: "24px 28px", maxWidth: 680, fontFamily: F }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+
+        {/* Profile Details */}
+        <SettingsCard
+          icon="user"
+          title="Profile Details"
+          subtitle="Update your name, email address, and account status"
+          footer={
+            <>
+              <Btn variant="ghost" style={{ height: 34, padding: "0 16px", fontSize: 13 }}>
+                Cancel
+              </Btn>
+              <Btn onClick={handleSaveProfile} style={{ height: 34, padding: "0 18px", fontSize: 13 }}>
+                {savedProfile ? <><Icon name="check" size={14} color="#fff" /> Saved</> : "Save"}
+              </Btn>
+            </>
+          }
+        >
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
+            <div>
+              <SettingsLabel>First name</SettingsLabel>
+              <Input value={form.firstName} onChange={set("firstName")} style={fieldStyle} />
+            </div>
+            <div>
+              <SettingsLabel>Last name</SettingsLabel>
+              <Input value={form.lastName} onChange={set("lastName")} style={fieldStyle} />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 16 }}>
+            <SettingsLabel>
+              Email address <span style={{ color: C.danger }}>*</span>
+            </SettingsLabel>
+            <Input type="email" value={form.email} onChange={set("email")} style={fieldStyle} />
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", background: C.bgPage, borderRadius: R.sm }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 550, color: C.text1 }}>Account enabled</div>
+              <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>Disabling sign-in revokes access without deleting the account</div>
+            </div>
+            <Switch checked={form.enabled} onChange={(v) => setForm(f => ({ ...f, enabled: v }))} />
+          </div>
+        </SettingsCard>
+
+        {/* Change Password */}
+        <SettingsCard
+          icon="lock"
+          title="Change Password"
+          footer={
+            <Btn
+              onClick={handleSavePassword}
+              disabled={!pw.newPassword || pw.newPassword !== pw.confirmPassword}
+              style={{ height: 34, padding: "0 18px", fontSize: 13 }}
+            >
+              {savedPw ? <><Icon name="check" size={14} color="#fff" /> Updated</> : "Update Password"}
+            </Btn>
+          }
+        >
+          <p style={{ margin: "0 0 12px", fontSize: 12.5, color: C.text3, fontStyle: "italic" }}>
+            Leave blank to keep the current password.
+          </p>
+          <div style={{ marginBottom: 10 }}>
+            <SettingsLabel>New password</SettingsLabel>
+            <Input
+              type="password"
+              value={pw.newPassword}
+              onChange={(e) => setPw(p => ({ ...p, newPassword: e.target.value }))}
+              autoComplete="new-password"
+              style={fieldStyle}
+            />
+          </div>
+          <div>
+            <SettingsLabel>Confirm password</SettingsLabel>
+            <Input
+              type="password"
+              value={pw.confirmPassword}
+              onChange={(e) => setPw(p => ({ ...p, confirmPassword: e.target.value }))}
+              autoComplete="new-password"
+              style={fieldStyle}
+            />
+            {pw.confirmPassword && pw.newPassword !== pw.confirmPassword && (
+              <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.danger }}>Passwords do not match.</p>
+            )}
+          </div>
+        </SettingsCard>
+
+      </div>
+    </div>
+  );
+}
+
 // ─── Admin Layout ──────────────────────────────────────────────────────────────
 
 function AdminLayout({ user, onSignOut }) {
@@ -1378,15 +1682,20 @@ function AdminLayout({ user, onSignOut }) {
         {/* Main content column */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden", background: C.bgPage }}>
           <Topbar
-            title={NAV.find(n => n.id === activeNav)?.label || "Dashboard"}
+            title={activeNav === "settings" ? "Settings" : (NAV.find(n => n.id === activeNav)?.label || "Dashboard")}
             subtitle={activeNav === "dashboard" ? `Welcome back, ${user.firstName || "there"}` : null}
             darkMode={darkMode}
             onToggleDark={() => setDarkMode(v => !v)}
             user={user}
+            onNavigate={setActiveNav}
+            onSignOut={onSignOut}
           />
 
           <main style={{ flex: 1, overflowY: "auto", background: C.bgPage, transition: "background 0.25s", position: "relative" }}>
-            <DashboardPlaceholder user={user} />
+            {activeNav === "settings"
+              ? <SettingsPage user={user} />
+              : <DashboardPlaceholder user={user} />
+            }
           </main>
         </div>
 

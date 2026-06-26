@@ -268,7 +268,7 @@ function Label({ children, htmlFor }) {
   return (
     <label
       htmlFor={htmlFor}
-      style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}
+      style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}
     >
       {children}
     </label>
@@ -294,9 +294,9 @@ function Input({ id, type = "text", placeholder, value, onChange, autoComplete, 
         onBlur={() => setFocused(false)}
         style={{
           width: "100%",
-          height: 44,
-          padding: isPassword ? "0 44px 0 14px" : "0 14px",
-          fontSize: 15,
+          height: 32,
+          padding: isPassword ? "0 40px 0 11px" : "0 11px",
+          fontSize: 13,
           fontFamily: F,
           fontWeight: 400,
           color: C.text1,
@@ -369,7 +369,7 @@ function Btn({ children, onClick, type = "button", variant = "primary", disabled
       onMouseLeave={() => setHovered(false)}
       style={{
         width: full ? "100%" : "auto",
-        height: 44,
+        height: 32,
         padding: "0 20px",
         fontSize: 15,
         fontWeight: 600,
@@ -490,7 +490,7 @@ function LoginPage({ onSignIn, onRegister }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 13 }}>
           {/* Email */}
           <div>
             <Label htmlFor="login-email">Username or email</Label>
@@ -640,9 +640,9 @@ function RegisterPage({ onBack, onSignUp }) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 13 }}>
           {/* Name row */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             <div>
               <Label htmlFor="reg-first">First name</Label>
               <Input
@@ -1314,7 +1314,7 @@ function DashboardPlaceholder({ user }) {
         justifyContent: "center",
         minHeight: "calc(100vh - 56px)",
         fontFamily: F,
-        gap: 12,
+        gap: 10,
       }}
     >
       <div
@@ -1575,7 +1575,7 @@ function CompanyDropdown() {
               key={c}
               onClick={() => setOpen(false)}
               style={{
-                padding: "8px 10px", fontSize: 13.5, color: C.text1,
+                padding: "8px 10px", fontSize: 13, color: C.text1,
                 borderRadius: R.xs, cursor: "pointer", fontFamily: F,
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = C.bgInput}
@@ -1615,7 +1615,7 @@ function Pagination({ total, label, perPage, onPerPageChange }) {
       style={{
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "14px 20px", borderTop: `1px solid ${C.border}`,
-        fontFamily: F, flexWrap: "wrap", gap: 12,
+        fontFamily: F, flexWrap: "wrap", gap: 10,
       }}
     >
       <span style={{ fontSize: 13, color: C.text2 }}>
@@ -1773,7 +1773,7 @@ function CardsGrid({ items, type, onEdit }) {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-        gap: 14,
+        gap: 10,
         padding: 20,
       }}
     >
@@ -1831,19 +1831,19 @@ function AllCardsPage({ onEditCard }) {
   const labelPlural = `${activeType} card${items.length === 1 ? "" : "s"}`;
 
   return (
-    <div style={{ padding: "24px 28px 32px", fontFamily: F }}>
+    <div style={{ padding: "18px 22px 24px", fontFamily: F }}>
       {/* Toolbar row: search-cards / company filter / type tabs / view toggle */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: 16,
+          gap: 10,
           marginBottom: 18,
           flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           {/* Search cards */}
           <div
             style={{
@@ -1865,7 +1865,7 @@ function AllCardsPage({ onEditCard }) {
               placeholder="Search cards..."
               style={{
                 border: "none", outline: "none", background: "transparent",
-                fontSize: 13.5, color: C.text1, fontFamily: F, width: "100%",
+                fontSize: 13, color: C.text1, fontFamily: F, width: "100%",
               }}
             />
           </div>
@@ -2210,10 +2210,10 @@ function ThemePresetCard({ preset, active, onUse }) {
 function ThemePickerPanel({ activeTheme, onSelectTheme }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px" }}>
+    <div style={{ padding: "16px 20px" }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Theme</h2>
       <p style={{ margin: "4px 0 20px", fontSize: 13, color: C.text3 }}>Choose the visual style for your card. You can change this at any time.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16, maxWidth: 920 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 10, maxWidth: 920 }}>
         {THEME_PRESETS.map((preset) => (
           <ThemePresetCard
             key={preset.id}
@@ -2379,7 +2379,7 @@ function StylingPanel({ font, onFontChange }) {
   const setColor = (key, value) => setColors(prev => ({ ...prev, [key]: value }));
 
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 880 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 880 }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Card Styling</h2>
       <p style={{ margin: "4px 0 24px", fontSize: 13, color: C.text3 }}>Fine-tune colors and type — applies to the whole card, not a single section.</p>
 
@@ -2436,7 +2436,7 @@ function CardDetailsPanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 880 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 880 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <div>
           <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Card Identity</h2>
@@ -2447,7 +2447,7 @@ function CardDetailsPanel({ data, onChange }) {
         </Btn>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
         <FieldGroup label="Card Name">
           <Input value={data.cardName} onChange={set("cardName")} />
         </FieldGroup>
@@ -2462,7 +2462,7 @@ function CardDetailsPanel({ data, onChange }) {
         </FieldGroup>
       </div>
 
-      <div style={{ marginBottom: 16 }}>
+      <div style={{ marginBottom: 8 }}>
         <FieldGroup label="More Detail">
           <Input value={data.moreDetail} onChange={set("moreDetail")} />
         </FieldGroup>
@@ -2475,7 +2475,7 @@ function CardDetailsPanel({ data, onChange }) {
           onChange={set("description")}
           rows={3}
           style={{
-            width: "100%", padding: "10px 14px", fontSize: 14, fontFamily: F, color: C.text1,
+            width: "100%", padding: "8px 11px", fontSize: 13, fontFamily: F, color: C.text1,
             background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm,
             outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5,
           }}
@@ -2544,15 +2544,15 @@ function ContactInfoPanel({ contacts, onChange }) {
   const add = (type) => onChange([...contacts, { type: type.id, label: type.label, color: type.color, icon: type.icon, value: "", enabled: true }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <div>
           <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Contact Info</h2>
           <p style={{ margin: "2px 0 0", fontSize: 12.5, color: C.text3 }}>Pick a channel below to add it to the card</p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-          <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+          <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
             <option>— local —</option>
           </select>
         </div>
@@ -2595,7 +2595,7 @@ function ContactInfoPanel({ contacts, onChange }) {
               onChange={(e) => update(idx, e.target.value)}
               placeholder={`Enter ${c.label.toLowerCase()}…`}
               style={{
-                flex: 1, height: 40, padding: "0 14px", fontSize: 13.5, fontFamily: F, color: C.text1,
+                flex: 1, height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1,
                 background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none",
               }}
             />
@@ -2638,15 +2638,15 @@ function SocialPanel({ links, onChange }) {
   const add = (type) => onChange([...links, { type: type.id, label: type.label, color: type.color, icon: type.icon, value: "", enabled: true }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <div>
           <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Social</h2>
           <p style={{ margin: "2px 0 0", fontSize: 12.5, color: C.text3 }}>Pick a platform below to add it to the card</p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-          <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+          <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
             <option>Toyota Mauritius</option>
           </select>
         </div>
@@ -2689,7 +2689,7 @@ function SocialPanel({ links, onChange }) {
               onChange={(e) => update(idx, e.target.value)}
               placeholder={`Paste your ${l.label.toLowerCase()} link…`}
               style={{
-                flex: 1, height: 40, padding: "0 14px", fontSize: 13, fontFamily: F, color: C.text1,
+                flex: 1, height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1,
                 background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none",
               }}
             />
@@ -2717,13 +2717,13 @@ function BusinessHoursPanel({ hours, onChange }) {
   };
 
   return (
-    <div style={{ padding: "24px 28px" }}>
+    <div style={{ padding: "16px 20px" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Business Hours</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-            <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+            <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
               <option>— local —</option>
             </select>
           </div>
@@ -2736,7 +2736,7 @@ function BusinessHoursPanel({ hours, onChange }) {
           <div
             key={d.day}
             style={{
-              display: "flex", alignItems: "center", gap: 16,
+              display: "flex", alignItems: "center", gap: 10,
               padding: "12px 4px", borderBottom: `1px solid ${C.border}`,
               background: idx % 2 === 1 ? C.bgPage : "transparent",
             }}
@@ -2749,14 +2749,14 @@ function BusinessHoursPanel({ hours, onChange }) {
                   type="time"
                   value={d.start}
                   onChange={(e) => update(idx, { start: e.target.value })}
-                  style={{ height: 34, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+                  style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
                 />
                 <span style={{ color: C.text3, fontSize: 13 }}>–</span>
                 <input
                   type="time"
                   value={d.end}
                   onChange={(e) => update(idx, { end: e.target.value })}
-                  style={{ height: 34, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+                  style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
                 />
               </div>
             ) : (
@@ -2781,7 +2781,7 @@ const SHARE_CONNECT_OPTIONS_INITIAL = [
 function ShareConnectOptionRow({ option, onToggle }) {
   const C = useC();
   return (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 4px", borderBottom: `1px solid ${C.border}` }}>
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "14px 4px", borderBottom: `1px solid ${C.border}` }}>
       <div style={{ width: 32, height: 32, borderRadius: R.sm, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
         <Icon name={option.icon} size={16} color={C.accent} />
       </div>
@@ -2803,7 +2803,7 @@ function ShareConnectPanel({ options, onChange }) {
   };
 
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 680 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 680 }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Share &amp; Connect</h2>
       <p style={{ margin: "6px 0 20px", fontSize: 13, color: C.text3, lineHeight: 1.6 }}>
         Controls the action bar shown on your digital card. Toggle each option below to show or hide it — turning all of them off hides the whole action bar.
@@ -2861,13 +2861,13 @@ function AppointmentsPanel({ slots, onChange }) {
   const addSlot = () => onChange([...slots, { start: "09:00", end: "10:00", enabled: true }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Request an Appointment</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-            <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+            <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
               <option>— local —</option>
             </select>
           </div>
@@ -2884,7 +2884,7 @@ function AppointmentsPanel({ slots, onChange }) {
             key={idx}
             {...handlersFor(idx)}
             style={{
-              display: "flex", alignItems: "center", gap: 12,
+              display: "flex", alignItems: "center", gap: 10,
               padding: "10px 4px", borderBottom: `1px solid ${C.border}`,
               borderTop: `2px solid ${overIdx === idx ? C.accent : "transparent"}`,
               background: idx % 2 === 1 ? C.bgPage : "transparent",
@@ -2896,14 +2896,14 @@ function AppointmentsPanel({ slots, onChange }) {
               type="time"
               value={slot.start}
               onChange={(e) => update(idx, { start: e.target.value })}
-              style={{ height: 36, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
             <span style={{ color: C.text3, fontSize: 13 }}>–</span>
             <input
               type="time"
               value={slot.end}
               onChange={(e) => update(idx, { end: e.target.value })}
-              style={{ height: 36, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
             <Switch checked={slot.enabled} onChange={(val) => update(idx, { enabled: val })} />
             <button onClick={() => remove(idx)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex" }}>
@@ -2983,7 +2983,7 @@ function ServiceCard({ service, onChange, onRemove, dragHandlers, isDropTarget }
           value={service.title}
           onChange={(e) => set({ title: e.target.value })}
           placeholder="Service title"
-          style={{ flex: 1, height: 38, padding: "0 12px", fontSize: 14, fontWeight: 600, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+          style={{ flex: 1, height: 32, padding: "0 10px", fontSize: 13, fontWeight: 600, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
         />
         <button onClick={onRemove} style={{ background: "none", border: "none", cursor: "pointer", padding: 6, display: "flex", flexShrink: 0 }}>
           <Icon name="x" size={16} color={C.text3} />
@@ -3001,13 +3001,13 @@ function ServiceCard({ service, onChange, onRemove, dragHandlers, isDropTarget }
           value={service.ctaLabel}
           onChange={(e) => set({ ctaLabel: e.target.value })}
           placeholder="Button label"
-          style={{ width: 160, height: 36, padding: "0 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", flexShrink: 0 }}
+          style={{ width: 160, height: 32, padding: "0 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", flexShrink: 0 }}
         />
         <input
           value={service.url}
           onChange={(e) => set({ url: e.target.value })}
           placeholder="https://…"
-          style={{ flex: 1, height: 36, padding: "0 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+          style={{ flex: 1, height: 32, padding: "0 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
         />
       </div>
     </div>
@@ -3027,13 +3027,13 @@ function ServicesPanel({ services, onChange }) {
   const add = () => onChange([...services, { icon: "swap", title: "", desc: "", ctaLabel: "Read More", url: "" }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Our Services</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-            <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+            <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
               <option>— local —</option>
             </select>
           </div>
@@ -3068,7 +3068,7 @@ function EmbedCodePanel({ title, value, onChange, savedLabel, placeholder }) {
   const C = useC();
   const [touched, setTouched] = useState(false);
   return (
-    <div style={{ padding: "24px 28px" }}>
+    <div style={{ padding: "16px 20px" }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>{title}</h2>
       <div style={{ marginTop: 16, maxWidth: 1040 }}>
         <textarea
@@ -3077,7 +3077,7 @@ function EmbedCodePanel({ title, value, onChange, savedLabel, placeholder }) {
           placeholder={placeholder}
           rows={6}
           style={{
-            width: "100%", padding: "12px 14px", fontSize: 12.5, fontFamily: "'SF Mono', 'Monaco', monospace",
+            width: "100%", padding: "10px 12px", fontSize: 13, fontFamily: "'SF Mono', 'Monaco', monospace",
             color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm,
             outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6,
           }}
@@ -3133,7 +3133,7 @@ function TestimonialCard({ testimonial, onChange, onRemove, dragHandlers, isDrop
           value={testimonial.company}
           onChange={(e) => set({ company: e.target.value })}
           placeholder="Company name"
-          style={{ flex: 1, height: 36, padding: "0 12px", fontSize: 13.5, fontWeight: 600, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+          style={{ flex: 1, height: 32, padding: "0 12px", fontSize: 13, fontWeight: 600, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
         />
         <button onClick={onRemove} style={{ background: "none", border: "none", cursor: "pointer", padding: 6, display: "flex", flexShrink: 0 }}>
           <Icon name="x" size={16} color={C.text3} />
@@ -3166,13 +3166,13 @@ function TestimonialsPanel({ testimonials, onChange }) {
   const add = () => onChange([...testimonials, { company: "", rating: 5, review: "" }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Testimonials</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-            <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+            <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
               <option>Testimonial Collection</option>
             </select>
           </div>
@@ -3257,13 +3257,13 @@ function GalleryPanel({ items, onChange }) {
   const add = (type) => onChange([...items, { type }]);
 
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Gallery</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 12.5, color: C.text3 }}>Group Items</span>
-            <select style={{ height: 34, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 12.5, color: C.text1, padding: "0 8px" }}>
+            <select style={{ height: 32, borderRadius: R.sm, border: `1.5px solid ${C.border}`, background: C.bgSurface, fontFamily: F, fontSize: 13, color: C.text1, padding: "0 8px" }}>
               <option>— local —</option>
             </select>
           </div>
@@ -3277,7 +3277,7 @@ function GalleryPanel({ items, onChange }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
         {items.map((item, idx) => (
           <GalleryTile
             key={idx}
@@ -3300,8 +3300,8 @@ function GalleryPanel({ items, onChange }) {
 function RateServicePanel({ prompt, onChange }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px" }}>
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 16 }}>
+    <div style={{ padding: "16px 20px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Rate Our Service</h2>
         <span style={{ fontSize: 11.5, color: C.text3 }}>Shown to customers on your card</span>
       </div>
@@ -3313,7 +3313,7 @@ function RateServicePanel({ prompt, onChange }) {
           placeholder="Please rate your interaction with me"
           rows={4}
           style={{
-            width: "100%", padding: "12px 14px", fontSize: 14, fontFamily: F, color: C.text1,
+            width: "100%", padding: "8px 11px", fontSize: 13, fontFamily: F, color: C.text1,
             background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm,
             outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5,
           }}
@@ -3333,7 +3333,7 @@ function RateServicePanel({ prompt, onChange }) {
 function GenericSectionPanel({ section, onToggle }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 640 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 640 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>{section.label}</h2>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -3419,7 +3419,7 @@ function LivePreview({ cardData, contacts, sectionsById, previewMode, onPreviewM
               <p style={{ margin: "0 0 14px", fontSize: 10.5, lineHeight: 1.5, color: "#7a7a82" }}>{cardData.description}</p>
 
               {showContact && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 16 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10 }}>
                   {contacts.filter(c => c.enabled && c.value).map((c, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center" }}>
                       <div style={{ width: 22, height: 22, borderRadius: R.full, background: c.color, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -3630,12 +3630,12 @@ function VehicleCardIdentityPanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
-      <div style={{ marginBottom: 22 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
+      <div style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Card Identity</h2>
         <p style={{ margin: "3px 0 0", fontSize: 12.5, color: C.text3 }}>Core identity fields for this vehicle card</p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
         <FieldGroup label="Card Name">
           <Input value={data.cardName} onChange={set("cardName")} placeholder="e.g. CorollaHybrid" />
         </FieldGroup>
@@ -3644,18 +3644,18 @@ function VehicleCardIdentityPanel({ data, onChange }) {
         </FieldGroup>
       </div>
 
-      <div style={{ marginBottom: 22 }}>
+      <div style={{ marginBottom: 8 }}>
         <Label>Microsite</Label>
-        <div style={{ border: `1.5px solid ${C.accent}`, borderRadius: R.sm, padding: "0 14px", height: 44, display: "flex", alignItems: "center", justifyContent: "space-between", background: C.accentLight, marginBottom: 8 }}>
+        <div style={{ border: `1.5px solid ${C.accent}`, borderRadius: R.sm, padding: "0 14px", height: 32, display: "flex", alignItems: "center", justifyContent: "space-between", background: C.accentLight, marginBottom: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <Icon name="globe" size={14} color={C.accent} />
-            <span style={{ fontSize: 13.5, color: C.accent, fontFamily: F }}>{data.micrositeId || "ebaf9771-8c04-467c-96d4-ede153088f9f"}</span>
+            <span style={{ fontSize: 13, color: C.accent, fontFamily: F }}>{data.micrositeId || "ebaf9771-8c04-467c-96d4-ede153088f9f"}</span>
           </div>
           <button onClick={() => {}} style={{ background: "none", border: "none", cursor: "pointer", color: C.text3, display: "flex", padding: 4 }}>
             <Icon name="x" size={14} color={C.text3} />
           </button>
         </div>
-        <button style={{ width: "100%", height: 38, border: `1.5px dashed ${C.border}`, borderRadius: R.sm, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: C.accent, fontSize: 13.5, fontWeight: 550, fontFamily: F }}>
+        <button style={{ width: "100%", height: 32, border: `1.5px dashed ${C.border}`, borderRadius: R.sm, background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: C.accent, fontSize: 13, fontWeight: 550, fontFamily: F }}>
           <Icon name="globe" size={14} color={C.accent} />
           Change Microsite
         </button>
@@ -3695,19 +3695,19 @@ function VehicleDetailsPanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
-      <div style={{ marginBottom: 22 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
+      <div style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Vehicle Details</h2>
         <p style={{ margin: "3px 0 0", fontSize: 12.5, color: C.text3 }}>Core vehicle specifications displayed on the card</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <FieldGroup label="Make">
           <div style={{ position: "relative" }}>
             <select
               value={data.make}
               onChange={set("make")}
-              style={{ width: "100%", height: 44, padding: "0 36px 0 14px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", appearance: "none", cursor: "pointer", boxSizing: "border-box" }}
+              style={{ width: "100%", height: 32, padding: "0 36px 0 14px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", appearance: "none", cursor: "pointer", boxSizing: "border-box" }}
             >
               <option value="">Select make…</option>
               {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
@@ -3766,13 +3766,13 @@ function VehiclePerformancePanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
-      <div style={{ marginBottom: 22 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
+      <div style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Vehicle Performance</h2>
         <p style={{ margin: "3px 0 0", fontSize: 12.5, color: C.text3 }}>Engine and drivetrain specifications</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <FieldGroup label="Fuel Type">
           <Input value={data.fuelType} onChange={set("fuelType")} placeholder="e.g. Petrol Hybrid" />
         </FieldGroup>
@@ -3808,13 +3808,13 @@ function VehicleConditionPanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
-      <div style={{ marginBottom: 22 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
+      <div style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Vehicle Condition</h2>
         <p style={{ margin: "3px 0 0", fontSize: 12.5, color: C.text3 }}>Condition details shown on the card</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <FieldGroup label="Category">
           <Input value={data.category} onChange={set("category")} placeholder="e.g. New / Used" />
         </FieldGroup>
@@ -3842,19 +3842,19 @@ function VehicleConditionPanel({ data, onChange }) {
 function VehicleCustomHtmlPanel({ data, onChange }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
-      <div style={{ marginBottom: 22 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
+      <div style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Custom HTML</h2>
         <p style={{ margin: "3px 0 0", fontSize: 12.5, color: C.text3 }}>Embed content shown on the vehicle card</p>
       </div>
 
-      <div style={{ marginBottom: 16 }}>
+      <div style={{ marginBottom: 8 }}>
         <Label>Display Location</Label>
         <div style={{ position: "relative" }}>
           <select
             value={data.displayLocation}
             onChange={(e) => onChange({ ...data, displayLocation: e.target.value })}
-            style={{ width: "100%", height: 44, padding: "0 36px 0 14px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", appearance: "none", cursor: "pointer", boxSizing: "border-box" }}
+            style={{ width: "100%", height: 32, padding: "0 36px 0 14px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", appearance: "none", cursor: "pointer", boxSizing: "border-box" }}
           >
             {["Bottom", "Top", "After Images", "After Price"].map(l => <option key={l} value={l}>{l}</option>)}
           </select>
@@ -3872,7 +3872,7 @@ function VehicleCustomHtmlPanel({ data, onChange }) {
           placeholder="Paste any HTML or embed code (YouTube, PDF brochure iframe, forms…)"
           rows={8}
           style={{
-            width: "100%", padding: "12px 14px", fontSize: 12.5,
+            width: "100%", padding: "10px 12px", fontSize: 13,
             fontFamily: "'SF Mono', 'Monaco', 'Consolas', monospace",
             color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`,
             borderRadius: R.sm, outline: "none", resize: "vertical",
@@ -3930,7 +3930,7 @@ function TestDrivePanel({ salesPeople, history, cardName, company }) {
   const driveUrl = `https://cards.personalyz.me/drive/${slug}`;
 
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
       {/* Header row with tab strip */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Test Drive</h2>
@@ -3959,30 +3959,30 @@ function TestDrivePanel({ salesPeople, history, cardName, company }) {
       {tab === "salesPeople" && (
         <>
           {/* Add/edit form */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
             <input
               value={form.firstName}
               onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
               placeholder="First name"
-              style={{ height: 40, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
             <input
               value={form.lastName}
               onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
               placeholder="Last name"
-              style={{ height: 40, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
             <input
               value={form.email}
               onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
               placeholder="Email"
-              style={{ height: 40, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
             <input
               value={form.phone}
               onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
               placeholder="Phone"
-              style={{ height: 40, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
+              style={{ height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none" }}
             />
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 20 }}>
@@ -4066,7 +4066,7 @@ function TestDrivePanel({ salesPeople, history, cardName, company }) {
           <p style={{ margin: "0 0 18px", fontSize: 13.5, color: C.text2, lineHeight: 1.6 }}>
             Generate a QR code customers can scan to register for a test drive of this vehicle.
           </p>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 44, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, marginBottom: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 32, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, marginBottom: 10 }}>
             <span style={{ flex: 1, fontSize: 13, color: C.accent, fontFamily: F, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{driveUrl}</span>
             <button
               onClick={() => window.open(driveUrl, "_blank")}
@@ -4142,11 +4142,11 @@ function VehicleLivePreview({ vehicleData, perfData, previewMode, onPreviewMode 
               <p style={{ margin: "0 0 14px", fontSize: 11.5, color: "rgba(255,255,255,0.45)", fontFamily: F }}>{company}</p>
 
               {/* Action buttons */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
-                <button style={{ height: 38, borderRadius: R.sm, background: "#4F46E5", border: "none", color: "#fff", fontSize: 12, fontWeight: 650, fontFamily: F, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
+                <button style={{ height: 32, borderRadius: R.sm, background: "#4F46E5", border: "none", color: "#fff", fontSize: 12, fontWeight: 650, fontFamily: F, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                   <Icon name="mail" size={13} color="#fff" /> Enquire Now
                 </button>
-                <button style={{ height: 38, borderRadius: R.sm, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", fontSize: 12, fontWeight: 650, fontFamily: F, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                <button style={{ height: 32, borderRadius: R.sm, background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.15)", color: "#fff", fontSize: 12, fontWeight: 650, fontFamily: F, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                   <Icon name="share" size={13} color="#fff" /> Share
                 </button>
               </div>
@@ -4281,7 +4281,7 @@ function VehicleThemeCard({ preset, active, onUse }) {
         </span>
         {/* Card mockup skeleton */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 44, height: 44, borderRadius: R.full, background: preset.avatarBg }} />
+          <div style={{ width: 44, height: 32, borderRadius: R.full, background: preset.avatarBg }} />
           <div style={{ width: 90, height: 5, borderRadius: 3, background: preset.lineBg }} />
           <div style={{ width: 64, height: 5, borderRadius: 3, background: preset.lineBg, opacity: 0.7 }} />
           <div style={{ display: "flex", gap: 6, marginTop: 2 }}>
@@ -4315,10 +4315,10 @@ function VehicleThemeCard({ preset, active, onUse }) {
 function VehicleThemePickerPanel({ activeTheme, onSelectTheme }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px" }}>
+    <div style={{ padding: "16px 20px" }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Theme</h2>
       <p style={{ margin: "4px 0 22px", fontSize: 13, color: C.text3 }}>Choose the visual style for your vehicle card.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16, maxWidth: 880 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10, maxWidth: 880 }}>
         {VEHICLE_THEME_PRESETS.map(preset => (
           <VehicleThemeCard
             key={preset.id}
@@ -4411,7 +4411,7 @@ function EditVehicleCardPage({ card, onBack }) {
         <div style={{ padding: "10px 13px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
           <button
             onClick={() => setActiveId("theme")}
-            style={{ width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer", fontSize: 13.5, fontWeight: 550, color: activeId === "theme" ? C.accent : C.text2, fontFamily: F, padding: "4px 0" }}
+            style={{ width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 550, color: activeId === "theme" ? C.accent : C.text2, fontFamily: F, padding: "4px 0" }}
           >
             Theme
           </button>
@@ -4447,7 +4447,7 @@ function EditVehicleCardPage({ card, onBack }) {
         ) : activeId === "theme" ? (
           <VehicleThemePickerPanel activeTheme={activeTheme} onSelectTheme={setActiveTheme} />
         ) : (
-          <div style={{ padding: "24px 28px" }}>
+          <div style={{ padding: "16px 20px" }}>
             <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD }}>{sectionLabel}</h2>
             <p style={{ margin: "6px 0 0", fontSize: 13, color: C.text3 }}>This section's editor is coming soon.</p>
           </div>
@@ -4576,10 +4576,10 @@ function GenericThemeCard({ preset, active, onUse }) {
 function GenericThemePickerPanel({ activeTheme, onSelectTheme }) {
   const C = useC();
   return (
-    <div style={{ padding: "24px 28px" }}>
+    <div style={{ padding: "16px 20px" }}>
       <h2 style={{ margin: 0, fontSize: 17, fontWeight: 650, color: C.text1, fontFamily: FD, letterSpacing: "-0.02em" }}>Theme</h2>
       <p style={{ margin: "4px 0 22px", fontSize: 13, color: C.text3 }}>Choose how your card looks to visitors.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16, maxWidth: 920 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10, maxWidth: 920 }}>
         {GENERIC_THEME_PRESETS.map(p => (
           <GenericThemeCard key={p.id} preset={p} active={activeTheme === p.id} onUse={() => onSelectTheme(p.id)} />
         ))}
@@ -4594,18 +4594,18 @@ function GenericCardDetailsPanel({ data, onChange }) {
   const C = useC();
   const set = (key) => (e) => onChange({ ...data, [key]: e.target.value });
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
 
       {/* Card Details section */}
       <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, padding: "20px 22px", marginBottom: 16, boxShadow: C.shadow.sm }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
           <div style={{ width: 22, height: 22, borderRadius: R.full, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Icon name="userCircle" size={13} color={C.accent} />
           </div>
           <span style={{ fontSize: 14, fontWeight: 650, color: C.text1, fontFamily: FD }}>Card Details</span>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
           <div>
             <Label htmlFor="gc-name">Card Name <span style={{ color: C.danger }}>*</span></Label>
             <Input id="gc-name" value={data.cardName} onChange={set("cardName")} placeholder="e.g. WinterMenu" />
@@ -4619,7 +4619,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
         {/* Image upload row */}
         <div>
           <Label>Card Image / Logo</Label>
-          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 80, height: 60, borderRadius: R.md, background: "linear-gradient(135deg,#FF6B35,#F7C59F)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden", border: `1px solid ${C.border}` }}>
               <span style={{ fontSize: 22 }}>🍔</span>
             </div>
@@ -4638,7 +4638,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
         </div>
 
         {/* Contact Button toggle */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16, padding: "12px 14px", background: C.bgPage, borderRadius: R.sm }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16, padding: "12px 14px", background: C.bgPage, borderRadius: R.sm }}>
           <Switch checked={data.contactButton} onChange={(v) => onChange({ ...data, contactButton: v })} size="sm" />
           <div>
             <span style={{ fontSize: 13.5, fontWeight: 550, color: C.text1 }}>Contact Button</span>
@@ -4649,7 +4649,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
 
       {/* Description & Info section */}
       <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, padding: "20px 22px", boxShadow: C.shadow.sm }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 22, height: 22, borderRadius: R.full, background: "rgba(47,165,99,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Icon name="list" size={12} color={C.success} />
@@ -4662,7 +4662,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
           <div>
             <Label>Description</Label>
             <textarea
@@ -4670,7 +4670,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
               onChange={set("description")}
               placeholder="Brief overview shown at top of card..."
               rows={4}
-              style={{ width: "100%", padding: "10px 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
+              style={{ width: "100%", padding: "10px 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
             />
           </div>
           <div>
@@ -4680,7 +4680,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
               onChange={set("details")}
               placeholder="Additional details (hours, location, etc.)..."
               rows={4}
-              style={{ width: "100%", padding: "10px 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
+              style={{ width: "100%", padding: "10px 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
             />
           </div>
         </div>
@@ -4691,7 +4691,7 @@ function GenericCardDetailsPanel({ data, onChange }) {
             onChange={set("information")}
             placeholder="Extended information shown in expandable section..."
             rows={3}
-            style={{ width: "100%", padding: "10px 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
+            style={{ width: "100%", padding: "10px 12px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }}
           />
         </div>
       </div>
@@ -4796,14 +4796,14 @@ function ContentItem({ item, index, total, onChange, onRemove, onMoveUp, onMoveD
       {/* Expanded edit form */}
       {expanded && (
         <div style={{ padding: "14px 18px 16px", background: C.accentLight, borderTop: `1px solid ${C.border}` }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
             <div>
               <Label>Item Name</Label>
               <input
                 value={item.name === "Untitled item" ? "" : item.name}
                 onChange={e => onChange({ ...item, name: e.target.value || "Untitled item" })}
                 placeholder="e.g. Classic Burger"
-                style={{ width: "100%", height: 38, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
+                style={{ width: "100%", height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
               />
             </div>
             <div>
@@ -4812,7 +4812,7 @@ function ContentItem({ item, index, total, onChange, onRemove, onMoveUp, onMoveD
                 value={item.price}
                 onChange={e => onChange({ ...item, price: e.target.value })}
                 placeholder="e.g. R 89.00"
-                style={{ width: "100%", height: 38, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
+                style={{ width: "100%", height: 32, padding: "0 10px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgSurface, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
               />
             </div>
           </div>
@@ -5016,7 +5016,7 @@ function ContentBlocksPanel({ tabs, onTabsChange }) {
         {activeTab ? (
           <div style={{ padding: "20px 22px" }}>
             {/* Tab header */}
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 16 }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 10 }}>
               <div>
                 <h2 style={{ margin: 0, fontSize: 16, fontWeight: 650, color: C.text1, fontFamily: FD }}>{activeTab.name}</h2>
                 <p style={{ margin: "2px 0 0", fontSize: 12, color: C.text3 }}>{activeTab.sections.length} section{activeTab.sections.length !== 1 ? "s" : ""}</p>
@@ -5094,7 +5094,7 @@ function ColorOverrideField({ label, value, onChange }) {
             style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer" }}
           />
         </label>
-        <span style={{ flex: 1, fontSize: 13.5, color: isEmpty ? C.text3 : C.text1, fontFamily: F }}>
+        <span style={{ flex: 1, fontSize: 13, color: isEmpty ? C.text3 : C.text1, fontFamily: F }}>
           {isEmpty ? "Default" : value}
         </span>
         {!isEmpty && (
@@ -5113,7 +5113,7 @@ function GenericStylePanel({ overrides, onChange }) {
   const set = (key, val) => onChange({ ...overrides, [key]: val });
 
   return (
-    <div style={{ padding: "24px 28px", maxWidth: 900 }}>
+    <div style={{ padding: "16px 20px", maxWidth: 900 }}>
       <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, padding: "20px 22px", boxShadow: C.shadow.sm }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>

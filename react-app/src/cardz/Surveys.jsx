@@ -268,7 +268,7 @@ function Label({ children, htmlFor }) {
   return (
     <label
       htmlFor={htmlFor}
-      style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}
+      style={{ display: "block", fontSize: 12, fontWeight: 500, color: C.text2, marginBottom: 4, fontFamily: F }}
     >
       {children}
     </label>
@@ -295,8 +295,8 @@ function Input({ id, type = "text", placeholder, value, onChange, autoComplete, 
         style={{
           width: "100%",
           height: 44,
-          padding: isPassword ? "0 44px 0 14px" : "0 14px",
-          fontSize: 15,
+          padding: isPassword ? "0 40px 0 11px" : "0 11px",
+          fontSize: 13,
           fontFamily: F,
           fontWeight: 400,
           color: C.text1,
@@ -1716,21 +1716,21 @@ function SurveyDetailsPanel({ survey, onChange }) {
         ))}
       </div>
 
-      <div style={{ padding: "20px 20px" }}>
+      <div style={{ padding: "16px 20px" }}>
         {detailsTab === "details" ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div>
               <Label>Survey Name</Label>
-              <input value={survey.name} onChange={set("name")} style={{ width: "100%", height: 44, padding: "0 14px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+              <input value={survey.name} onChange={set("name")} style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
               <p style={{ margin: "5px 0 0", fontSize: 12, color: C.text3 }}>Letters, numbers, hyphens, and underscores only — used in the survey URL.</p>
             </div>
             <div>
               <Label>Survey Title</Label>
-              <input value={survey.title} onChange={set("title")} style={{ width: "100%", height: 44, padding: "0 14px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+              <input value={survey.title} onChange={set("title")} style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
             </div>
             <div>
               <Label>Description</Label>
-              <textarea value={survey.description} onChange={set("description")} rows={4} style={{ width: "100%", padding: "10px 14px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }} />
+              <textarea value={survey.description} onChange={set("description")} rows={4} style={{ width: "100%", padding: "10px 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.5 }} />
             </div>
 
             {/* Survey Image */}
@@ -1804,7 +1804,7 @@ function SurveyDetailsPanel({ survey, onChange }) {
                 onChange={e => onChange({ ...survey, customHtmlContent: e.target.value })}
                 placeholder="Paste any custom HTML to inject into the survey card…"
                 style={{
-                  width: "100%", padding: "12px 14px", fontSize: 12.5,
+                  width: "100%", padding: "10px 11px", fontSize: 13,
                   fontFamily: "'SF Mono','Monaco','Consolas',monospace",
                   color: C.text1, background: C.bgInput,
                   border: `1.5px solid ${C.border}`, borderRadius: R.sm,
@@ -1869,20 +1869,20 @@ function SectionTypeDropdown({ onSelect, onClose }) {
 function AnswerOption({ opt, allowMultiple, onToggleCorrect, onChange, onRemove }) {
   const C = useC();
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 12px", borderRadius: R.sm, background: opt.correct ? "rgba(47,165,99,0.08)" : "transparent", border: `1.5px solid ${opt.correct ? C.success : C.border}`, marginBottom: 6 }}>
-      <Icon name="dragDots" size={13} color={C.text3} style={{ cursor: "grab", flexShrink: 0 }} />
+    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "4px 10px", borderRadius: R.sm, background: opt.correct ? "rgba(47,165,99,0.08)" : "transparent", border: `1.5px solid ${opt.correct ? C.success : C.border}`, marginBottom: 4 }}>
+      <Icon name="dragDots" size={12} color={C.text3} style={{ cursor: "grab", flexShrink: 0 }} />
       {/* Correct toggle */}
       <button
         onClick={() => onToggleCorrect()}
         title="Mark as correct"
-        style={{ width: 20, height: 20, borderRadius: allowMultiple ? R.xs : R.full, border: `2px solid ${opt.correct ? C.success : C.border}`, background: opt.correct ? C.success : "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, padding: 0 }}
+        style={{ width: 17, height: 17, borderRadius: allowMultiple ? R.xs : R.full, border: `2px solid ${opt.correct ? C.success : C.border}`, background: opt.correct ? C.success : "transparent", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, padding: 0 }}
       >
-        {opt.correct && <Icon name="check" size={11} color="#fff" />}
+        {opt.correct && <Icon name="check" size={10} color="#fff" />}
       </button>
       <input
         value={opt.text}
         onChange={e => onChange({ ...opt, text: e.target.value })}
-        style={{ flex: 1, border: "none", outline: "none", background: "transparent", fontSize: 13.5, fontFamily: F, color: C.text1 }}
+        style={{ flex: 1, border: "none", outline: "none", background: "transparent", fontSize: 13, fontFamily: F, color: C.text1 }}
       />
       {opt.correct && <span style={{ fontSize: 11.5, fontWeight: 600, color: C.success }}>Correct</span>}
       <button onClick={onRemove} style={{ background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex", color: C.text3 }}>
@@ -1935,14 +1935,14 @@ function MultipleChoiceQuestion({ q, onChange, onRemove, onDuplicate, onMoveUp, 
         </button>
       </div>
 
-      {!collapsed && <div style={{ padding: "16px 18px" }}>
-        <div style={{ marginBottom: 12 }}>
+      {!collapsed && <div style={{ padding: "14px 18px" }}>
+        <div style={{ marginBottom: 8 }}>
           <Label>Question</Label>
-          <input value={q.question} onChange={e => onChange({ ...q, question: e.target.value })} style={{ width: "100%", height: 42, padding: "0 12px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+          <input value={q.question} onChange={e => onChange({ ...q, question: e.target.value })} style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
         </div>
-        <div style={{ marginBottom: 14 }}>
+        <div style={{ marginBottom: 10 }}>
           <Label>Helper text (optional)</Label>
-          <input value={q.helper} onChange={e => onChange({ ...q, helper: e.target.value })} placeholder="e.g. Select all that apply." style={{ width: "100%", height: 38, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+          <input value={q.helper} onChange={e => onChange({ ...q, helper: e.target.value })} placeholder="e.g. Select all that apply." style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
         </div>
 
         {/* Answers header */}
@@ -2010,26 +2010,26 @@ function AnswerBlockQuestion({ q, onChange, onRemove, onDuplicate, onMoveUp, onM
         <button onClick={() => setCollapsed(v => !v)} title={collapsed ? "Expand" : "Collapse"} style={{ background: "none", border: "none", outline: "none", cursor: "pointer", padding: 2, display: "flex", color: C.text3, transition: "transform 0.2s", transform: collapsed ? "rotate(180deg)" : "none" }}><Icon name="chevUp" size={15} color={C.text3} /></button>
       </div>
 
-      {!collapsed && <div style={{ padding: "16px 18px" }}>
-        <div style={{ marginBottom: 12 }}>
+      {!collapsed && <div style={{ padding: "14px 18px" }}>
+        <div style={{ marginBottom: 8 }}>
           <Label>Prompt / Question</Label>
-          <input value={q.question} onChange={e => onChange({ ...q, question: e.target.value })} style={{ width: "100%", height: 42, padding: "0 12px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+          <input value={q.question} onChange={e => onChange({ ...q, question: e.target.value })} style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
         </div>
-        <div style={{ marginBottom: 14 }}>
+        <div style={{ marginBottom: 10 }}>
           <Label>Helper text (optional)</Label>
-          <input value={q.helper} onChange={e => onChange({ ...q, helper: e.target.value })} placeholder="Extra guidance for the respondent..." style={{ width: "100%", height: 38, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+          <input value={q.helper} onChange={e => onChange({ ...q, helper: e.target.value })} placeholder="Extra guidance for the respondent..." style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
         </div>
 
         <div style={{ marginBottom: 14 }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", color: C.text3, textTransform: "uppercase", marginBottom: 8, fontFamily: F }}>Respondent's Answer Field</div>
-          <textarea rows={4} placeholder="Type your answer here..." style={{ width: "100%", padding: "10px 12px", fontSize: 13.5, fontFamily: F, color: C.text3, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "none", boxSizing: "border-box", lineHeight: 1.5 }} readOnly />
+          <textarea rows={4} placeholder="Type your answer here..." style={{ width: "100%", padding: "8px 11px", fontSize: 13, fontFamily: F, color: C.text3, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", resize: "none", boxSizing: "border-box", lineHeight: 1.5 }} readOnly />
           <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3, fontStyle: "italic" }}>Preview only — respondents fill this in on the live card.</p>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "center" }}>
           <div>
             <Label>Placeholder text</Label>
-            <input value={q.placeholderText} onChange={e => onChange({ ...q, placeholderText: e.target.value })} style={{ width: "100%", height: 38, padding: "0 12px", fontSize: 13.5, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
+            <input value={q.placeholderText} onChange={e => onChange({ ...q, placeholderText: e.target.value })} style={{ width: "100%", height: 32, padding: "0 11px", fontSize: 13, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }} />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, paddingTop: 22, flexShrink: 0 }}>
             <Switch checked={q.multiLine} onChange={v => onChange({ ...q, multiLine: v })} size="sm" />
