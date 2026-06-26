@@ -37,6 +37,7 @@ import QubrixProductsPage from "./QubrixProductsPage";
 import AppLayout from "./AppLayout";
 import Survey from "./survey-editor";
 import SurveyCardPreview from "./SurveyCardPreview";
+import CardzApp from "./cardz/layout";
 
 
 const TABS = [
@@ -78,20 +79,21 @@ const TABS = [
   { label: "Survey", component: <Survey /> },
   { label: "Survey Card Preview", component: <SurveyCardPreview /> },
   { label: "Qubrix Products Page", component: <QubrixProductsPage /> },
+  { label: "Cardz App", component: <CardzApp /> },
 ];
 
 function App() {
   const [active, setActive] = useState(0);
 
   return (
-    <div style={{ fontFamily: "sans-serif" }}>
+    <div style={{ fontFamily: "sans-serif", display: "flex", flexDirection: "column", position: "fixed", inset: 0 }}>
       <div style={{
         padding: "8px 16px",
         background: "#f5f5f5",
         borderBottom: "1px solid #ddd",
-        position: "sticky",
-        top: 0,
+        flexShrink: 0,
         zIndex: 9999,
+        position: "relative",
       }}>
         <select
           value={active}
@@ -111,7 +113,7 @@ function App() {
           ))}
         </select>
       </div>
-      <div>{TABS[active].component}</div>
+      <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "hidden" }}>{TABS[active].component}</div>
     </div>
   );
 }
