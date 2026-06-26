@@ -1351,14 +1351,452 @@ function DashboardPlaceholder({ user }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// ─── Microsites Feature ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// ─── Sample Data ───────────────────────────────────────────────────────────────
+
+const MICROSITES_DATA = [
+  { id: "ms1",  name: "CFAOKenya",         subtitle: "CFAO Mobility Kenya",    company: "Seriti",               cards: 0,  created: "07 May 2026", logo: "🔴", logoBg: "#DC2626" },
+  { id: "ms2",  name: "CFAOMOBILITYKENYA", subtitle: "CFAO Mobility Kenya",    company: "CFAO-Mobility-Kenya",  cards: 15, created: "07 May 2026", logo: "🔴", logoBg: "#DC2626" },
+  { id: "ms3",  name: "CheryDXB",          subtitle: "CheryDXB",               company: "SeritiInternationalUAE", cards: 2, created: "23 Jun 2026", logo: null, logoBg: "#6B7280" },
+  { id: "ms4",  name: "JACKenya",          subtitle: "JAC KENYA",              company: "Seriti",               cards: 3,  created: "10 Apr 2026", logo: "🚗", logoBg: "#1D4ED8" },
+  { id: "ms5",  name: "JetourMauritius",   subtitle: "Jetour Mauritius",       company: "Jetour",               cards: 6,  created: "27 Oct 2025", logo: "⬛", logoBg: "#111827" },
+  { id: "ms6",  name: "lot",               subtitle: "Jetour",                 company: "Jetour",               cards: 1,  created: "15 Oct 2025", logo: "J",  logoBg: "#374151" },
+  { id: "ms7",  name: "MarketDemandFruits",subtitle: "Market Demand Fruits",   company: "Seriti",               cards: 3,  created: "19 Jan 2026", logo: "🍊", logoBg: "#EA580C" },
+  { id: "ms8",  name: "MercedesMauritius", subtitle: "Mercedes Benz Mauritius",company: "CFAOMauritius",        cards: 3,  created: "08 Apr 2026", logo: "⭕", logoBg: "#9CA3AF" },
+  { id: "ms9",  name: "NalediMotors",      subtitle: "NALEDI MOTORS",          company: "Seriti",               cards: 4,  created: "28 Oct 2025", logo: "⬛", logoBg: "#1F2937" },
+  { id: "ms10", name: "RedstoneMotors",    subtitle: "NZ Test site",           company: "Seriti",               cards: 1,  created: "29 Jan 2026", logo: "🟢", logoBg: "#15803D" },
+  { id: "ms11", name: "RedStoneMotors2",   subtitle: "RedStone Motors Ltd",    company: "Seriti",               cards: 2,  created: "14 Feb 2026", logo: "⬛", logoBg: "#374151" },
+  { id: "ms12", name: "showroom",          subtitle: "McCarthy Toyota",        company: "Personalyz",           cards: 5,  created: "22 Mar 2026", logo: "⭕", logoBg: "#9CA3AF" },
+  { id: "ms13", name: "testMicrosite",     subtitle: "asdf",                   company: "Seriti",               cards: 0,  created: "01 Feb 2026", logo: "🟢", logoBg: "#15803D" },
+  { id: "ms14", name: "ToyotaMauritius",   subtitle: "Toyota Mauritius",       company: "ToyotaMauritius",      cards: 15, created: "12 Sep 2025", logo: "T",  logoBg: "#DC2626",
+    vehicles: ["bZ4X","CorollaCrossHybrid","CorollaCrossHybridAero","CorollaHybrid","CrownHybrid","FortunerVActive","Hiace","Hiace14Deluxe","HiluxDoubleCab","LandCruiser300","Prado","ProACE","RAV4","Yaris","YarisAero"],
+  },
+];
+
+// ─── Microsite Logo / Avatar ────────────────────────────────────────────────────
+
+function MicrositeLogo({ ms, size = 36 }) {
+  const C = useC();
+  if (ms.imageUrl) {
+    return (
+      <div style={{ width: size, height: size, borderRadius: R.sm, overflow: "hidden", flexShrink: 0, border: `1px solid ${C.border}` }}>
+        <img src={ms.imageUrl} alt={ms.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+      </div>
+    );
+  }
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: R.sm, flexShrink: 0,
+      background: ms.logoBg || C.bgInput,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontSize: size * 0.42, color: "#fff", fontWeight: 700, fontFamily: FD,
+      border: `1px solid rgba(0,0,0,0.08)`,
+    }}>
+      {typeof ms.logo === "string" && ms.logo.length <= 2 ? ms.logo : ""}
+    </div>
+  );
+}
+
+// ─── Cards count badge ──────────────────────────────────────────────────────────
+
+function CardsBadge({ count }) {
+  const C = useC();
+  const color = count === 0 ? C.text3 : count >= 10 ? C.accent : C.success;
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      minWidth: 24, height: 24, borderRadius: R.full, padding: "0 6px",
+      fontSize: 12.5, fontWeight: 700, fontFamily: F,
+      background: count === 0 ? C.bgInput : count >= 10 ? C.accentLight : "rgba(47,165,99,0.10)",
+      color,
+    }}>
+      {count}
+    </span>
+  );
+}
+
+// ─── Edit Microsite Drawer ──────────────────────────────────────────────────────
+
+function EditMicrositeDrawer({ ms, onClose, onSave, onDelete }) {
+  const C = useC();
+  const [form, setForm] = useState({
+    name: ms.name,
+    description: ms.subtitle,
+    details: "",
+  });
+  const set = k => e => setForm(v => ({ ...v, [k]: e.target.value }));
+
+  const vehicles = ms.vehicles || [];
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.18)", zIndex: 200 }}
+      />
+
+      {/* Drawer panel */}
+      <div style={{
+        position: "fixed", top: 0, right: 0, bottom: 0,
+        width: 380, background: C.bgSurface,
+        boxShadow: "-8px 0 32px rgba(0,0,0,0.12)",
+        zIndex: 201, display: "flex", flexDirection: "column",
+        fontFamily: F,
+      }}>
+        {/* Drawer header */}
+        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 650, color: C.text1, fontFamily: FD }}>Edit Microsite</div>
+              <div style={{ fontSize: 12, color: C.accent, marginTop: 2 }}>Editing: {ms.name}</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button style={{ display: "flex", alignItems: "center", gap: 5, height: 32, padding: "0 12px", background: C.bgInput, border: `1px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F }}>
+                <Icon name="eye" size={13} color={C.text2} /> Preview
+              </button>
+              <button style={{ display: "flex", alignItems: "center", gap: 5, height: 32, padding: "0 12px", background: C.bgInput, border: `1px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F }}>
+                <Icon name="share" size={13} color={C.text2} /> Share
+              </button>
+              <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: R.sm, border: `1px solid ${C.border}`, background: C.bgInput, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name="x" size={14} color={C.text2} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable body */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
+
+          {/* Microsite Image */}
+          <div style={{ marginBottom: 22 }}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 8, fontFamily: F }}>Microsite Image</label>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
+              {/* Logo preview with border */}
+              <div style={{
+                width: 72, height: 72, borderRadius: R.md, flexShrink: 0,
+                border: `1.5px solid ${C.border}`, overflow: "hidden",
+                background: C.bgSurface,
+              }}>
+                <MicrositeLogo ms={ms} size={72} />
+              </div>
+              {/* Actions + hint stacked */}
+              <div style={{ paddingTop: 2 }}>
+                {/* Change + Remove on one row */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 7 }}>
+                  <button style={{ display: "flex", alignItems: "center", gap: 5, height: 30, padding: "0 12px", background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F, fontWeight: 500 }}>
+                    <Icon name="image" size={13} color={C.text2} /> Change
+                  </button>
+                  <button style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12.5, color: C.text2, fontFamily: F, padding: 0, fontWeight: 500 }}>
+                    Remove
+                  </button>
+                </div>
+                <p style={{ margin: 0, fontSize: 11.5, color: C.text3 }}>PNG, JPG or GIF. Recommended 200×200px.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Name */}
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}>
+              Name <span style={{ color: C.danger }}>*</span>
+            </label>
+            <input
+              value={form.name}
+              onChange={set("name")}
+              style={{ width: "100%", height: 42, padding: "0 12px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
+            />
+            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>Unique identifier for this microsite</p>
+          </div>
+
+          {/* Description */}
+          <div style={{ marginBottom: 16 }}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}>
+              Description <span style={{ color: C.danger }}>*</span>
+            </label>
+            <input
+              value={form.description}
+              onChange={set("description")}
+              style={{ width: "100%", height: 42, padding: "0 12px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
+            />
+            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>The display name for this microsite</p>
+          </div>
+
+          {/* Details */}
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: C.text2, marginBottom: 6, fontFamily: F }}>Details</label>
+            <input
+              value={form.details}
+              onChange={set("details")}
+              placeholder="e.g. Vehicle List"
+              style={{ width: "100%", height: 42, padding: "0 12px", fontSize: 14, fontFamily: F, color: C.text1, background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, outline: "none", boxSizing: "border-box" }}
+            />
+            <p style={{ margin: "5px 0 0", fontSize: 11.5, color: C.text3 }}>Short description of what this microsite contains</p>
+          </div>
+
+          {/* Vehicles list */}
+          {vehicles.length > 0 && (
+            <div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <Icon name="carFront" size={13} color={C.text3} />
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", color: C.text3, textTransform: "uppercase", fontFamily: F }}>Vehicles</span>
+                </div>
+                <span style={{ fontSize: 12, fontWeight: 700, color: C.accent }}>{vehicles.length}</span>
+              </div>
+              <div style={{ border: `1px solid ${C.border}`, borderRadius: R.md, overflow: "hidden" }}>
+                {vehicles.map((v, i) => (
+                  <div
+                    key={v}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 10, padding: "9px 14px",
+                      borderBottom: i < vehicles.length - 1 ? `1px solid ${C.border}` : "none",
+                      background: i % 2 === 0 ? "transparent" : C.bgPage,
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = C.accentLight}
+                    onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? "transparent" : C.bgPage}
+                  >
+                    <div style={{ width: 28, height: 20, background: C.bgInput, borderRadius: R.xs, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Icon name="carFront" size={13} color={C.text3} />
+                    </div>
+                    <span style={{ fontSize: 13.5, color: C.text1, fontWeight: 450 }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Drawer footer */}
+        <div style={{ padding: "14px 20px", borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0, background: C.bgPage }}>
+          <button
+            onClick={onDelete}
+            style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", cursor: "pointer", fontSize: 13, color: C.danger, fontFamily: F, fontWeight: 550, padding: "4px 0" }}
+          >
+            <Icon name="trash" size={14} color={C.danger} /> Delete
+          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={onClose}
+              style={{ height: 36, padding: "0 16px", background: C.bgInput, border: `1.5px solid ${C.border}`, borderRadius: R.sm, cursor: "pointer", fontSize: 13, color: C.text2, fontFamily: F, fontWeight: 550 }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => { onSave(form); onClose(); }}
+              style={{ display: "flex", alignItems: "center", gap: 6, height: 36, padding: "0 16px", background: C.accent, border: "none", borderRadius: R.sm, cursor: "pointer", fontSize: 13, color: "#fff", fontFamily: F, fontWeight: 600 }}
+            >
+              <Icon name="check" size={14} color="#fff" /> Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── Microsites Page ────────────────────────────────────────────────────────────
+
+function MicrositesPage() {
+  const C = useC();
+  const [search, setSearch] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [editingMs, setEditingMs] = useState(null);
+  const [microsites, setMicrosites] = useState(MICROSITES_DATA);
+  const [page, setPage] = useState(1);
+  const perPage = 10;
+
+  const filtered = microsites.filter(ms =>
+    ms.name.toLowerCase().includes(search.toLowerCase()) ||
+    ms.subtitle.toLowerCase().includes(search.toLowerCase()) ||
+    ms.company.toLowerCase().includes(search.toLowerCase())
+  );
+  const pageCount = Math.ceil(filtered.length / perPage);
+  const pageItems = filtered.slice((page - 1) * perPage, page * perPage);
+
+  const handleSave = (form) => {
+    setMicrosites(prev => prev.map(ms =>
+      ms.id === editingMs.id ? { ...ms, name: form.name, subtitle: form.description } : ms
+    ));
+  };
+
+  const handleDelete = () => {
+    setMicrosites(prev => prev.filter(ms => ms.id !== editingMs.id));
+    setEditingMs(null);
+  };
+
+  return (
+    <>
+      <div style={{ padding: "24px 28px 32px", fontFamily: F }}>
+        {/* Toolbar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+          {/* Search */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 8,
+            height: 38, width: 220, padding: "0 12px",
+            background: searchFocused ? C.bgInputFocus : C.bgInput,
+            border: `1.5px solid ${searchFocused ? C.borderFocus : C.border}`,
+            borderRadius: R.sm,
+            boxShadow: searchFocused ? "0 0 0 3px rgba(79,70,229,0.14)" : "none",
+            transition: "border-color 0.15s, box-shadow 0.15s",
+          }}>
+            <Icon name="search" size={14} color={C.text3} />
+            <input
+              value={search}
+              onChange={e => { setSearch(e.target.value); setPage(1); }}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              placeholder="Search microsites..."
+              style={{ border: "none", outline: "none", background: "transparent", fontSize: 13.5, color: C.text1, fontFamily: F, width: "100%" }}
+            />
+          </div>
+
+          {/* Vehicle tab pill */}
+          <div style={{ display: "flex", alignItems: "center", gap: 20, marginLeft: 4 }}>
+            <button style={{
+              background: "none", border: "none", borderTop: "none", borderLeft: "none", borderRight: "none", outline: "none",
+              borderBottom: `2.5px solid ${C.accent}`,
+              cursor: "pointer", padding: "6px 2px 8px", fontFamily: F,
+              fontSize: 14, fontWeight: 650, color: C.accent,
+            }}>
+              Vehicle{" "}
+              <span style={{ marginLeft: 5, fontSize: 12, fontWeight: 650, background: C.accent, color: "#fff", borderRadius: R.full, padding: "1px 7px" }}>{microsites.length}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div style={{ background: C.bgSurface, border: `1px solid ${C.border}`, borderRadius: R.lg, overflow: "hidden", boxShadow: C.shadow.sm }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: F }}>
+            <thead>
+              <tr>
+                {["Microsite", "Company", "Cards", "Created"].map((h, i) => (
+                  <th key={h} style={{
+                    textAlign: i >= 2 ? "center" : "left",
+                    padding: "11px 20px", fontSize: 11.5, fontWeight: 650,
+                    letterSpacing: "0.04em", color: C.text3, textTransform: "uppercase",
+                    borderBottom: `1px solid ${C.border}`, background: C.bgPage, whiteSpace: "nowrap",
+                  }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {pageItems.map((ms, idx) => (
+                <tr
+                  key={ms.id}
+                  style={{ borderBottom: idx < pageItems.length - 1 ? `1px solid ${C.border}` : "none", cursor: "pointer" }}
+                  onClick={() => setEditingMs(ms)}
+                  onMouseEnter={e => e.currentTarget.style.background = C.bgPage}
+                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+                >
+                  {/* Microsite name + logo */}
+                  <td style={{ padding: "10px 20px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <MicrositeLogo ms={ms} size={36} />
+                      <div>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, color: C.accent }}>{ms.name}</div>
+                        <div style={{ fontSize: 11.5, color: C.text3, marginTop: 1 }}>{ms.subtitle}</div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Company */}
+                  <td style={{ padding: "10px 20px" }}>
+                    <span style={{
+                      fontSize: 13.5, color: ms.company === "Jetour" || ms.company === "ToyotaMauritius" || ms.company === "CFAO-Mobility-Kenya" ? C.accent : C.text1,
+                      fontWeight: 450,
+                    }}>
+                      {ms.company}
+                    </span>
+                  </td>
+
+                  {/* Cards count */}
+                  <td style={{ padding: "10px 20px", textAlign: "center" }}>
+                    <CardsBadge count={ms.cards} />
+                  </td>
+
+                  {/* Created */}
+                  <td style={{ padding: "10px 20px", fontSize: 13, color: C.text2, whiteSpace: "nowrap", textAlign: "center" }}>
+                    {ms.created}
+                  </td>
+                </tr>
+              ))}
+              {pageItems.length === 0 && (
+                <tr>
+                  <td colSpan={4} style={{ padding: "48px 20px", textAlign: "center", fontSize: 14, color: C.text3 }}>
+                    No microsites match your search.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          {/* Pagination */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", borderTop: `1px solid ${C.border}` }}>
+            <span style={{ fontSize: 13, color: C.text2 }}>
+              Showing {filtered.length === 0 ? "0" : `${(page - 1) * perPage + 1}–${Math.min(page * perPage, filtered.length)}`} of {filtered.length} microsites
+            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <button
+                disabled={page === 1}
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                style={{ width: 28, height: 28, borderRadius: R.sm, border: "none", background: "transparent", cursor: page === 1 ? "not-allowed" : "pointer", opacity: page === 1 ? 0.35 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <Icon name="chevLeft" size={14} color={C.text2} />
+              </button>
+              {Array.from({ length: pageCount }, (_, i) => i + 1).map(p => (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  style={{ minWidth: 28, height: 28, borderRadius: R.sm, border: "none", background: p === page ? C.accent : "transparent", color: p === page ? "#fff" : C.text2, fontSize: 13, fontWeight: p === page ? 650 : 500, fontFamily: F, cursor: "pointer" }}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                disabled={page >= pageCount}
+                onClick={() => setPage(p => Math.min(pageCount, p + 1))}
+                style={{ width: 28, height: 28, borderRadius: R.sm, border: "none", background: "transparent", cursor: page >= pageCount ? "not-allowed" : "pointer", opacity: page >= pageCount ? 0.35 : 1, display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <Icon name="chevRight" size={14} color={C.text2} />
+              </button>
+            </div>
+            <div style={{ fontSize: 13, color: C.text2 }}>Per page <strong style={{ color: C.text1 }}>10</strong></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Edit drawer */}
+      {editingMs && (
+        <EditMicrositeDrawer
+          ms={editingMs}
+          onClose={() => setEditingMs(null)}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
+    </>
+  );
+}
+
+
 // ─── Admin Layout ──────────────────────────────────────────────────────────────
 
 function AdminLayout({ user, onSignOut }) {
   // AdminLayout owns darkMode and is the ThemeCtx.Provider root.
-  const [activeNav, setActiveNav] = useState("dashboard");
+  const [activeNav, setActiveNav] = useState("microsites");
   const [collapsed, setCollapsed] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const C = darkMode ? CD : C_LIGHT;
+
+  const navTitle = NAV.find(n => n.id === activeNav)?.label || "Dashboard";
+  const navSubtitle = activeNav === "dashboard" ? `Welcome back, ${user.firstName || "there"}` :
+                      activeNav === "microsites" ? "Vehicle lots and card collections" : null;
 
   return (
     <ThemeCtx.Provider value={darkMode}>
@@ -1378,15 +1816,25 @@ function AdminLayout({ user, onSignOut }) {
         {/* Main content column */}
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden", background: C.bgPage }}>
           <Topbar
-            title={NAV.find(n => n.id === activeNav)?.label || "Dashboard"}
-            subtitle={activeNav === "dashboard" ? `Welcome back, ${user.firstName || "there"}` : null}
+            title={navTitle}
+            subtitle={navSubtitle}
             darkMode={darkMode}
             onToggleDark={() => setDarkMode(v => !v)}
             user={user}
+            actions={activeNav === "microsites" ? (
+              <Btn style={{ height: 36, padding: "0 16px", fontSize: 13.5 }}>
+                <Icon name="plus" size={15} color="#fff" />
+                New Microsite
+              </Btn>
+            ) : null}
           />
 
           <main style={{ flex: 1, overflowY: "auto", background: C.bgPage, transition: "background 0.25s", position: "relative" }}>
-            <DashboardPlaceholder user={user} />
+            {activeNav === "microsites" ? (
+              <MicrositesPage />
+            ) : (
+              <DashboardPlaceholder user={user} />
+            )}
           </main>
         </div>
 
