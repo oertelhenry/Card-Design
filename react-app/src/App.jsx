@@ -4,6 +4,7 @@ import PersonalyzDesignSpec from "./personalyz-design-spec";
 import TrendReport from "./personalyz-trend-report-2026";
 import Card from "./personalyz-card-v2";
 import FormalCard from "./personalyz-card-formal";
+import FormalCardDark from "./personalyz-card-formal-dark";
 import VintageCard from "./personalyz-card-vintage";
 import ModernCard from "./personalyz-card-modern";
 import VintageCardV2 from "./personalyz-card-vintage-v2";
@@ -50,6 +51,7 @@ const TABS = [
   { label: "Trend Report", component: <TrendReport /> },
   { label: "Card v2", component: <Card /> },
   { label: "Card Formal", component: <FormalCard /> },
+  { label: "Card Formal Dark", component: <FormalCardDark /> },
   { label: "Card Vintage", component: <VintageCard /> },
   { label: "Card Modern", component: <ModernCard /> },
   { label: "Vintage Card v2", component: <VintageCardV2 /> },
@@ -120,7 +122,7 @@ function App() {
           ))}
         </select>
       </div>
-      <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "hidden" }}>{TABS[active].component}</div>
+      <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "auto" }}>{TABS[active].component}</div>
     </div>
   );
 }
