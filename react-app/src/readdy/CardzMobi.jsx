@@ -19,10 +19,15 @@ import {
   Clock,
   Mail,
   ArrowRight,
+  ArrowLeft,
   Compass,
   Check,
   RefreshCw,
   Layers,
+  LayoutGrid,
+  Wand2,
+  Share2,
+  ChevronDown,
 } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import homeBannerImg from "./images/HomeBanner.jpg";
@@ -32,6 +37,12 @@ import vehicleBannerImg from "./images/VehicleBanner.jpg";
 import businessLowerImg from "./images/BusinessLower.jpg";
 import surveyLowerImg from "./images/SurveyLower.jpg";
 import vehicleLowerImg from "./images/VehicleLower.jpg";
+import cardTypeBusinessImg from "./images/CardTypeBusiness.jpg";
+import cardTypeSurveyImg from "./images/CardTypeSurvey.jpg";
+import cardTypeVehicleImg from "./images/CardTypeVehicle.jpg";
+import testimonialSarahImg from "./images/TestimonialSarah.jpg";
+import testimonialJamesImg from "./images/TestimonialJames.jpg";
+import testimonialEmilyImg from "./images/TestimonialEmily.jpg";
 
 /* ------------------------------------------------------------------ */
 /*  This file is 100% self-contained: all styling lives in the        */
@@ -54,12 +65,13 @@ function GlobalStyles() {
         all: unset;
         box-sizing: border-box;
         font-family: inherit;
+        outline: none;
       }
       .cz-root button { cursor: pointer; }
       .cz-root ul { list-style: none; margin: 0; padding: 0; }
       .cz-root a { text-decoration: none; color: inherit; cursor: pointer; }
       .cz-root img { display: block; max-width: 100%; }
-      .cz-root p, .cz-root h1, .cz-root h2, .cz-root h3 { margin: 0; }
+      .cz-root :where(p, h1, h2, h3) { margin: 0; }
 
       .cz-root {
         font-family: 'Inter', system-ui, sans-serif;
@@ -69,7 +81,10 @@ function GlobalStyles() {
         display: flex;
         flex-direction: column;
       }
-      .cz-page-main { flex: 1 0 auto; }
+      .cz-page-main { flex: 1 0 auto; display: flex; flex-direction: column; }
+      .cz-page-main > * { flex: 1 0 auto; min-height: 0; }
+      .cz-page-main > div { display: flex; flex-direction: column; }
+      .cz-page-main > div > *:last-child { flex: 1 0 auto; }
       .cz-display { font-family: 'Playfair Display', Georgia, serif; }
 
       /* ---------- Header ---------- */
@@ -156,6 +171,8 @@ function GlobalStyles() {
       .cz-cthero-content { position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; height: 100%; padding: 0 40px; display: flex; flex-direction: column; justify-content: center; }
       .cz-cthero-inner { max-width: 560px; }
       .cz-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.15em; color: #F79971; margin-bottom: 12px; }
+      .cz-eyebrow--on-light { color: #B54700; }
+      .cz-heading-muted { color: #A8836A; }
       .cz-cthero-h1 { font-size: 44px; font-weight: 700; color: #ffffff; line-height: 1.1; margin-bottom: 16px; }
       .cz-cthero-h1 .cz-accent { color: #F79971; }
       .cz-cthero-lead { color: rgba(255,255,255,0.8); font-size: 15px; line-height: 1.6; margin-bottom: 28px; max-width: 420px; }
@@ -216,6 +233,94 @@ function GlobalStyles() {
         .cz-showcase--reverse .cz-showcase-img-wrap { order: 0; }
         .cz-showcase--reverse .cz-showcase-content { order: 0; }
       }
+
+      /* ---------- Home: Why Cardz.Mobi + stats ---------- */
+      .cz-home-features { background: #FCF8F1; padding: 96px 0 80px; }
+      .cz-home-features-header { max-width: 640px; }
+      .cz-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
+      @media (max-width: 900px) { .cz-stats-row { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 480px) { .cz-stats-row { grid-template-columns: 1fr; } }
+      .cz-stat-tile { background: #F0E4D0; border-radius: 12px; padding: 24px; text-align: center; }
+      .cz-stat-value { font-size: 28px; font-weight: 700; color: #B54700; margin-bottom: 4px; }
+      .cz-stat-label { font-size: 13px; color: #57493F; }
+
+      /* ---------- Home: How it works ---------- */
+      .cz-how-it-works { background: #F3E6D2; padding: 96px 0; text-align: center; }
+      .cz-how-it-works-header { max-width: 700px; margin: 0 auto 56px; }
+      .cz-how-it-works-header .cz-section-lead { margin-left: auto; margin-right: auto; margin-bottom: 0; }
+      .cz-steps-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; }
+      @media (max-width: 900px) { .cz-steps-row { grid-template-columns: 1fr; gap: 48px; } }
+      .cz-step-icon {
+        width: 56px; height: 56px; border-radius: 14px; background: #B54700; color: #ffffff;
+        display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+      }
+      .cz-step-number { font-size: 12px; font-weight: 600; color: #B54700; margin-bottom: 8px; }
+      .cz-step-title { font-size: 19px; font-weight: 700; color: #1D0000; margin-bottom: 8px; }
+      .cz-step-text { font-size: 14px; line-height: 1.6; color: #57493F; max-width: 320px; margin: 0 auto; }
+
+      /* ---------- Home: Card types ---------- */
+      .cz-card-types-header {
+        display: flex; align-items: flex-end; justify-content: space-between;
+        gap: 24px; margin-bottom: 48px; flex-wrap: wrap;
+      }
+      .cz-view-all { font-size: 14px; font-weight: 600; color: #B54700; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+      .cz-view-all:hover { color: #9c3d00; }
+      .cz-card-type-tile { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 5; margin-bottom: 16px; }
+      .cz-card-type-tile img { width: 100%; height: 100%; object-fit: cover; }
+      .cz-card-type-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(29,0,0,0) 35%, rgba(29,0,0,0.88) 100%);
+      }
+      .cz-card-type-info { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px; color: #ffffff; }
+      .cz-card-type-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+      .cz-card-type-text { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+      .cz-card-type-link { font-size: 14px; font-weight: 600; color: #B54700; display: inline-flex; align-items: center; gap: 6px; }
+      .cz-card-type-link:hover { color: #9c3d00; }
+
+      /* ---------- Home: Testimonials ---------- */
+      .cz-testimonials { background: #F3E6D2; padding: 96px 0; }
+      .cz-testimonials-container {
+        max-width: 1400px; margin: 0 auto; padding: 0 40px;
+        display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: center;
+      }
+      @media (max-width: 900px) { .cz-testimonials-container { grid-template-columns: 1fr; gap: 32px; } }
+      .cz-testimonial-photo { border-radius: 16px; overflow: hidden; aspect-ratio: 1 / 1; }
+      .cz-testimonial-photo img { width: 100%; height: 100%; object-fit: cover; }
+      .cz-testimonial-quote { font-size: 18px; font-style: italic; line-height: 1.6; color: #3a2f28; margin: 20px 0 24px; }
+      .cz-testimonial-name { font-weight: 700; font-size: 15px; color: #1D0000; }
+      .cz-testimonial-role { font-size: 13px; color: #B54700; margin-top: 2px; margin-bottom: 20px; }
+      .cz-testimonial-nav { display: flex; align-items: center; gap: 12px; }
+      .cz-testimonial-nav-btn { width: 40px; height: 40px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; transition: background-color .15s ease; }
+      .cz-testimonial-nav-btn--outline { border: 1px solid rgba(0,0,0,0.15); color: #1D0000; }
+      .cz-testimonial-nav-btn--outline:hover { background: rgba(0,0,0,0.05); }
+      .cz-testimonial-nav-btn--solid { background: #1D0000; color: #ffffff; }
+      .cz-testimonial-nav-btn--solid:hover { background: #340606; }
+      .cz-testimonial-counter { font-size: 13px; color: #57493F; }
+
+      /* ---------- Home: FAQ ---------- */
+      .cz-faq { background: #FCF8F1; padding: 96px 0; }
+      .cz-faq-container { display: grid; grid-template-columns: 320px 1fr; gap: 64px; }
+      @media (max-width: 900px) { .cz-faq-container { grid-template-columns: 1fr; gap: 32px; } }
+      .cz-faq-desc { font-size: 14px; color: #57493F; line-height: 1.6; margin: 16px 0 20px; max-width: 320px; }
+      .cz-faq-contact-link { font-size: 14px; font-weight: 600; color: #B54700; display: inline-flex; align-items: center; gap: 6px; }
+      .cz-faq-contact-link:hover { color: #9c3d00; }
+      .cz-faq-list { display: flex; flex-direction: column; gap: 12px; }
+      .cz-faq-item { background: #F0E4D0; border-radius: 12px; border: 1px solid transparent; overflow: hidden; transition: background-color .15s ease, border-color .15s ease; }
+      .cz-faq-item--open { background: #ffffff; border-color: #B54700; }
+      .cz-faq-question { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; text-align: left; font-size: 15px; font-weight: 600; color: #1D0000; }
+      .cz-faq-question:focus, .cz-faq-question:focus-visible { outline: none; box-shadow: none; }
+      .cz-faq-chevron {
+        width: 28px; height: 28px; border-radius: 9999px; background: rgba(0,0,0,0.06);
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        transition: background-color .15s ease, transform .15s ease; color: #57493F;
+      }
+      .cz-faq-item--open .cz-faq-chevron { background: #B54700; color: #ffffff; transform: rotate(180deg); }
+      .cz-faq-answer { padding: 0 20px 20px; font-size: 14px; line-height: 1.6; color: #57493F; }
+
+      /* ---------- Home: Final CTA ---------- */
+      .cz-final-cta { background: #F3E6D2; padding: 96px 0; text-align: center; }
+      .cz-final-cta-lead { color: #57493F; font-size: 15px; max-width: 520px; margin: 0 auto 32px; }
+      .cz-final-cta-note { font-size: 13px; color: #57493F; margin-top: 16px; }
 
       /* ---------- Pricing ---------- */
       .cz-pricing-section { background: #1D0000; padding: 80px 0 96px; }
@@ -312,9 +417,10 @@ function GlobalStyles() {
       /* ---------- Footer ---------- */
       .cz-footer { background: #1D0000; color: #ffffff; }
       .cz-footer-inner { max-width: 1400px; margin: 0 auto; padding: 64px 40px 32px; }
-      .cz-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 40px; }
-      @media (max-width: 900px) { .cz-footer-grid { grid-template-columns: 1fr 1fr; } }
-      @media (max-width: 560px) { .cz-footer-grid { grid-template-columns: 1fr; } }
+      .cz-footer-grid { display: grid; grid-template-columns: 1.3fr 0.8fr 0.8fr 0.8fr 1.1fr; gap: 32px; }
+      @media (max-width: 1100px) { .cz-footer-grid { grid-template-columns: 1fr 1fr 1fr; } }
+      @media (max-width: 700px) { .cz-footer-grid { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 480px) { .cz-footer-grid { grid-template-columns: 1fr; } }
 
       .cz-footer-brand { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
       .cz-footer-tagline { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.6; max-width: 300px; margin-bottom: 20px; }
@@ -451,12 +557,15 @@ function Footer({ navigate }) {
 
           <div>
             <div className="cz-footer-col-title">Support</div>
-            <div className="cz-footer-links" style={{ marginBottom: 24 }}>
+            <div className="cz-footer-links">
               <button className="cz-footer-link">Help Center</button>
               <button className="cz-footer-link">Privacy Policy</button>
               <button className="cz-footer-link">Terms of Service</button>
               <button className="cz-footer-link">FAQ</button>
             </div>
+          </div>
+
+          <div>
             <div className="cz-footer-col-title">Stay Updated</div>
             <p className="cz-footer-newsletter-text">Subscribe for product updates and tips.</p>
             <form onSubmit={(e) => e.preventDefault()} className="cz-newsletter-row">
@@ -546,43 +655,367 @@ function ShowcaseSection({ image, heading, highlight, paragraph, items, cta, onC
 }
 
 /* ------------------------------------------------------------------ */
+/*  HOME PAGE DATA + SECTIONS                                          */
+/* ------------------------------------------------------------------ */
+
+const STATS = [
+  { value: "50K+", label: "Active Cards Created" },
+  { value: "2M+", label: "Card Views Monthly" },
+  { value: "98%", label: "Customer Satisfaction" },
+  { value: "150+", label: "Countries Reached" },
+];
+
+const HOW_IT_WORKS_STEPS = [
+  {
+    step: "01",
+    icon: <LayoutGrid size={22} />,
+    title: "Choose Your Card Type",
+    text: "Select from business cards, survey cards, vehicle cards, or create a custom card for any purpose.",
+  },
+  {
+    step: "02",
+    icon: <Wand2 size={22} />,
+    title: "Design & Customize",
+    text: "Add your details, upload images, set brand colors, and arrange your content with our intuitive builder.",
+  },
+  {
+    step: "03",
+    icon: <Share2 size={22} />,
+    title: "Share Instantly",
+    text: "Generate your QR code, enable NFC tap, or copy your unique link. Share anywhere, update anytime.",
+  },
+];
+
+const CARD_TYPES = [
+  {
+    page: "business",
+    image: cardTypeBusinessImg,
+    title: "Business Cards",
+    text: "Professional digital business cards with contact info, social links, and portfolio showcase.",
+  },
+  {
+    page: "survey",
+    image: cardTypeSurveyImg,
+    title: "Survey Cards",
+    text: "Interactive feedback and survey cards to collect customer opinions, ratings, and responses instantly.",
+  },
+  {
+    page: "vehicle",
+    image: cardTypeVehicleImg,
+    title: "Vehicle Cards",
+    text: "Digital vehicle showcase cards for dealerships. Share specs, photos, pricing, and contact with one tap.",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    photo: testimonialSarahImg,
+    quote: "We switched our entire sales team to Cardz.Mobi and saw a 40% increase in follow-up rates. The NFC feature at trade shows is a game-changer.",
+    name: "Sarah Mitchell",
+    role: "Marketing Director, Vertex Consulting",
+  },
+  {
+    photo: testimonialJamesImg,
+    quote: "My clients love receiving my card via QR code at open houses. I can update listings in real-time without sending new cards. Absolutely brilliant.",
+    name: "James Rodriguez",
+    role: "Real Estate Agent, Premier Properties",
+  },
+  {
+    photo: testimonialEmilyImg,
+    quote: "The survey cards helped us collect instant feedback from 500+ attendees at our last conference. Data collection has never been this seamless.",
+    name: "Emily Chen",
+    role: "Event Coordinator, Gala Events",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "How do I share my digital card?",
+    a: "You can share your Cardz.Mobi digital card through QR codes, NFC tap, email signature, social media bio links, or direct URL. Recipients do not need to install any app to view your card.",
+  },
+  {
+    q: "Can I update my card after sharing it?",
+    a: "Yes, absolutely. Your card lives on a dynamic link, so any changes you make are reflected instantly. Anyone who scans your QR code or visits your link will always see your latest information.",
+  },
+  {
+    q: "What types of cards can I create?",
+    a: "Cardz.Mobi supports digital business cards, survey and feedback cards, vehicle showcase cards for dealerships, and generic cards for any custom use case. Each type comes with specialized templates.",
+  },
+  {
+    q: "Is there a free plan available?",
+    a: "Yes, our Starter plan is free forever and includes one digital card with QR sharing, basic analytics, and standard templates. Upgrade anytime for advanced features like NFC, custom branding, and multiple cards.",
+  },
+  {
+    q: "Do recipients need an app to view my card?",
+    a: "No app is required. Your digital card opens in any web browser on any device — smartphones, tablets, or desktops. It is designed to look great everywhere.",
+  },
+  {
+    q: "Can I add my company logo and brand colors?",
+    a: "Yes, Pro and Business plans include full custom branding. Upload your logo, set your brand colors, choose custom fonts, and even use your own domain for a fully white-label experience.",
+  },
+];
+
+function StatTile({ value, label }) {
+  return (
+    <div className="cz-stat-tile">
+      <div className="cz-stat-value cz-display">{value}</div>
+      <div className="cz-stat-label">{label}</div>
+    </div>
+  );
+}
+
+function StepCard({ step, icon, title, children }) {
+  return (
+    <div>
+      <div className="cz-step-icon">{icon}</div>
+      <div className="cz-step-number">Step {step}</div>
+      <h3 className="cz-step-title cz-display">{title}</h3>
+      <p className="cz-step-text">{children}</p>
+    </div>
+  );
+}
+
+function CardTypeTile({ image, title, text, onLearnMore }) {
+  return (
+    <div>
+      <div className="cz-card-type-tile">
+        <img src={image} alt="" />
+        <div className="cz-card-type-overlay" />
+        <div className="cz-card-type-info">
+          <div className="cz-card-type-title cz-display">{title}</div>
+          <p className="cz-card-type-text">{text}</p>
+        </div>
+      </div>
+      <button onClick={onLearnMore} className="cz-card-type-link">
+        Learn More <ArrowRight size={14} />
+      </button>
+    </div>
+  );
+}
+
+function TestimonialsSection() {
+  const [index, setIndex] = useState(0);
+  const total = TESTIMONIALS.length;
+  const current = TESTIMONIALS[index];
+
+  return (
+    <section className="cz-testimonials">
+      <div className="cz-testimonials-container">
+        <div className="cz-testimonial-photo">
+          <img src={current.photo} alt={current.name} />
+        </div>
+        <div>
+          <div className="cz-eyebrow cz-eyebrow--on-light">TESTIMONIALS</div>
+          <h2 className="cz-h2 cz-display">
+            Loved by <span className="cz-heading-muted">Professionals</span>
+            <br />
+            Worldwide
+          </h2>
+          <p className="cz-testimonial-quote">&ldquo;{current.quote}&rdquo;</p>
+          <div className="cz-testimonial-name">— {current.name}</div>
+          <div className="cz-testimonial-role">{current.role}</div>
+          <div className="cz-testimonial-nav">
+            <button
+              onClick={() => setIndex((i) => (i - 1 + total) % total)}
+              className="cz-testimonial-nav-btn cz-testimonial-nav-btn--outline"
+              aria-label="Previous testimonial"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <button
+              onClick={() => setIndex((i) => (i + 1) % total)}
+              className="cz-testimonial-nav-btn cz-testimonial-nav-btn--solid"
+              aria-label="Next testimonial"
+            >
+              <ArrowRight size={16} />
+            </button>
+            <span className="cz-testimonial-counter">{index + 1} / {total}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FaqSection({ navigate }) {
+  const [openIndex, setOpenIndex] = useState(0);
+  return (
+    <section className="cz-faq">
+      <div className="cz-container cz-faq-container">
+        <div>
+          <div className="cz-eyebrow cz-eyebrow--on-light">FAQ</div>
+          <h2 className="cz-h2 cz-display">
+            Common <span className="cz-heading-muted">Questions</span>
+          </h2>
+          <p className="cz-faq-desc">
+            Everything you need to know about Cardz.Mobi. Cannot find what
+            you are looking for? Reach out to our support team.
+          </p>
+          <button onClick={() => navigate("contact")} className="cz-faq-contact-link">
+            Contact Support <ArrowRight size={14} />
+          </button>
+        </div>
+        <div className="cz-faq-list">
+          {FAQ_ITEMS.map((item, i) => {
+            const open = openIndex === i;
+            return (
+              <div key={item.q} className={cx("cz-faq-item", open && "cz-faq-item--open")}>
+                <button onClick={() => setOpenIndex(open ? -1 : i)} className="cz-faq-question">
+                  <span>{item.q}</span>
+                  <span className="cz-faq-chevron"><ChevronDown size={16} /></span>
+                </button>
+                {open && <p className="cz-faq-answer">{item.a}</p>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  PAGES                                                               */
 /* ------------------------------------------------------------------ */
 
 function HomePage({ navigate }) {
   return (
-    <section className="cz-home-hero">
-      <img src={homeBannerImg} alt="" className="cz-home-hero-img" />
-      <div className="cz-home-hero-overlay" />
-      <Header navigate={navigate} transparent />
-      <div className="cz-home-hero-content">
-        <div className="cz-home-hero-inner">
-          <h1 className="cz-home-h1 cz-display">
-            Your Identity,
-            <br />
-            <span className="cz-accent">Digital &amp; Dynamic</span>
-          </h1>
-          <p className="cz-home-lead">
-            Create stunning digital business cards, survey cards, and
-            vehicle cards. Share instantly via QR code, NFC tap, or link —
-            and update anytime.
-          </p>
-          <div className="cz-home-cta-row">
-            <button onClick={() => navigate("pricing")} className="cz-btn-pill cz-btn-pill--orange">
-              Create Your Card <ArrowRight size={16} />
-            </button>
-            <button onClick={() => navigate("features")} className="cz-btn-pill cz-btn-pill--dark-outline">
-              Explore Features <Compass size={16} />
-            </button>
-          </div>
-          <div className="cz-home-trust-row">
-            <span className="cz-home-trust-item"><Shield size={14} /> Secure &amp; Private</span>
-            <span className="cz-home-trust-item"><Globe size={14} /> Works Everywhere</span>
-            <span className="cz-home-trust-item"><Clock size={14} /> Setup in 2 Minutes</span>
+    <div>
+      <section className="cz-home-hero">
+        <img src={homeBannerImg} alt="" className="cz-home-hero-img" />
+        <div className="cz-home-hero-overlay" />
+        <Header navigate={navigate} transparent />
+        <div className="cz-home-hero-content">
+          <div className="cz-home-hero-inner">
+            <h1 className="cz-home-h1 cz-display">
+              Your Identity,
+              <br />
+              <span className="cz-accent">Digital &amp; Dynamic</span>
+            </h1>
+            <p className="cz-home-lead">
+              Create stunning digital business cards, survey cards, and
+              vehicle cards. Share instantly via QR code, NFC tap, or link —
+              and update anytime.
+            </p>
+            <div className="cz-home-cta-row">
+              <button onClick={() => navigate("pricing")} className="cz-btn-pill cz-btn-pill--orange">
+                Create Your Card <ArrowRight size={16} />
+              </button>
+              <button onClick={() => navigate("features")} className="cz-btn-pill cz-btn-pill--dark-outline">
+                Explore Features <Compass size={16} />
+              </button>
+            </div>
+            <div className="cz-home-trust-row">
+              <span className="cz-home-trust-item"><Shield size={14} /> Secure &amp; Private</span>
+              <span className="cz-home-trust-item"><Globe size={14} /> Works Everywhere</span>
+              <span className="cz-home-trust-item"><Clock size={14} /> Setup in 2 Minutes</span>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="cz-home-features">
+        <div className="cz-container">
+          <div className="cz-home-features-header">
+            <div className="cz-eyebrow cz-eyebrow--on-light">WHY CARDZ.MOBI</div>
+            <h2 className="cz-h2 cz-display">
+              Everything You Need to <span className="cz-accent">Stand Out</span>
+            </h2>
+            <p className="cz-section-lead" style={{ marginBottom: 0 }}>
+              Powerful features designed to make your digital cards memorable,
+              trackable, and effortlessly shareable.
+            </p>
+          </div>
+          <div className="cz-grid-3" style={{ marginTop: 48 }}>
+            {FEATURES_OVERVIEW.map((f) => (
+              <FeatureCard key={f.title} icon={f.icon} title={f.title}>
+                {f.text}
+              </FeatureCard>
+            ))}
+          </div>
+          <div className="cz-stats-row">
+            {STATS.map((s) => (
+              <StatTile key={s.label} value={s.value} label={s.label} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="cz-how-it-works">
+        <div className="cz-container cz-how-it-works-header">
+          <div className="cz-eyebrow cz-eyebrow--on-light">HOW IT WORKS</div>
+          <h2 className="cz-h2 cz-display">
+            Create Your Card in <span className="cz-accent">3 Simple Steps</span>
+          </h2>
+          <p className="cz-section-lead">
+            No design skills needed. Get your digital card ready and
+            shareable in under two minutes.
+          </p>
+        </div>
+        <div className="cz-container">
+          <div className="cz-steps-row">
+            {HOW_IT_WORKS_STEPS.map((s) => (
+              <StepCard key={s.step} step={s.step} icon={s.icon} title={s.title}>
+                {s.text}
+              </StepCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="cz-section">
+        <div className="cz-container">
+          <div className="cz-card-types-header">
+            <div>
+              <div className="cz-eyebrow cz-eyebrow--on-light">CARD TYPES</div>
+              <h2 className="cz-h2 cz-display">
+                Built for Every <span className="cz-accent">Purpose</span>
+              </h2>
+              <p className="cz-section-lead" style={{ marginBottom: 0 }}>
+                Whether you are networking, collecting feedback, or
+                showcasing vehicles, we have the perfect card for you.
+              </p>
+            </div>
+            <button onClick={() => navigate("features")} className="cz-view-all">
+              View All Features <ArrowRight size={14} />
+            </button>
+          </div>
+          <div className="cz-grid-3">
+            {CARD_TYPES.map((c) => (
+              <CardTypeTile
+                key={c.page}
+                image={c.image}
+                title={c.title}
+                text={c.text}
+                onLearnMore={() => navigate(c.page)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <TestimonialsSection />
+
+      <FaqSection navigate={navigate} />
+
+      <section className="cz-final-cta">
+        <div className="cz-container">
+          <h2 className="cz-h2 cz-display">
+            Ready to Go <span className="cz-accent">Digital?</span>
+          </h2>
+          <p className="cz-final-cta-lead">
+            Join thousands of professionals who have replaced paper cards
+            with smart, shareable digital identities.
+          </p>
+          <button onClick={() => navigate("pricing")} className="cz-btn-pill cz-btn-pill--dark-solid">
+            Get Started Free <ArrowRight size={16} />
+          </button>
+          <p className="cz-final-cta-note">
+            No credit card required. Free Starter plan available.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }
 
