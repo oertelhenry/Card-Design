@@ -17,6 +17,7 @@ import VehicleCardMobile from "./VehicleCardMobile";
 import VehicleCardLight from "./VehicleCardLight";
 import VehicleCardPreview from "./VehicleCardPreview";
 import VehicleCardDesktop from "./VehicleCardDesktop";
+import VehicleCard1 from "./VehicleCard1";
 import BuildQuotePlatform from "./BuildQuotePlatform";
 import ArcoLanding from "./ArcoLandingClean";
 import QubrixLanding from "./QubrixLanding";
@@ -44,6 +45,12 @@ import Surveys from "./cardz/Surveys";
 import Microsites from "./cardz/Microsites";
 import Notifications from "./cardz/Notifications";
 import CardzMobi from "./readdy/CardzMobi";
+import SeritiGreenCard from "./SeritiGreenCard";
+import SeritiAwesomeCard from "./SeritiAwesomeCard";
+import SeritiIceCard from "./SeritiIceCard";
+import SeritiCoolCard from "./SeritiCoolCard";
+import TechCard5 from "./TechCard5";
+import ConstCard6 from "./ConstCard6";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -65,6 +72,7 @@ const TABS = [
   { label: "Vehicle Card Light", component: <VehicleCardLight /> },
   { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
   { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> },
+  { label: "Vehicle Card 1 (Prestige Motors)", component: <VehicleCard1 /> },
   { label: "Build Quote Platform", component: <BuildQuotePlatform /> },
   { label: "Arco Landing Clean", component: <ArcoLanding /> },
   { label: "Qubrix Landing", component: <QubrixLanding /> },
@@ -91,6 +99,12 @@ const TABS = [
   { label: "Cardz All Microsites", component: <Microsites /> },
   { label: "Cardz All Notifications", component: <Notifications /> },
   { label: "Cardz Mobi Web", component: <CardzMobi /> },
+  { label: "Seriti Green Card", component: <SeritiGreenCard /> },
+  { label: "Seriti Awesome Card", component: <SeritiAwesomeCard /> },
+  { label: "Seriti Ice Card", component: <SeritiIceCard /> },
+  { label: "Seriti Cool Card", component: <SeritiCoolCard /> },
+  { label: "Tech Card 5 (Seriti Tech)", component: <TechCard5 /> },
+  { label: "Const Card 6 (Seriti Construction)", component: <ConstCard6 /> },
 ];
 
 function App() {
