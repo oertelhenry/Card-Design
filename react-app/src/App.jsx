@@ -18,6 +18,8 @@ import VehicleCardLight from "./VehicleCardLight";
 import VehicleCardPreview from "./VehicleCardPreview";
 import VehicleCardDesktop from "./VehicleCardDesktop";
 import VehicleCard1 from "./VehicleCard1";
+import VehicleCard2 from "./VehicleCard2";
+import VehicleCard3 from "./VehicleCard3";
 import BuildQuotePlatform from "./BuildQuotePlatform";
 import ArcoLanding from "./ArcoLandingClean";
 import QubrixLanding from "./QubrixLanding";
@@ -51,6 +53,7 @@ import SeritiIceCard from "./SeritiIceCard";
 import SeritiCoolCard from "./SeritiCoolCard";
 import TechCard5 from "./TechCard5";
 import ConstCard6 from "./ConstCard6";
+import DeveloperPortal from "./DeveloperPortal";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -72,15 +75,18 @@ const TABS = [
   { label: "Vehicle Card Light", component: <VehicleCardLight /> },
   { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
   { label: "Vehicle Card Desktop", component: <VehicleCardDesktop /> },
-  { label: "Vehicle Card 1 (Prestige Motors)", component: <VehicleCard1 /> },
-  { label: "Build Quote Platform", component: <BuildQuotePlatform /> },
-  { label: "Arco Landing Clean", component: <ArcoLanding /> },
-  { label: "Qubrix Landing", component: <QubrixLanding /> },
-  { label: "Bank Submit Wizard", component: <BankSubmitWizard /> },
-  { label: "Banker Dashboard", component: <BankerDashboard /> },
   { label: "Test Drive Dark", component: <TestDriveForm /> },
   { label: "Test Drive Light", component: <TestDriveLight /> },
   { label: "Test Drive Blue", component: <TestDriveFormBlue /> },
+  { label: "Survey", component: <Survey /> },
+  { label: "Survey Card Preview", component: <SurveyCardPreview /> }
+];
+
+const QubrixTABS = [
+  { label: "Qubrix Products Page", component: <QubrixProductsPage /> },  
+  { label: "Build Quote Platform", component: <BuildQuotePlatform /> },
+  { label: "Arco Landing Clean", component: <ArcoLanding /> },  
+  { label: "Qubrix Landing", component: <QubrixLanding /> },  
   { label: "Activity Timeline", component: <ActivityTimeline /> },
   { label: "Project Messages", component: <ProjectMessages /> },
   { label: "Legal Screens", component: <LegalScreens /> },
@@ -90,9 +96,12 @@ const TABS = [
   { label: "QubrixLogin", component: <QubrixLogin /> },
   { label: "QubrixQuoteBankApp", component: <QubrixQuoteBankApp /> },
   { label: "Qubrix App", component: <QubrixApp /> },
-  { label: "Survey", component: <Survey /> },
-  { label: "Survey Card Preview", component: <SurveyCardPreview /> },
-  { label: "Qubrix Products Page", component: <QubrixProductsPage /> },
+  { label: "Bank Submit Wizard", component: <BankSubmitWizard /> },
+  { label: "Banker Dashboard", component: <BankerDashboard /> },
+  { label: "Developer Portal", component: <DeveloperPortal /> }
+];
+
+const CardzTABS = [
   { label: "Cardz App", component: <CardzApp /> },
   { label: "Cardz All Cards", component: <AllCards /> },
   { label: "Cardz All Surveys", component: <Surveys /> },
@@ -105,10 +114,35 @@ const TABS = [
   { label: "Seriti Cool Card", component: <SeritiCoolCard /> },
   { label: "Tech Card 5 (Seriti Tech)", component: <TechCard5 /> },
   { label: "Const Card 6 (Seriti Construction)", component: <ConstCard6 /> },
+  { label: "Vehicle Card 1 (Prestige Motors)", component: <VehicleCard1 /> },
+  { label: "Vehicle Card 2 (Orbit / CardPwa)", component: <VehicleCard2 /> },
+  { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> }
+];
+
+const GROUPS = [
+  { key: "cards", label: "Cards", tabs: TABS },
+  { key: "qubrix", label: "Qubrix", tabs: QubrixTABS },
+  { key: "cardz", label: "Cardz", tabs: CardzTABS },
 ];
 
 function App() {
-  const [active, setActive] = useState(0);
+  const [group, setGroup] = useState(GROUPS[0].key);
+  const [indexByGroup, setIndexByGroup] = useState({ cards: 0, qubrix: 0, cardz: 0 });
+
+  const activeGroup = GROUPS.find((g) => g.key === group);
+  const activeTab = activeGroup.tabs[indexByGroup[group]];
+
+  const dropdownStyle = (isActive) => ({
+    padding: "6px 10px",
+    fontSize: 13,
+    fontWeight: 500,
+    border: isActive ? "1px solid #2b6cb0" : "1px solid #ccc",
+    borderRadius: 6,
+    cursor: "pointer",
+    background: isActive ? "#fff" : "#f0f0f0",
+    color: isActive ? "#000" : "#666",
+    outline: isActive ? "2px solid rgba(43,108,176,.2)" : "none",
+  });
 
   return (
     <div style={{ fontFamily: "sans-serif", display: "flex", flexDirection: "column", position: "fixed", inset: 0 }}>
@@ -119,26 +153,31 @@ function App() {
         flexShrink: 0,
         zIndex: 9999,
         position: "relative",
+        display: "flex",
+        gap: 10,
+        alignItems: "center",
+        flexWrap: "wrap",
       }}>
-        <select
-          value={active}
-          onChange={(e) => setActive(Number(e.target.value))}
-          style={{
-            padding: "6px 10px",
-            fontSize: 13,
-            fontWeight: 500,
-            border: "1px solid #ccc",
-            borderRadius: 6,
-            cursor: "pointer",
-            background: "#fff",
-          }}
-        >
-          {TABS.map((tab, i) => (
-            <option key={tab.label} value={i}>{tab.label}</option>
-          ))}
-        </select>
+        {GROUPS.map((g) => (
+          <label key={g.key} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: ".05em" }}>{g.label}</span>
+            <select
+              value={group === g.key ? indexByGroup[g.key] : ""}
+              onChange={(e) => {
+                setIndexByGroup((prev) => ({ ...prev, [g.key]: Number(e.target.value) }));
+                setGroup(g.key);
+              }}
+              style={dropdownStyle(group === g.key)}
+            >
+              {group !== g.key && <option value="" disabled hidden>Select {g.label}…</option>}
+              {g.tabs.map((tab, i) => (
+                <option key={tab.label} value={i}>{tab.label}</option>
+              ))}
+            </select>
+          </label>
+        ))}
       </div>
-      <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "auto" }}>{TABS[active].component}</div>
+      <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "auto" }}>{activeTab.component}</div>
     </div>
   );
 }
