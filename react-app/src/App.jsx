@@ -52,6 +52,8 @@ import SeritiAwesomeCard from "./SeritiAwesomeCard";
 import SeritiIceCard from "./SeritiIceCard";
 import SeritiCoolCard from "./SeritiCoolCard";
 import TechCard5 from "./TechCard5";
+import NobleCard from "./NobleCard";
+import AscendMicrosite from "./AscendMicrosite";
 import ConstCard6 from "./ConstCard6";
 import DeveloperPortal from "./DeveloperPortal";
 
@@ -114,6 +116,8 @@ const CardzTABS = [
   { label: "Seriti Cool Card", component: <SeritiCoolCard /> },
   { label: "Tech Card 5 (Seriti Tech)", component: <TechCard5 /> },
   { label: "Const Card 6 (Seriti Construction)", component: <ConstCard6 /> },
+  { label: "Noble Card (Seriti)", component: <NobleCard /> },
+  { label: "Ascend Microsite (CFAO Toyota)", component: <AscendMicrosite /> },
   { label: "Vehicle Card 1 (Prestige Motors)", component: <VehicleCard1 /> },
   { label: "Vehicle Card 2 (Orbit / CardPwa)", component: <VehicleCard2 /> },
   { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> }
