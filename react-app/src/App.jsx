@@ -13,6 +13,8 @@ import GenericCardLight from "./generic-card-light";
 import GenericCardClean from "./generic-card-clean";
 import GenericCardEditor from "./generic-card-editor";
 import GenericCardVintage from "./generic-card-vintage-v3";
+import GenericMenuLight from "./GenericMenuLight";
+import Majestic from "./Majestic";
 import VehicleCardMobile from "./VehicleCardMobile";
 import VehicleCardLight from "./VehicleCardLight";
 import VehicleCardPreview from "./VehicleCardPreview";
@@ -56,6 +58,8 @@ import NobleCard from "./NobleCard";
 import AscendMicrosite from "./AscendMicrosite";
 import ConstCard6 from "./ConstCard6";
 import DeveloperPortal from "./DeveloperPortal";
+import NewSurveys from "./newsurveys";
+import SurveyCardNew from "./SurveyCardNew";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -73,6 +77,8 @@ const TABS = [
   { label: "Generic Card Light", component: <GenericCardLight /> },
   { label: "Generic Card Clean", component: <GenericCardClean /> },
   { label: "Generic Card Vintage", component: <GenericCardVintage /> },
+  { label: "Generic Menu Light (Burger Bliss)", component: <GenericMenuLight /> },
+  { label: "Majestic (Burger Bliss Dark)", component: <Majestic /> },
   { label: "Vehicle Card Mobile", component: <VehicleCardMobile /> },
   { label: "Vehicle Card Light", component: <VehicleCardLight /> },
   { label: "Vehicle Card Preview", component: <VehicleCardPreview /> },
@@ -120,7 +126,9 @@ const CardzTABS = [
   { label: "Ascend Microsite (CFAO Toyota)", component: <AscendMicrosite /> },
   { label: "Vehicle Card 1 (Prestige Motors)", component: <VehicleCard1 /> },
   { label: "Vehicle Card 2 (Orbit / CardPwa)", component: <VehicleCard2 /> },
-  { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> }
+  { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> },
+  { label: "New Surveys", component: <NewSurveys /> },
+  { label: "Survey Card New", component: <SurveyCardNew /> }
 ];
 
 const GROUPS = [
