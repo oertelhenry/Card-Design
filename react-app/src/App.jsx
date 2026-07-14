@@ -60,6 +60,7 @@ import ConstCard6 from "./ConstCard6";
 import DeveloperPortal from "./DeveloperPortal";
 import NewSurveys from "./newsurveys";
 import SurveyCardNew from "./SurveyCardNew";
+import EvercrestBroshure from "./EvercrestBroshure";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -128,7 +129,8 @@ const CardzTABS = [
   { label: "Vehicle Card 2 (Orbit / CardPwa)", component: <VehicleCard2 /> },
   { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> },
   { label: "New Surveys", component: <NewSurveys /> },
-  { label: "Survey Card New", component: <SurveyCardNew /> }
+  { label: "Survey Card New", component: <SurveyCardNew /> },
+  { label: "Evercrest Broshure (Silverwood Estate)", component: <EvercrestBroshure /> }
 ];
 
 const GROUPS = [
