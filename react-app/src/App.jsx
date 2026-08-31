@@ -61,6 +61,8 @@ import DeveloperPortal from "./DeveloperPortal";
 import NewSurveys from "./newsurveys";
 import SurveyCardNew from "./SurveyCardNew";
 import EvercrestBroshure from "./EvercrestBroshure";
+import PropertyCardPreview from "./PropertyCardPreview";
+import LoginRegister from "./LoginRegister";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -88,7 +90,8 @@ const TABS = [
   { label: "Test Drive Light", component: <TestDriveLight /> },
   { label: "Test Drive Blue", component: <TestDriveFormBlue /> },
   { label: "Survey", component: <Survey /> },
-  { label: "Survey Card Preview", component: <SurveyCardPreview /> }
+  { label: "Survey Card Preview", component: <SurveyCardPreview /> },
+  { label: "Login Register (Cardify)", component: <LoginRegister /> }
 ];
 
 const QubrixTABS = [
@@ -130,7 +133,8 @@ const CardzTABS = [
   { label: "Vehicle Card 3 (Horizon / CardPwa)", component: <VehicleCard3 /> },
   { label: "New Surveys", component: <NewSurveys /> },
   { label: "Survey Card New", component: <SurveyCardNew /> },
-  { label: "Evercrest Broshure (Silverwood Estate)", component: <EvercrestBroshure /> }
+  { label: "Evercrest Broshure (Silverwood Estate)", component: <EvercrestBroshure /> },
+  { label: "Property Card Preview (Prestige Properties)", component: <PropertyCardPreview /> }
 ];
 
 const GROUPS = [
