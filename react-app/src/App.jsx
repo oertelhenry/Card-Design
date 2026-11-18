@@ -63,6 +63,11 @@ import SurveyCardNew from "./SurveyCardNew";
 import EvercrestBroshure from "./EvercrestBroshure";
 import PropertyCardPreview from "./PropertyCardPreview";
 import LoginRegister from "./LoginRegister";
+import LegacyVault from "./LegacyVault";
+import Lifestrands from "./Lifestrands";
+import ShowroomStudio from "./ShowroomStudio";
+import MobilisPrive from "./MobilisPrive";
+import JetourMemberPortal from "./JetourMemberPortal";
 
 const TABS = [
   { label: "AppLayout", component: <AppLayout /> },
@@ -110,7 +115,12 @@ const QubrixTABS = [
   { label: "Qubrix App", component: <QubrixApp /> },
   { label: "Bank Submit Wizard", component: <BankSubmitWizard /> },
   { label: "Banker Dashboard", component: <BankerDashboard /> },
-  { label: "Developer Portal", component: <DeveloperPortal /> }
+  { label: "Developer Portal", component: <DeveloperPortal /> },
+  { label: "Legacy Vault", component: <LegacyVault /> },
+  { label: "Legacy Vault GPT", component: <Lifestrands /> },
+  { label: "Showroom Studio", component: <ShowroomStudio /> },
+  { label: "Mobilis Privé", component: <MobilisPrive /> },
+  { label: "Jetour Member Portal (Client Desktop)", component: <JetourMemberPortal /> }
 ];
 
 const CardzTABS = [
